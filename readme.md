@@ -1,5 +1,5 @@
 ### Persistence by java ###
-Following solution offer by java to persistence(DB)
+Following solution offer by java to persistence(Database)
 1. Jdbc
 2. Entity Beans(J2EE)
 3. JDO
@@ -47,38 +47,49 @@ Hibernate, Eclipselink(reference implementation of JPA), Toplink, Spring Data JP
 	`mvn clean package`
 
 ### Steps To create Jpa App ###
+Add EclipseLink Dependency at pom.xml
+``xml
+<dependency>
+    <groupId>org.eclipse.persistence</groupId>
+    <artifactId>eclipselink</artifactId>
+    <version>2.5.0</version>
+</dependency>
+```
 1. Create Entity class(Employee.java)
 
-```java
-package com.javaaround.model;
-import javax.persistence.Entity;  
-import javax.persistence.Id;  
+	```java
+	package com.javaaround.model;
+	import javax.persistence.Entity;  
+	import javax.persistence.Id;  
 
 
-@Entity 
-public class Employee { 
-	@Id   
-	private int id;  
-	private String firstName
-	private Double salary;  
-	  
-	public int getId() {  
-	    return id;  
-	}  
-	public void setId(int id) {  
-	    this.id = id;  
-	}  
-	public String getFirstName() {  
-	    return firstName;  
-	}  
-	public void setFirstName(String firstName) {  
-	    this.firstName = firstName;  
-	}  
-	public Double getSalary() {  
-	    return salary;  
-	}  
-	public void setSalary(Double salary) {  
-	    this.salary = salary;  
-	}  
-}	
-```	
+	@Entity 
+	public class Employee { 
+		@Id   
+		private int id;  
+		private String firstName
+		private Double salary;  
+		  
+		public int getId() {  
+		    return id;  
+		}  
+		public void setId(int id) {  
+		    this.id = id;  
+		}  
+		public String getFirstName() {  
+		    return firstName;  
+		}  
+		public void setFirstName(String firstName) {  
+		    this.firstName = firstName;  
+		}  
+		public Double getSalary() {  
+		    return salary;  
+		}  
+		public void setSalary(Double salary) {  
+		    this.salary = salary;  
+		}  
+	}	
+	```	
+2. Confiqure App(create META-INF/persistence.xml file)	
+
+3. Use `EntityManager` (JPA Api) to perform crud(create,read,update,delete);
