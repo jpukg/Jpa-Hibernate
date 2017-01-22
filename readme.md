@@ -48,7 +48,7 @@ Hibernate, Eclipselink(reference implementation of JPA), Toplink, Spring Data JP
 
 ### Steps To create Jpa App ###
 Add EclipseLink Dependency at pom.xml
-``xml
+```xml
 <dependency>
     <groupId>org.eclipse.persistence</groupId>
     <artifactId>eclipselink</artifactId>
