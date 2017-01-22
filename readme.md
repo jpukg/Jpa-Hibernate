@@ -1,5 +1,12 @@
+### Persistence by java ###
+Following solution offer by java to persistence(DB)
+1. Jdbc
+2. Entity Beans(J2EE)
+3. JDO
+4. JPA	
+
 ### JPA ###
-The Java Persistence API (JPA) is a vendor independent specification(classes and interface) for mapping Java objects to the tables of relational databases(ORM = Object relational mapping)
+The Java Persistence API (JPA) is a vendor independent specification(classes and interface) for mapping Java objects(POJO) to the tablesof relational databases(ORM = Object relational mapping)
 
 JPA is an open source API, therefore various enterprise vendors such as Oracle, Redhat, Eclipse, etc. provide new products by adding the JPA persistence flavor in them. Some of these products(Persistence Provider) include:
 
