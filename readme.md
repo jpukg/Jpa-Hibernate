@@ -93,3 +93,8 @@ Add EclipseLink Dependency at pom.xml
 2. Confiqure App(create META-INF/persistence.xml file)	
 
 3. Use `EntityManager` (JPA Api) to perform crud(create,read,update,delete);
+
+
+@NotNull: Checks whether the value is not null, disregarding the content
+@NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
+@NotBlank: Checks whether the value is not null nor empty, trimming the value first. It means that, it won’t allow just empty spaces
