@@ -104,35 +104,33 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 	}	
 	```	
 2. Confiqure App(create main/resources/META-INF/persistence.xml file)
-```java
-<?xml version="1.0" encoding="UTF-8" ?>
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
-        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
-  <persistence-unit name="hibernatePU" transaction-type="RESOURCE_LOCAL">
-   	  
-      <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      	
-      <class>com.javaaround.model.Employee</class>
-      <properties>
-          <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test" />
-          <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-          <property name="javax.persistence.jdbc.user" value="root" />
-          <property name="javax.persistence.jdbc.password" value="" />
-          <!-- flag for sql show or not at console -->
-          <property name="javax.persistence.jdbc.show_sql" value="true" /> 
-          <property name="javax.persistence.schema-generation.database.action" value="create"/> 
-         
-    </properties>
-      
-   </persistence-unit>      	
-</persistence>
+	```java
+	<?xml version="1.0" encoding="UTF-8" ?>
+	<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+	        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
+	  <persistence-unit name="hibernatePU" transaction-type="RESOURCE_LOCAL">
+	   	  
+	      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+	      	
+	      <class>com.javaaround.model.Employee</class>
+	      <properties>
+	          <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test" />
+	          <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+	          <property name="javax.persistence.jdbc.user" value="root" />
+	          <property name="javax.persistence.jdbc.password" value="" />
+	          <!-- flag for sql show or not at console -->
+	          <property name="javax.persistence.jdbc.show_sql" value="true" /> 
+	          <property name="javax.persistence.schema-generation.database.action" value="create"/> 
+	         
+	    </properties>
+	      
+	   </persistence-unit>      	
+	</persistence>
 
-
-```	
+	```	
 
 3. Use `EntityManager` (JPA Api) to perform crud(create,read,update,delete);
-
 	Update App.java
 	
 	```java
@@ -155,7 +153,9 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 	//close resource
 	em.close( );
 	emf.close( );
-	```		
+	
+	```	
+
 Run app by following command
 
 `mvn clean package`	
