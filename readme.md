@@ -157,10 +157,7 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 	```		
 Run app by following command
 
-<<<<<<< HEAD
-	`mvn clean package`	
-=======
-3. Use `EntityManager` (JPA Api) to perform crud(create,read,update,delete);
+`mvn clean package`	
 
 
 @NotNull: Checks whether the value is not null, disregarding the content
