@@ -12,6 +12,8 @@ JPA is an open source API, therefore various enterprise vendors such as Oracle, 
 
 Hibernate, Eclipselink(reference implementation of JPA), Toplink, Spring Data JPA, etc.
 
+JPA specification current version 2.1 (JSR No 338)
+ 
 ### Warmup ###
 
 1. create maven java project by following command
@@ -47,12 +49,22 @@ Hibernate, Eclipselink(reference implementation of JPA), Toplink, Spring Data JP
 	`mvn clean package`
 
 ### Steps To create Jpa App ###
-Add EclipseLink Dependency at pom.xml
+Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.1. also mysql Dependency at pom.xml
 ```xml
 <dependency>
-    <groupId>org.eclipse.persistence</groupId>
-    <artifactId>eclipselink</artifactId>
-    <version>2.5.0</version>
+  <groupId>org.eclipse.persistence</groupId>
+  <artifactId>javax.persistence</artifactId>
+  <version>2.0.0</version>
+</dependency>
+<dependency>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-entitymanager</artifactId>
+  <version>4.3.9.Final</version>
+</dependency>
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>5.1.6</version>
 </dependency>
 ```
 1. Create Entity class(Employee.java)
@@ -90,6 +102,59 @@ Add EclipseLink Dependency at pom.xml
 		}  
 	}	
 	```	
-2. Confiqure App(create META-INF/persistence.xml file)	
+2. Confiqure App(create main/resources/META-INF/persistence.xml file)
+```java
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
+  <persistence-unit name="hibernatePU" transaction-type="RESOURCE_LOCAL">
+   	  
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      	
+      <class>com.javaaround.model.Employee</class>
+      <properties>
+          <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test" />
+          <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+          <property name="javax.persistence.jdbc.user" value="root" />
+          <property name="javax.persistence.jdbc.password" value="" />
+          <!-- flag for sql show or not at console -->
+          <property name="javax.persistence.jdbc.show_sql" value="true" /> 
+          <property name="javax.persistence.schema-generation.database.action" value="create"/> 
+         
+    </properties>
+      
+   </persistence-unit>      	
+</persistence>
+
+
+```	
 
 3. Use `EntityManager` (JPA Api) to perform crud(create,read,update,delete);
+
+	Update App.java
+	
+	```java
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory( "hibernatePU" );
+	EntityManager em = emf.createEntityManager();
+
+	//start transaction
+	em.getTransaction( ).begin( );
+
+	Employee employee = new Employee( ); 
+	employee.setEid( 1201 );
+	employee.setEname( "Gopal" );
+	employee.setSalary( 40000 );
+	employee.setDeg( "Technical Manager" );
+
+	em.persist( employee );
+	//end transaction
+	em.getTransaction( ).commit( );
+
+	//close resource
+	em.close( );
+	emf.close( );
+	```		
+Run app by following command
+
+	`mvn clean package`	
