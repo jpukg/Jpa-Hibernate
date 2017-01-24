@@ -170,3 +170,6 @@ Run app by following command
 JPA Parameter | Description | Hibernate Equivalent | EclipseLink Equivalent
 -------------- | ----------- | -------------------- | ----------------------
 javax.persistence.jdbc.url | specify jdbc url | hibernate.connection.url | eclipselink.jdbc.url
+javax.persistence.jdbc.driver |  specify jdbc driver | hibernate.connection.driver_class | eclipselink.jdbc.driver
+javax.persistence.jdbc.user |  specify db user | hibernate.connection.username | eclipselink.jdbc.user
+javax.persistence.jdbc.password |  specify db password | hibernate.connection.password | eclipselink.jdbc.password
