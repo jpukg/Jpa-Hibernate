@@ -1,5 +1,6 @@
 ### Persistence by java ###
-Following solution offer by java to persistence(Database)
+Following solution offer by java to persistence object into RDBMS
+
 1. Jdbc
 2. Entity Beans(J2EE)
 3. JDO
@@ -54,7 +55,7 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 <dependency>
   <groupId>org.eclipse.persistence</groupId>
   <artifactId>javax.persistence</artifactId>
-  <version>2.0.0</version>
+  <version>2.1.1</version>
 </dependency>
 <dependency>
   <groupId>org.hibernate</groupId>
@@ -163,4 +164,9 @@ Run app by following command
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
 @NotBlank: Checks whether the value is not null nor empty, trimming the value first. It means that, it won’t allow just empty spaces
->>>>>>> 3a48709c9fe34a84c0b290c85096eed3304bf3ac
+
+### Parameters ###
+
+JPA Parameter | Description | Hibernate Equivalent | EclipseLink Equivalent
+-------------- | ----------- | -------------------- | ----------------------
+javax.persistence.jdbc.url | specify jdbc url | hibernate.connection.url | eclipselink.jdbc.url
