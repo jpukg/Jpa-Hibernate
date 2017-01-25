@@ -175,7 +175,7 @@ javax.persistence.jdbc.url | specify jdbc url | hibernate.connection.url | eclip
 javax.persistence.jdbc.driver |  specify jdbc driver | hibernate.connection.driver_class | eclipselink.jdbc.driver
 javax.persistence.jdbc.user |  specify db user | hibernate.connection.username | eclipselink.jdbc.user
 javax.persistence.jdbc.password |  specify db password | hibernate.connection.password | eclipselink.jdbc.password
-javax.persistence.schema-generation.database.action , value allow none,create,drop,drop-create | automatically create schema(Table).  | hibernate.hbm2ddl.auto , value allow create,update | eclipselink.ddl-generation , value allow create-tables
+javax.persistence.schema-generation.database.action : value allow `none,create,drop,drop-create` | automatically create schema(Table).  | hibernate.hbm2ddl.auto , value allow create,update | eclipselink.ddl-generation , value allow create-tables
 javax.persistence.jdbc.show_sql | flag for sql show or not at console | hibernate.show_sql | eclipselink.logging.level.sql
 
 Note : Dont use provider specific parameter.use jpa parameter so that your code keeps JPA implementation independent
