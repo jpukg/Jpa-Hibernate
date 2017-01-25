@@ -11,7 +11,7 @@ public class App
 {
     public static void main( String[] args )
     {
-    	
+    	  //Persistence.generateSchema("hibernatePU", null);
 	      EntityManagerFactory emf = Persistence.createEntityManagerFactory( "hibernatePU" );
 	  
 	      EntityManager em = emf.createEntityManager();

@@ -1,0 +1,1 @@
+create table Employee (id integer not null, firstName varchar(255), salary double precision, primary key (id))
