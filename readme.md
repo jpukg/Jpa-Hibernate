@@ -169,13 +169,13 @@ Run app by following command
 
 ### Parameters ###
 
-JPA Parameter | Description | Hibernate Equivalent | EclipseLink Equivalent
+JPA Parameter | Description | Hibernate Equivalent | Spring Data
 -------------- | ----------- | -------------------- | ----------------------
-javax.persistence.jdbc.url | specify jdbc url | hibernate.connection.url | eclipselink.jdbc.url
-javax.persistence.jdbc.driver |  specify jdbc driver | hibernate.connection.driver_class | eclipselink.jdbc.driver
-javax.persistence.jdbc.user |  specify db user | hibernate.connection.username | eclipselink.jdbc.user
-javax.persistence.jdbc.password |  specify db password | hibernate.connection.password | eclipselink.jdbc.password
-javax.persistence.schema-generation.database.action : value allow `none,create,drop,drop-create` | automatically create schema(Table).  | hibernate.hbm2ddl.auto , value allow create,update | eclipselink.ddl-generation , value allow create-tables
-javax.persistence.jdbc.show_sql | flag for sql show or not at console | hibernate.show_sql | eclipselink.logging.level.sql
+javax.persistence.jdbc.url | specify jdbc url | hibernate.connection.url | spring.datasource.url
+javax.persistence.jdbc.driver |  specify jdbc driver | hibernate.connection.driver_class | spring.datasource.driver-class-name
+javax.persistence.jdbc.user |  specify db user | hibernate.connection.username | spring.datasource.username
+javax.persistence.jdbc.password |  specify db password | hibernate.connection.password | spring.datasource.password
+javax.persistence.schema-generation.database.action : value allow `none,create,drop,drop-create` | automatically create schema(Table).  | hibernate.hbm2ddl.auto , value allow create,update | spring.jpa.generate-ddl=true &spring.jpa.hibernate.ddl-auto , value allow create,update,none
+javax.persistence.jdbc.show_sql | flag for sql show or not at console | hibernate.show_sql | spring.jpa.show-sql=false
 
 Note : Dont use provider specific parameter.use jpa parameter so that your code keeps JPA implementation independent

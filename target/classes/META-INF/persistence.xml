@@ -12,13 +12,10 @@
           <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
           <property name="javax.persistence.jdbc.user" value="root" />
           <property name="javax.persistence.jdbc.password" value="" />
-
           <!-- flag for sql show or not at console -->
           <property name="javax.persistence.jdbc.show_sql" value="true" /> 
-          <!-- sql pritty print at console -->
-          <property name="javax.persistence.jdbc.format_sql" value="true" />
-
-          <property name="javax.persistence.schema-generation.database.action" value="create"/> 
+          <property name="javax.persistence.schema-generation.database.action" value="create"/>
+          <property name="javax.persistence.sql-load-script-source" value="META-INF/data.sql"/> 
          
     </properties>
       
