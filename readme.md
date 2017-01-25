@@ -107,8 +107,8 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 	```java
 	<?xml version="1.0" encoding="UTF-8" ?>
 	<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-	        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
-	        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
 	  <persistence-unit name="hibernatePU" transaction-type="RESOURCE_LOCAL">
 	   	  
 	      <provider>org.hibernate.ejb.HibernatePersistence</provider>
