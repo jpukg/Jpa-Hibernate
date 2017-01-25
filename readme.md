@@ -169,7 +169,7 @@ Run app by following command
 
 ### Parameters ###
 
-JPA Parameter | Description | Hibernate Equivalent | Spring Data
+JPA Parameter | Description | Hibernate Equivalent | Spring Data Equivalent
 -------------- | ----------- | -------------------- | ----------------------
 javax.persistence.jdbc.url | specify jdbc url | hibernate.connection.url | spring.datasource.url
 javax.persistence.jdbc.driver |  specify jdbc driver | hibernate.connection.driver_class | spring.datasource.driver-class-name
