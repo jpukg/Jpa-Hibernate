@@ -177,6 +177,23 @@ javax.persistence.jdbc.user |  specify db user | hibernate.connection.username |
 javax.persistence.jdbc.password |  specify db password | hibernate.connection.password | spring.datasource.password
 javax.persistence.schema-generation.database.action : value allow `none,create,drop,drop-create` | automatically create schema(Table).  | hibernate.hbm2ddl.auto : value allow `create,update` | spring.jpa.generate-ddl=true &spring.jpa.hibernate.ddl-auto : value allow `create,update,none`
 javax.persistence.jdbc.show_sql | flag for sql show or not at console | hibernate.show_sql | spring.jpa.show-sql
-javax.persistence.sql-load-script-source | Defines the location of the SQL script that shall be used load data into the table at startup.| 
+javax.persistence.sql-load-script-source | Defines the location of the SQL script that shall be used load data into the table at startup.| dd | spring.datasource.initialize=true
 
 Note : Dont use provider specific parameter.use jpa parameter so that your code keeps JPA implementation independent
+
+### sql-load-script-source ###
+create data.sql at main/resources
+
+```sql
+INSERT INTO employee (id, firstName,salary) VALUES (1, 'Md.Alamin',2000.00);
+INSERT INTO employee (id, firstName,salary) VALUES (2, 'Md.Rafiq',2000.00);
+```
+
+update persistence.xml
+```xml
+<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+<property name="javax.persistence.sql-load-script-source" value="data.sql"/>
+```
+Run app by following command
+
+`mvn clean package`	
