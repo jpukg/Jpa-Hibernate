@@ -20,7 +20,7 @@ public class App
 	      em.getTransaction( ).begin( );
 
 	      Employee employee = new Employee( ); 
-	      employee.setId( 1203 );
+	      employee.setId( 1204 );
 	      employee.setFirstName( "Md.Shamim Miah" );
 	      employee.setSalary( 40000.00 );
           //save into db	      
