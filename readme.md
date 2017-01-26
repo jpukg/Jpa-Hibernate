@@ -231,6 +231,22 @@ There are 4 generator types<br/>
 		//employee.setId( 1204 );
 		```
 2. SEQUENCE : Provider requests the primary key value from a database sequence
+	-	 if there is no sequence defined, provider creates a sequence automatically e.g. in case of Oracle database, hibernate it creates a sequence named HIBERNATE_SEQUENCE.
+
+		Update Employee.java
+		```java
+		@Id 
+		@GeneratedValue(strategy = GenerationType.SEQUENCE)  
+		private int id; 
+		```
+	- if you want to give your own sequence
+	  Update Employee.java
+		```java
+		@Id 
+		@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emp_generator")
+		@SequenceGenerator(name="emp_generator", sequenceName = "emp_seq", initialValue=1, allocationSize=50)  
+		private int id; 
+		```
 3. TABLE : Provider uses a database table to get next sequence
 4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use production.Only recommended to use development
 
