@@ -211,16 +211,13 @@ update persistence.xml
 
 this will generate `create.sql & drop.sql` at project root.
 
-AUTO: Hibernate selects the generation strategy based on the used dialect,
-IDENTITY: Hibernate relies on an auto-incremented database column to generate the primary key,
-SEQUENCE: Hibernate requests the primary key value from a database sequence,
-TABLE: Hibernate uses a database table to simulate a sequence.
 
 ### Generator ###
 In the above example
 `employee.setId( 1201 ); ` need to set id manually but we can get value from database system e.g auto increment column.For that purpose,we need to use generator. 
 
-There are 4 generator classes
+There are 4 generator classes<br/>
+
 1. IDENTITY : Provider relies on an auto-incremented database column to generate the primary key
 2. SEQUENCE : Provider requests the primary key value from a database sequence
 3. TABLE : Provider uses a database table to get next sequence
