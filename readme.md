@@ -273,7 +273,8 @@ There are 4 generator types<br/>
 		private int id; 
 		```
 4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use production.Only recommended to use development.it is default strategy
-	-	```java
+	-	Example
+		```java
 		@Id
 		@GeneratedValue 
 		//or @GeneratedValue(strategy = GenerationType.AUTO)
