@@ -320,8 +320,11 @@ You can test (employee.claa) methods add or not by `javap` command
 `javap employee`
 
 ### Steps To create Jpa EE App ###
+![Image of Nested](images/tablegenerator.png) 
 create javaweb using maven by following command
+`mvn archetype:generate`
+Search -j2ee-simple or ear-webap.choose project no
+Give groupId,arctifactId etc
 
-`mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp -DgroupId=com.deltagroupbd -DartifactId=JpaEE -DpacakgeId=com.deltagroupbd.jpa`
 
 
