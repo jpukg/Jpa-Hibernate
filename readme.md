@@ -241,15 +241,23 @@ There are 4 generator types<br/>
 		```
 	- if you want to give your own sequence
 
-	  	
+	  	Suppose you have following sequence
+	  	```sql
+	  	create sequence emp_seq
+		minvalue 1
+		maxvalue 9999999999999999999999999999
+		start with 1
+		increment by 2;
+	  	```
+
 		```java
 		@Id 
 		@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emp_generator")
-		@SequenceGenerator(name="emp_generator", sequenceName = "emp_seq", initialValue=1, allocationSize=50)  
+		@SequenceGenerator(name="emp_generator", sequenceName = "emp_seq", initialValue=1, allocationSize=2)  
 		private int id; 
 		```
 		`allocationSize :`
-		To minimize round trips to the database server, IDs are allocated in groups. The number of IDs in each allocation is specified by the allocationSize attribute.default value 50
+		increment value
 
 3. TABLE : Provider uses a database table to get next sequence
 4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use production.Only recommended to use development.it is default strategy
