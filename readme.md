@@ -274,6 +274,7 @@ There are 4 generator types<br/>
 		```
 4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use production.Only recommended to use development.it is default strategy
 	-	Example
+	
 		```java
 		@Id
 		@GeneratedValue 
