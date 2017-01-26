@@ -199,7 +199,9 @@ Run app by following command
 
 `mvn clean package`	
 
+
 ### create-target & drop-target ### 
+
 update persistence.xml
 ```xml
 <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
