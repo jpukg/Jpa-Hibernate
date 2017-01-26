@@ -143,10 +143,9 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 	em.getTransaction( ).begin( );
 
 	Employee employee = new Employee( ); 
-	employee.setEid( 1201 );
-	employee.setEname( "Gopal" );
+	employee.setId( 1201 );
+	employee.setFirstName( "Gopal" );
 	employee.setSalary( 40000 );
-	employee.setDeg( "Technical Manager" );
 
 	em.persist( employee );
 	//end transaction
@@ -209,3 +208,30 @@ update persistence.xml
 ```
 
 this will generate `create.sql & drop.sql` at project root.
+
+AUTO: Hibernate selects the generation strategy based on the used dialect,
+IDENTITY: Hibernate relies on an auto-incremented database column to generate the primary key,
+SEQUENCE: Hibernate requests the primary key value from a database sequence,
+TABLE: Hibernate uses a database table to simulate a sequence.
+
+### Generator ###
+In the above example
+`employee.setId( 1201 ); ` need to set id manually but we can get value from database system e.g auto increment column.For that purpose,we need to use generator. 
+
+There are 4 generator classes
+1. IDENTITY : Provider relies on an auto-incremented database column to generate the primary key
+2. SEQUENCE : Provider requests the primary key value from a database sequence
+3. TABLE : Provider uses a database table to get next sequence
+4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use production.Only recommended to use development
+
+Update Employee.java
+```java
+@Id 
+@GeneratedValue(strategy = GenerationType.IDENTITY)  
+private int id; 
+```
+
+Update App.java
+```java
+//employee.setId( 1204 );
+```
