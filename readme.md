@@ -261,13 +261,15 @@ There are 4 generator types<br/>
 
 3. TABLE : Provider uses a database table to get next sequence.The TABLE strategy is very similar to the SEQUENCE strategy:
 	-   Suppose you have following table
-	
+
 		![Image of Nested](images/tablegenerator.png) 
 
 		```java
 		@Id 
 		@GeneratedValue(strategy = GenerationType.TABLE, generator = "t_generator")
-		@TableGenerator(name="t_generator",table="generator", pkColumnName = "gen_key", valueColumnName = "gen_value",pkColumnValue = "emp_id",  initialValue = 1, allocationSize = 1 )
+		@TableGenerator(name="t_generator",table="generator", pkColumnName = "gen_key", 
+		valueColumnName = "gen_value",pkColumnValue = "emp_id",  
+		initialValue = 1, allocationSize = 1 )
 		private int id; 
 		```
 4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use production.Only recommended to use development.it is default strategy
