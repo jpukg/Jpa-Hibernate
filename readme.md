@@ -267,14 +267,14 @@ There are 4 generator types<br/>
 		```java
 		@Id 
 		@GeneratedValue(strategy = GenerationType.TABLE, generator = "t_generator")
-		@TableGenerator(name="t_generator",table="generator", pkColumnName = "gen_key", <br>
-		valueColumnName = "gen_value",pkColumnValue = "emp_id", <br> 
+		@TableGenerator(name="t_generator",table="generator", pkColumnName = "gen_key",pkColumnValue = "gen_valueemp_id",
+		valueColumnName = "gen_value", 
 		initialValue = 1, allocationSize = 1 )
 		private int id; 
 		```
 4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use production.Only recommended to use development.it is default strategy
 	-	Example
-	
+
 		```java
 		@Id
 		@GeneratedValue 
@@ -282,6 +282,46 @@ There are 4 generator types<br/>
 		private int id;
 		```
 
+### lombok ###
 
+Lombok tools automatically generates appropriate getters, setters, toString(),hashCode(),equals()
+
+Add depenency at pom.xml
+
+```xml
+<dependency>
+  <groupId>org.projectlombok</groupId>
+  <artifactId>lombok</artifactId>
+  <version>1.16.12</version>
+</dependency>
+```	
+Update Employee.java
+```java
+/*	public int getId() {  
+	    return id;  
+	}  
+	public void setId(int id) {  
+	    this.id = id;  
+	}  
+	public String getFirstName() {  
+	    return firstName;  
+	}  
+	public void setFirstName(String firstName) {  
+	    this.firstName = firstName;  
+	}  
+	public Double getSalary() {  
+	    return salary;  
+	}  
+	public void setSalary(Double salary) {  
+	    this.salary = salary;  
+	}  */
+```
+You can test (employee.claa) methods add or not by `javap` command
+`javap employee`
+
+### Steps To create Jpa EE App ###
+create javaweb using maven by following command
+
+`mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp -DgroupId=com.deltagroupbd -DartifactId=JpaEE -DpacakgeId=com.deltagroupbd.jpa`
 
 

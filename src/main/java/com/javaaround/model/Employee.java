@@ -3,8 +3,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import lombok.Data;
 
-@Entity 
+@Entity
+@Data 
 public class Employee { 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)  
@@ -12,7 +14,7 @@ public class Employee {
 	private String firstName;
 	private Double salary;  
 	  
-	public int getId() {  
+	/*public int getId() {  
 	    return id;  
 	}  
 	public void setId(int id) {  
@@ -29,5 +31,5 @@ public class Employee {
 	}  
 	public void setSalary(Double salary) {  
 	    this.salary = salary;  
-	}  
+	}  */
 }	
