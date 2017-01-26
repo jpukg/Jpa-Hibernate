@@ -321,9 +321,12 @@ You can test (employee.class) methods add or not by `javap` command
 `javap employee`
 
 ### Steps To create Jpa EE App ###
-![Image of Nested](images/tablegenerator.png) 
+![Image of Nested](images/EE.png) 
+
 create javaweb using maven by following command
+
 `mvn archetype:generate`
+
 Search -j2ee-simple or ear-webap.choose project no
 Give groupId,arctifactId etc
 
