@@ -261,11 +261,9 @@ There are 4 generator types<br/>
 
 3. TABLE : Provider uses a database table to get next sequence
 4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use production.Only recommended to use development.it is default strategy
-	- 
-		```java
+	- ```java
 		@Id
-		@GeneratedValue 
-		// equivalent above @GeneratedValue(strategy = GenerationType.AUTO)
+		@GeneratedValue //or @GeneratedValue(strategy = GenerationType.AUTO)
 		private int id;
 		```
 
