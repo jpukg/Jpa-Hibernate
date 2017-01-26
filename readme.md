@@ -49,7 +49,7 @@ JPA specification current version 2.1 (JSR No 338)
 
 	`mvn clean package`
 
-### Steps To create Jpa App ###
+### Steps To create Jpa Desktop App ###
 Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.1. also mysql Dependency at pom.xml
 ```xml
 <dependency>
@@ -219,18 +219,21 @@ In the above example
 There are 4 generator types<br/>
 
 1. IDENTITY : Provider relies on an auto-incremented database column to generate the primary key
+	Update Employee.java
+	```java
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  
+	private int id; 
+	```
+
+	Update App.java
+	```java
+	//employee.setId( 1204 );
+	```
 2. SEQUENCE : Provider requests the primary key value from a database sequence
 3. TABLE : Provider uses a database table to get next sequence
 4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use production.Only recommended to use development
 
-Update Employee.java
-```java
-@Id 
-@GeneratedValue(strategy = GenerationType.IDENTITY)  
-private int id; 
-```
 
-Update App.java
-```java
-//employee.setId( 1204 );
-```
+
+
