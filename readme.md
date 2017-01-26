@@ -267,8 +267,8 @@ There are 4 generator types<br/>
 		```java
 		@Id 
 		@GeneratedValue(strategy = GenerationType.TABLE, generator = "t_generator")
-		@TableGenerator(name="t_generator",table="generator", pkColumnName = "gen_key",pkColumnValue = "gen_valueemp_id",
-		valueColumnName = "gen_value", 
+		@TableGenerator(name="t_generator",table="generator", pkColumnName = "gen_key", <br>pkColumnValue = "gen_valueemp_id",
+		valueColumnName = "gen_value",<br> 
 		initialValue = 1, allocationSize = 1 )
 		private int id; 
 		```
