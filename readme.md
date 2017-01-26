@@ -276,7 +276,8 @@ There are 4 generator types<br/>
 	- 
 		```java
 		@Id
-		@GeneratedValue //or @GeneratedValue(strategy = GenerationType.AUTO)
+		@GeneratedValue 
+		//or @GeneratedValue(strategy = GenerationType.AUTO)
 		private int id;
 		```
 
