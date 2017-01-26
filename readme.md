@@ -260,7 +260,11 @@ There are 4 generator types<br/>
 		increment value.default value 50
 
 3. TABLE : Provider uses a database table to get next sequence.The TABLE strategy is very similar to the SEQUENCE strategy:
-	- ```java
+	-   Suppose you have following table
+	
+		![Image of Nested](images/tablegenerator.png) 
+
+		```java
 		@Id 
 		@GeneratedValue(strategy = GenerationType.TABLE, generator = "t_generator")
 		@TableGenerator(name="t_generator",table="generator", pkColumnName = "gen_key", valueColumnName = "gen_value",pkColumnValue = "emp_id",  initialValue = 1, allocationSize = 1 )
