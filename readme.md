@@ -240,7 +240,8 @@ There are 4 generator types<br/>
 		private int id; 
 		```
 	- if you want to give your own sequence
-	  Update Employee.java
+
+	  	Update Employee.java
 		```java
 		@Id 
 		@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emp_generator")
