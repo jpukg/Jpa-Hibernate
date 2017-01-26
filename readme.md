@@ -317,7 +317,7 @@ Update Employee.java
 	    this.salary = salary;  
 	}  */
 ```
-You can test (employee.claa) methods add or not by `javap` command
+You can test (employee.class) methods add or not by `javap` command
 `javap employee`
 
 ### Steps To create Jpa EE App ###
