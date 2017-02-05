@@ -341,151 +341,151 @@ public class com.javaaround.model.Employee {
 
 1. create javaee project using maven by following command
 
-`mvn archetype:generate`
+	`mvn archetype:generate`
 
-Search -j2ee-simple .
-choose project no
-Give groupId,arctifactId etc
+	Search -j2ee-simple .
+	choose project no
+	Give groupId,arctifactId etc
 
 2. Add dependency at ejbs/pom.xml
-```xml
-<dependency>
-  <groupId>javax.ejb</groupId>
-  <artifactId>javax.ejb-api</artifactId>
-  <version>3.2</version>
-</dependency>
-<dependency>
- <groupId>org.hibernate</groupId>
- <artifactId>hibernate-entitymanager</artifactId>
- <version>4.3.9.Final</version>
-</dependency>
-<dependency>
-   <groupId>mysql</groupId>
-   <artifactId>mysql-connector-java</artifactId>
-   <version>5.1.6</version>
-</dependency>
-<dependency>
- <groupId>org.eclipse.persistence</groupId>
- <artifactId>javax.persistence</artifactId>
- <version>2.1.1</version>
-</dependency>
-<dependency>
- <groupId>org.projectlombok</groupId>
- <artifactId>lombok</artifactId>
- <version>1.16.12</version>
-</dependency>
-```
-Update ejb version 3.1 of maven-ejb-plugin< at ejbs/pom.xml
+	```xml
+	<dependency>
+	  <groupId>javax.ejb</groupId>
+	  <artifactId>javax.ejb-api</artifactId>
+	  <version>3.2</version>
+	</dependency>
+	<dependency>
+	 <groupId>org.hibernate</groupId>
+	 <artifactId>hibernate-entitymanager</artifactId>
+	 <version>4.3.9.Final</version>
+	</dependency>
+	<dependency>
+	   <groupId>mysql</groupId>
+	   <artifactId>mysql-connector-java</artifactId>
+	   <version>5.1.6</version>
+	</dependency>
+	<dependency>
+	 <groupId>org.eclipse.persistence</groupId>
+	 <artifactId>javax.persistence</artifactId>
+	 <version>2.1.1</version>
+	</dependency>
+	<dependency>
+	 <groupId>org.projectlombok</groupId>
+	 <artifactId>lombok</artifactId>
+	 <version>1.16.12</version>
+	</dependency>
+	```
+	Update ejb version 3.1 of maven-ejb-plugin< at ejbs/pom.xml
 
-`<ejbVersion>3.1</ejbVersion>`
+	`<ejbVersion>3.1</ejbVersion>`
 
-Update ejb-jar.xml at ejbs/resource/META-INF
+	Update ejb-jar.xml at ejbs/resource/META-INF
 
-```xml
-<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
-         version="3.0">
-</ejb-jar>
-```
+	```xml
+	<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+	         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+	         version="3.0">
+	</ejb-jar>
+	```
 
-Add persistence.xml at ejbs/resource/META-INF
+	Add persistence.xml at ejbs/resource/META-INF
 
-```xml
-<?xml version="1.0" encoding="UTF-8" ?>
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
- xsi:schemaLocation="
- http://xmlns.jcp.org/xml/ns/persistence 
- http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
-  <persistence-unit name="hibernatePU" transaction-type="JTA">
-   	  
-   <jta-data-source>jdbc/empDB</jta-data-source>
-   <exclude-unlisted-classes>false</exclude-unlisted-classes>  
-   </persistence-unit>      	
-</persistence>
-```
+	```xml
+	<?xml version="1.0" encoding="UTF-8" ?>
+	<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+	 xsi:schemaLocation="
+	 http://xmlns.jcp.org/xml/ns/persistence 
+	 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
+	  <persistence-unit name="hibernatePU" transaction-type="JTA">
+	   	  
+	   <jta-data-source>jdbc/empDB</jta-data-source>
+	   <exclude-unlisted-classes>false</exclude-unlisted-classes>  
+	   </persistence-unit>      	
+	</persistence>
+	```
 
 3. Create Employee.java at ejbs/src/main/com/javaaround/model
 
-```java
-package com.javaaround.model;
-import javax.persistence.Entity;  
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import lombok.Data;
+	```java
+	package com.javaaround.model;
+	import javax.persistence.Entity;  
+	import javax.persistence.Id;
+	import javax.persistence.GeneratedValue;
+	import javax.persistence.GenerationType;
+	import lombok.Data;
 
-@Entity
-@Data 
-public class Employee { 
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)  
-	private int id;  
-	private String firstName;
-	private Double salary;  
-	
-}	
-```
+	@Entity
+	@Data 
+	public class Employee { 
+		@Id 
+		@GeneratedValue(strategy = GenerationType.IDENTITY)  
+		private int id;  
+		private String firstName;
+		private Double salary;  
+		
+	}	
+	```
 
-Create HelloEjb.java at ejbs/src/main/com/javaaround
+	Create HelloEjb.java at ejbs/src/main/com/javaaround
 
-```java
-package com.javaaround;
+	```java
+	package com.javaaround;
 
-import javax.ejb.Singleton;
-import javax.ejb.LocalBean;
-import javax.ejb.Startup;
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import com.javaaround.model.Employee;
+	import javax.ejb.Singleton;
+	import javax.ejb.LocalBean;
+	import javax.ejb.Startup;
+	import javax.annotation.PostConstruct;
+	import javax.persistence.EntityManager;
+	import javax.persistence.PersistenceContext;
+	import com.javaaround.model.Employee;
 
-@Singleton
-@LocalBean
-@Startup
-public class HelloEjb{
-	@PersistenceContext(unitName = "hibernatePU")
-	EntityManager em;
+	@Singleton
+	@LocalBean
+	@Startup
+	public class HelloEjb{
+		@PersistenceContext(unitName = "hibernatePU")
+		EntityManager em;
 
-	@PostConstruct
-	public void main(){
-		System.out.println("Hello ejb");
-		Employee employee = new Employee( );
-        employee.setFirstName( "Md.Shamim Miah" );
-        employee.setSalary( 40000.00 );
-        //save into db	      
-        em.persist( employee );
+		@PostConstruct
+		public void main(){
+			System.out.println("Hello ejb");
+			Employee employee = new Employee( );
+	        employee.setFirstName( "Md.Shamim Miah" );
+	        employee.setSalary( 40000.00 );
+	        //save into db	      
+	        em.persist( employee );
+		}
 	}
-}
-```
+	```
 
 4. package app by following command
 
-`mvn clean package`	
+	`mvn clean package`	
 
 3. Deploy App
 
-We want deploy glassfish.Add jdbc data resource(jdbc/empDB) at glassfish4\glassfish\domains\domain1\config
+	We want deploy glassfish.Add jdbc data resource(jdbc/empDB) at glassfish4\glassfish\domains\domain1\config
 
-```xml
-<jdbc-connection-pool datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" 
-name="mysql_ladb_adminPool" 
-wrap-jdbc-objects="false" 
-connection-validation-method="auto-commit" 
-res-type="javax.sql.DataSource">
-  <property name="URL" value="jdbc:mysql://127.0.0.1:3306/test"></property>
-  <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
-  <property name="Password" value=""></property>
-  <property name="portNumber" value="3306"></property>
-  <property name="databaseName" value="test"></property>
-  <property name="User" value="root"></property>
-  <property name="serverName" value="127.0.0.1"></property>
-</jdbc-connection-pool>
-<jdbc-resource pool-name="mysql_ladb_adminPool" jndi-name="jdbc/empDB"></jdbc-resource>
-```
+	```xml
+	<jdbc-connection-pool datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" 
+	name="mysql_ladb_adminPool" 
+	wrap-jdbc-objects="false" 
+	connection-validation-method="auto-commit" 
+	res-type="javax.sql.DataSource">
+	  <property name="URL" value="jdbc:mysql://127.0.0.1:3306/test"></property>
+	  <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+	  <property name="Password" value=""></property>
+	  <property name="portNumber" value="3306"></property>
+	  <property name="databaseName" value="test"></property>
+	  <property name="User" value="root"></property>
+	  <property name="serverName" value="127.0.0.1"></property>
+	</jdbc-connection-pool>
+	<jdbc-resource pool-name="mysql_ladb_adminPool" jndi-name="jdbc/empDB"></jdbc-resource>
+	```
 
-upload ear/target/ear-1.0.ear by glassfish administrator UI <br>
+	upload ear/target/ear-1.0.ear by glassfish administrator UI <br>
 
 
 Complete project download linke <br>
