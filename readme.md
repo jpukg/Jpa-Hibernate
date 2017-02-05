@@ -339,11 +339,12 @@ public class com.javaaround.model.Employee {
 
 ![Image of Nested](images/EE.png) 
 
-create javaweb using maven by following command
+create javaee project using maven by following command
 
 `mvn archetype:generate`
 
-Search -j2ee-simple or ear-webap.choose project no
+Search -j2ee-simple .
+choose project no
 Give groupId,arctifactId etc
 
 
