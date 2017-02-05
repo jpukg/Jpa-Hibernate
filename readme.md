@@ -200,7 +200,7 @@ Run app by following command
 `mvn clean package`	
 
 
-### create-target & drop-target ### 
+### Generate create & drop schema ### 
 
 update persistence.xml
 ```xml
@@ -317,9 +317,24 @@ Update Employee.java
 	    this.salary = salary;  
 	}  */
 ```
-You can test (employee.class) methods add or not by `javap` command
+You can test (employee.class) methods add or not by following command <br> 
 `javap employee`
 
+```java
+public class com.javaaround.model.Employee {
+  public com.javaaround.model.Employee();
+  public int getId();
+  public java.lang.String getFirstName();
+  public java.lang.Double getSalary();
+  public void setId(int);
+  public void setFirstName(java.lang.String);
+  public void setSalary(java.lang.Double);
+  public boolean equals(java.lang.Object);
+  protected boolean canEqual(java.lang.Object);
+  public int hashCode();
+  public java.lang.String toString();
+}
+```
 ### Steps To create Jpa EE App ###
 
 ![Image of Nested](images/EE.png) 
