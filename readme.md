@@ -467,7 +467,7 @@ public class com.javaaround.model.Employee {
 
 3. Deploy App
 
-	We want deploy glassfish.Add jdbc data resource(jdbc/empDB) at glassfish4\glassfish\domains\domain1\config
+	We want to deploy this app into glassfish.Add jdbc data resource(jdbc/empDB) at glassfish4\glassfish\domains\domain1\config
 
 	```xml
 	<jdbc-connection-pool datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" 
