@@ -469,7 +469,11 @@ public class HelloEjb{
 We want deploy glassfish.Add jdbc data resource(jdbc/empDB) at glassfish4\glassfish\domains\domain1\config
 
 ```xml
-<jdbc-connection-pool datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" name="mysql_ladb_adminPool" wrap-jdbc-objects="false" connection-validation-method="auto-commit" res-type="javax.sql.DataSource">
+<jdbc-connection-pool datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" 
+name="mysql_ladb_adminPool" 
+wrap-jdbc-objects="false" 
+connection-validation-method="auto-commit" 
+res-type="javax.sql.DataSource">
   <property name="URL" value="jdbc:mysql://127.0.0.1:3306/test"></property>
   <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
   <property name="Password" value=""></property>
@@ -481,6 +485,7 @@ We want deploy glassfish.Add jdbc data resource(jdbc/empDB) at glassfish4\glassf
 <jdbc-resource pool-name="mysql_ladb_adminPool" jndi-name="jdbc/empDB"></jdbc-resource>
 ```
 
-upload ear/target/ear-1.0.ear by glassfish administrator UI
+upload ear/target/ear-1.0.ear by glassfish administrator UI <br>
 
 
+Complete project download linke <br>
