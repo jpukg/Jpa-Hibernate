@@ -347,6 +347,20 @@ In JPA a basic attribute is mapped through the `@Basic` annotation.it is default
 | optional      | Defines whether the value of the field  may be null.     |   true |
 
 
+Update Employee.java
+
+```java
+@Basic(fetch=FetchType.LAZY,optional=false)  
+private String firstName;
+```
+
+update App.java
+```java
+ //employee.setFirstName( "Md.Shamim Miah" );
+``` 
+
+not-null property references a null or transient value : com.javaaround.model.Employee.firstName exception shown
+
 ### Steps To create Jpa EE App ###
 
 ![Image of Nested](images/EE.png) 

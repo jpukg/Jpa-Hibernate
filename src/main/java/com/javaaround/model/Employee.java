@@ -4,6 +4,7 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Basic; 
+import javax.persistence.FetchType;
 import lombok.Data;
 
 @Entity
@@ -12,7 +13,7 @@ public class Employee {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)  
 	private int id;
-	//@Basic(fetch=FetchType.LAZY,optional=false)  
+	@Basic(fetch=FetchType.LAZY,optional=false)  
 	private String firstName;
 	private Double salary;  
 	

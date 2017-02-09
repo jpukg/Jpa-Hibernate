@@ -21,7 +21,7 @@ public class App
 
 	      Employee employee = new Employee( ); 
 	      //employee.setId( 1204 );
-	      employee.setFirstName( "Md.Shamim Miah" );
+	      //employee.setFirstName( "Md.Shamim Miah" );
 	      employee.setSalary( 40000.00 );
           //save into db	      
 	      em.persist( employee );
