@@ -361,6 +361,38 @@ update App.java
 
 not-null property references a null or transient value : com.javaaround.model.Employee.firstName exception shown
 
+### Date Mapping ###
+Java 1.0, Java only had a java.util.Date type, which was both a date, time and milliseconds. 
+In Java 1.1 this was expanded to support the common database types with java.sql.Date, java.sql.Time, and java.sql.Timestamp, then to support internationalization Java created the java.util.Calendar type
+
+you have a java.util.Date or java.util.Calendar will map database datetime datatype.
+
+if wish to map it to a DATE or TIME into db . But How you can specify
+In JPA the `@Temporal` annotation is used to specify time or date or datetime
+
+### @Temporal Element ###
+| Element        | Value allow           | Default value  |
+| ------------- |:-------------:| -----:|
+| TemporalType     | DATE,TIME,DATETIME | DATETIME |
+
+Update Employee.java
+
+```java
+private Date joinDate;
+```
+
+update App.java
+```java
+  employee.setJoinDate(new Date());
+``` 
+
+But wish to save date only or time only
+
+```java
+@Temporal(TemporalType.DATE) 
+private Date joinDate;
+```
+
 ### Steps To create Jpa EE App ###
 
 ![Image of Nested](images/EE.png) 

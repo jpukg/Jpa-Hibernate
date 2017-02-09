@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Basic; 
 import javax.persistence.FetchType;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import lombok.Data;
 
 @Entity
@@ -15,6 +18,8 @@ public class Employee {
 	private int id;
 	@Basic(fetch=FetchType.LAZY,optional=false)  
 	private String firstName;
-	private Double salary;  
+	private Double salary; 
+	@Temporal(TemporalType.DATE) 
+	private Date joinDate;
 	
 }	
