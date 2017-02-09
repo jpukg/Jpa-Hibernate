@@ -343,7 +343,7 @@ In JPA a basic attribute is mapped through the `@Basic` annotation.it is default
 ### @Basic Element ###
 | Element        | Description           | Default value  |
 | ------------- |:-------------:| -----:|
-| FetchType     | Defines whether the value of the field should be lazily loaded or eagerly fetched. | EAGER |
+| fetch     | Defines whether the value of the field should be lazily loaded or eagerly fetched. | EAGER |
 | optional      | Defines whether the value of the field  may be null.     |   true |
 
 

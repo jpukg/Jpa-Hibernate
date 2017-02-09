@@ -12,7 +12,7 @@ public class Employee {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)  
 	private int id;
-	@Basic  
+	//@Basic(fetch=FetchType.LAZY,optional=false)  
 	private String firstName;
 	private Double salary;  
 	
