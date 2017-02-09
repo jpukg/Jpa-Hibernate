@@ -363,7 +363,9 @@ not-null property references a null or transient value : com.javaaround.model.Em
 
 ### Date Mapping ###
 Java 1.0, Java only had a java.util.Date type, which was both a date, time and milliseconds. 
-In Java 1.1 this was expanded to support the common database types with java.sql.Date, java.sql.Time, and java.sql.Timestamp, then to support internationalization Java created the java.util.Calendar type
+In Java 1.1 this was expanded to support the common database types with java.sql.Date, java.sql.Time, and java.sql.Timestamp, then to support internationalization Java created the java.util.Calendar type 
+
+Some databases do not have DATE and TIME types, only TIMESTAMP fields.
 
 you have a java.util.Date or java.util.Calendar will map database datetime datatype.
 
