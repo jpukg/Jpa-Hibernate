@@ -335,6 +335,18 @@ public class com.javaaround.model.Employee {
   public java.lang.String toString();
 }
 ```
+
+### Basic Mappings ###
+Mappings of simple Java types(String, Number, Wrapper,Date ,primitive,enums, and any other type that implements java.io.Serializable) map directly to the column value in the database.
+In JPA a basic attribute is mapped through the `@Basic` annotation.it is default annotation 
+
+### @Basic Element ###
+| Element        | Description           | Default value  |
+| ------------- |:-------------:| -----:|
+| FetchType     | Defines whether the value of the field should be lazily loaded or eagerly fetched. | EAGER |
+| optional      | Defines whether the value of the field  may be null.     |   true |
+
+
 ### Steps To create Jpa EE App ###
 
 ![Image of Nested](images/EE.png) 
