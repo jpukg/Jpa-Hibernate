@@ -361,6 +361,18 @@ update App.java
 
 not-null property references a null or transient value : com.javaaround.model.Employee.firstName exception shown
 
+### @Column Annotation ###
+
+@Column is used define database table column definition like length,column name,null etc
+Update Employee.java
+
+```java
+@Basic(fetch=FetchType.LAZY,optional=false)
+@Column(name="first_name",length=35,nullable=true)  
+private String firstName;
+```
+
+
 ### Date Mapping ###
 Java 1.0, Java only had a java.util.Date type, which was both a date, time and milliseconds. 
 In Java 1.1 this was expanded to support the common database types with java.sql.Date, java.sql.Time, and java.sql.Timestamp, then to support internationalization Java created the java.util.Calendar type 
@@ -378,7 +390,7 @@ update App.java
 
 above example will map database datetime datatype(default).
 
-### @Temporal Element ###
+### @Temporal ###
 | Element        | Value allow           | Default value  |
 | ------------- |:-------------:| -----:|
 | TemporalType     | DATE,TIME,DATETIME | DATETIME |
