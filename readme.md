@@ -273,7 +273,7 @@ There are 4 generator types<br/>
 		initialValue = 1, allocationSize = 1 )
 		private int id; 
 		```
-4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use production.Only recommended to use development.it is default strategy
+4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use when your database is not fixed.it is default strategy
 	-	Example
 
 		```java
