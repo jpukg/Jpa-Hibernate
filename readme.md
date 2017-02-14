@@ -354,7 +354,7 @@ public class com.javaaround.model.Employee {
 1. Basic Mappings : 
 
 	Mappings of simple Java types(String, Number, Wrapper,Date ,primitive,enums, and any other type that implements java.io.Serializable) map directly to the column value in the database. The following table shows mapping java type to db types
-	| Java Type        | Database Type 
+	| Java Type        | Database Type | 
 	| ------------- |:-------------:| 
 	| String (char, char[]) |	VARCHAR (CHAR, VARCHAR2, CLOB, TEXT) | 
 	| Number (BigDecimal, BigInteger, Integer, Double, Long, Float, Short, Byte) |	NUMERIC (NUMBER, INT, LONG, FLOAT, DOUBLE | 
@@ -368,7 +368,7 @@ public class com.javaaround.model.Employee {
 	| java.util.Calendar |	TIMESTAMP (DATETIME, DATE) | 
 	| java.lang.Enum |	NUMERIC (VARCHAR, CHAR) | 
 	| java.io.Serializable |	VARBINARY (BINARY, BLOB) | 
-	
+
 	In JPA a basic attribute is mapped through the `@Basic` annotation.it is default annotation 
 
 	### @Basic Element ###
