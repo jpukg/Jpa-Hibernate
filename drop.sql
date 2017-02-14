@@ -1,1 +1,2 @@
-drop table if exists Employee
+drop table Employee cascade constraints
+drop sequence hibernate_sequence

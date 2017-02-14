@@ -4,6 +4,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.Date;
 import com.javaaround.model.Employee;
+import com.javaaround.util.Gender;
 /**
  * Hello world!
  *
@@ -25,6 +26,7 @@ public class App
 	      employee.setFirstName( "Md.Shamim Miah" );
 	      employee.setSalary( 40000.00 );
 	      employee.setJoinDate(new Date());
+	      employee.setGender(Gender.M);
           //save into db	      
 	      em.persist( employee );
 	      //end transaction

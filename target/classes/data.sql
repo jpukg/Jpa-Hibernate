@@ -1,2 +1,2 @@
-INSERT INTO employee (id, firstName,salary) VALUES (1, 'Md.Alamin',2000.00);
-INSERT INTO employee (id, firstName,salary) VALUES (2, 'Md.Rafiq',2000.00);
+INSERT INTO employee (id, firstName,salary) VALUES ('Md.Alamin',null,2000);
+INSERT INTO employee (id, firstName,salary) VALUES ('Md.Rafiq',null,2000);
