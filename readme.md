@@ -350,6 +350,10 @@ public class com.javaaround.model.Employee {
 }
 ```
 
+### @Table Element ###
+
+Bedefault class name is used to table name . you can give your custom name by @Table annotation
+`@Table(name="employesssss")`
 
 ### Attribute Mappings ###
 
@@ -478,8 +482,8 @@ public class com.javaaround.model.Employee {
 	1. BLOB (Binary LOB)
 	2. CLOB (Character LOB). we know VARCHAR(255 character) have size limitations.for allow big text by using CLOB.
 
-	JPA defines the @Lob annotation  to define that an attribute maps to a LOB type in the database.A @Lob may be either a binary or character type.
-	
+	JPA defines the @Lob annotation  to define an attribute maps to a LOB type in the database.A @Lob may be either a binary or character type.
+
 ### Column Definition ###
 
 @Column is used define database table column definition like length,column name,nullable etc
@@ -503,7 +507,7 @@ Update Employee.java
 @Basic(fetch=FetchType.LAZY,optional=false)
 @Column(name="first_name",length=35,nullable=true)  
 private String firstName;
-//salary less the 10000000(1crore)
+//salary less than 10000000(1crore)
 @Column(precision=7, scale=2)
 private Double salary; 
 @Column(columnDefinition="TIMESTAMPTZ")
