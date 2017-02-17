@@ -5,6 +5,8 @@ import javax.persistence.Persistence;
 import java.util.Date;
 import com.javaaround.model.Employee;
 import com.javaaround.util.Gender;
+import java.io.FileInputStream;
+import org.apache.commons.io.IOUtils;
 /**
  * Hello world!
  *
@@ -35,6 +37,16 @@ public class App
 	      	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
 	      	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
 	      	);
+
+	      //
+	      FileInputStream fis;
+	      try{
+	      	fis = new FileInputStream("E:/shamim/image/shamim.jpg");
+	      	byte[] bytes = IOUtils.toByteArray(fis);
+	      	employee.setPicture(bytes);
+	  	  }catch(Exception e){
+
+	  	  }
           //save into db	      
 	      em.persist( employee );
 	      //end transaction

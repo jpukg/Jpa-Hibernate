@@ -484,6 +484,51 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 	JPA defines the @Lob annotation  to define an attribute maps to a LOB type in the database.A @Lob may be either a binary or character type.
 
+	update Employee.java
+	```java
+	@Lob
+	@Basic(fetch=FetchType.LAZY)	
+	private byte[] picture;
+	@Lob
+	//private char[] remarks;	
+	private String remarks;
+	```
+
+	To generate byte[] array we use apache commons io
+
+	add dependency at pom.xml
+
+	```xml
+	<dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.5</version>
+    </dependency>
+	```
+
+	Update App.java
+
+	```java
+	employee.setRemarks("luren ipsomluren ipsomluren ipsomluren " 
+	  	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	  	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	  	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	  	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	  	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	  	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	  	);
+
+	  //
+	  FileInputStream fis;
+	  try{
+	  	fis = new FileInputStream("E:/shamim/image/shamim.jpg");
+	  	byte[] bytes = IOUtils.toByteArray(fis);
+	  	employee.setPicture(bytes);
+	  }catch(Exception e){
+
+	  }
+	```
+
 ### Column Definition ###
 
 @Column is used define database table column definition like length,column name,nullable etc

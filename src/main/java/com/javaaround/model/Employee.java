@@ -21,15 +21,18 @@ public class Employee {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)  
 	private int id;
-	@Basic(fetch=FetchType.LAZY,optional=false)  
+	@Basic(optional=false)  
 	private String firstName;
 	private Double salary; 
 	@Temporal(TemporalType.DATE) 
 	private Date joinDate;
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
-
-	@Lob	
+	@Lob
+	@Basic(fetch=FetchType.LAZY)	
+	private byte[] picture;
+	@Lob
+	//private char[] remarks;	
 	private String remarks;
 	
 }	
