@@ -25,7 +25,7 @@ public class Employee {
 	private Double salary; 
 	@Temporal(TemporalType.DATE) 
 	private Date joinDate;
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	
 }	

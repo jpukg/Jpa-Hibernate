@@ -123,6 +123,7 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 	          <property name="javax.persistence.jdbc.password" value="" />
 	          <!-- flag for sql show or not at console -->
 	          <property name="javax.persistence.jdbc.show_sql" value="true" /> 
+	          <!-- create db table automatically -->
 	          <property name="javax.persistence.schema-generation.database.action" value="create"/> 
 	         
 	    </properties>
@@ -438,11 +439,6 @@ public class com.javaaround.model.Employee {
 	```
 
 	### Enum Mapping ###
-	To map enum type @Enumerated is used
-	### @Enumerated ###
-	| Element        | Value allow           | Default value  |
-	| ------------- |:-------------:| -----:|
-	| EnumType     | ORDINAL,STRING | ORDINAL |
 
 	create Gender.java
 
@@ -456,7 +452,6 @@ public class com.javaaround.model.Employee {
 	Update Employee.java
 
 	```java
-	@Enumerated
 	private Gender gender;
 	```
 
@@ -464,6 +459,22 @@ public class com.javaaround.model.Employee {
 
 	```java
 	employee.setGender(Gender.M);
+	```
+
+	By Default (ORDINAL) enum store  position of enum constant above example Gender.M is 1
+
+	if you want to string (M or F) instead of position(1 or 2) value need to override  @Enumerated
+
+	### @Enumerated ###
+	| Element        | Value allow           | Default value  |
+	| ------------- |:-------------:| -----:|
+	| EnumType     | ORDINAL,STRING | ORDINAL |
+
+	Update Employee.java
+
+	```java
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
 	```
 
 ### Steps To create Jpa EE App ###
