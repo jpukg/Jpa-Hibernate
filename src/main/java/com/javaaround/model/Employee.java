@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Column;
 import lombok.Data;
 import com.javaaround.util.Gender;
+import javax.persistence.Lob;
 
 @Entity
 @Data 
@@ -27,5 +28,8 @@ public class Employee {
 	private Date joinDate;
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
+
+	@Lob	
+	private String remarks;
 	
 }	

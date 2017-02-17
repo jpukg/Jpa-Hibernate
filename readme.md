@@ -350,6 +350,7 @@ public class com.javaaround.model.Employee {
 }
 ```
 
+
 ### Attribute Mappings ###
 
 1. Basic Mappings : 
@@ -395,15 +396,10 @@ public class com.javaaround.model.Employee {
 
 	not-null property references a null or transient value : com.javaaround.model.Employee.firstName exception shown
 
-	### @Column Annotation ###
-
-	@Column is used define database table column definition like length,column name,null etc
-
 	Update Employee.java
 
 	```java
-	@Basic(fetch=FetchType.LAZY,optional=false)
-	@Column(name="first_name",length=35,nullable=true)  
+	@Basic(fetch=FetchType.LAZY,optional=false) 
 	private String firstName;
 	```
 
@@ -476,6 +472,45 @@ public class com.javaaround.model.Employee {
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	```
+
+	### Large OBject ###
+	There two database types of large object.
+	1. BLOB (Binary LOB)
+	2. CLOB (Character LOB). we know VARCHAR(255 character) have size limitations.for allow big text by using CLOB.
+
+	JPA defines the @Lob annotation  to define that an attribute maps to a LOB type in the database.A @Lob may be either a binary or character type.
+	
+### Column Definition ###
+
+@Column is used define database table column definition like length,column name,nullable etc
+
+### @Column Element ###
+
+| Element        | Description           | Default value  |
+| ------------- |:-------------:| -----:|
+| name     | Defines name of column | propertyName |
+| unique      |  define a unique constraint on the column.Value allow (true,false)     |   false |
+| nullable      |  define column value allow null or not.Value allow (true,false)     |   false |
+| columnDefinition       |  define column data types.     |   basic mapping |
+| length       |  define column size of string      | highest value|
+| precision       |  The precision is the number of digits in the unscaled value. For instance, for the number 123.45, the precision returned is 5.      | |
+| Scale       |  Number of digits to the right of the decimal point. For instance, for the number 123.45, the scale returned is 2.      | |
+| description       |  remarks of the column      | |
+
+Update Employee.java
+
+```java
+@Basic(fetch=FetchType.LAZY,optional=false)
+@Column(name="first_name",length=35,nullable=true)  
+private String firstName;
+//salary less the 10000000(1crore)
+@Column(precision=7, scale=2)
+private Double salary; 
+@Column(columnDefinition="TIMESTAMPTZ")
+private Date joinDate;
+@Column(description="M for Male,F for female")
+private Gender gender;
+```
 
 ### Steps To create Jpa EE App ###
 

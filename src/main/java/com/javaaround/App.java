@@ -27,6 +27,14 @@ public class App
 	      employee.setSalary( 40000.00 );
 	      employee.setJoinDate(new Date());
 	      employee.setGender(Gender.M);
+	      employee.setRemarks("luren ipsomluren ipsomluren ipsomluren " 
+	      	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	      	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	      	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	      	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	      	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	      	+ "ipsomluren ipsomluren ipsomluren ipsomluren ipsomluren "
+	      	);
           //save into db	      
 	      em.persist( employee );
 	      //end transaction
