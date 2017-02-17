@@ -495,8 +495,10 @@ Bedefault class name is used to table name . you can give your custom name by @T
 | name     | Defines name of column | propertyName |
 | unique      |  define a unique constraint on the column.Value allow (true,false)     |   false |
 | nullable      |  define column value allow null or not.Value allow (true,false)     |   false |
+| insertable      |   allow insert data if you have foreign constraints .Value allow (true,false)     |   true |
+| updatable      |   allow update data if you have foreign constraints .Value allow (true,false)     |   true |
 | columnDefinition       |  define column data types.     |   basic mapping |
-| length       |  define column size of string      | highest value|
+| length       |  define column size of string type     | highest value|
 | precision       |  The precision is the number of digits in the unscaled value. For instance, for the number 123.45, the precision returned is 5.      | |
 | Scale       |  Number of digits to the right of the decimal point. For instance, for the number 123.45, the scale returned is 2.      | |
 | description       |  remarks of the column      | |
