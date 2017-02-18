@@ -14,6 +14,10 @@ import javax.persistence.Column;
 import lombok.Data;
 import com.javaaround.util.Gender;
 import javax.persistence.Lob;
+import javax.persistence.Embedded;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.AttributeOverride;
+
 
 @Entity
 @Data 
@@ -34,5 +38,17 @@ public class Employee {
 	@Lob
 	//private char[] remarks;	
 	private String remarks;
+
+	@Embedded
+	//street = field name
+	@AttributeOverrides({
+		@AttributeOverride(name="street",column=@Column(name="home_street")),
+		@AttributeOverride(name="city",column=@Column(name="home_city")),
+		@AttributeOverride(name="postcode",column=@Column(name="home_post_code"))
+	})
+	private Address homeAddress;
+
+	@Embedded
+	private Address officeAddress;
 	
 }	

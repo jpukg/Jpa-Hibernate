@@ -349,6 +349,39 @@ public class com.javaaround.model.Employee {
   public java.lang.String toString();
 }
 ```
+### Column Definition ###
+
+@Column is used define database table column definition like length,column name,nullable etc
+
+### @Column Element ###
+
+| Element        | Description           | Default value  |
+| ------------- |:-------------:| -----:|
+| name     | Defines name of column | propertyName |
+| unique      |  define a unique constraint on the column.Value allow (true,false)     |   false |
+| nullable      |  define column value allow null or not.Value allow (true,false)     |   false |
+| insertable      |   allow insert data if you have foreign constraints .Value allow (true,false)     |   true |
+| updatable      |   allow update data if you have foreign constraints .Value allow (true,false)     |   true |
+| columnDefinition       |  define column data types.     |   basic mapping |
+| length       |  define column size of string type     | highest value|
+| precision       |  The precision is the number of digits in the unscaled value. For instance, for the number 123.45, the precision returned is 5.      | |
+| Scale       |  Number of digits to the right of the decimal point. For instance, for the number 123.45, the scale returned is 2.      | |
+| description       |  remarks of the column      | |
+
+Update Employee.java
+
+```java
+@Basic(fetch=FetchType.LAZY,optional=false)
+@Column(name="first_name",length=35,nullable=true)  
+private String firstName;
+//salary less than 10000000(1crore)
+@Column(precision=7, scale=2)
+private Double salary; 
+@Column(columnDefinition="TIMESTAMPTZ")
+private Date joinDate;
+@Column(description="M for Male,F for female")
+private Gender gender;
+```
 
 ### @Table Element ###
 
@@ -528,40 +561,67 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 	  }
 	```
+2. User defined type Mapping : 
+	There are some value object(Address) are associated of entity object(Employee).It has no own entity exits . so it is not saved into db as separate table.every property of Address are mapped to db column. Such object are marked by @Embeddable annotation.
 
-### Column Definition ###
+	Add Address.java
 
-@Column is used define database table column definition like length,column name,nullable etc
+	```java
+	package com.javaaround.model;
+	import javax.persistence.Embeddable;  
+	import javax.persistence.Column;
+	import lombok.Data;
 
-### @Column Element ###
+	@Embeddable
+	@Data 
+	public class Address { 
+		
+		private String street;
+		private String city;
+		@Column(name="post_code")
+		private String postcode;
 
-| Element        | Description           | Default value  |
-| ------------- |:-------------:| -----:|
-| name     | Defines name of column | propertyName |
-| unique      |  define a unique constraint on the column.Value allow (true,false)     |   false |
-| nullable      |  define column value allow null or not.Value allow (true,false)     |   false |
-| insertable      |   allow insert data if you have foreign constraints .Value allow (true,false)     |   true |
-| updatable      |   allow update data if you have foreign constraints .Value allow (true,false)     |   true |
-| columnDefinition       |  define column data types.     |   basic mapping |
-| length       |  define column size of string type     | highest value|
-| precision       |  The precision is the number of digits in the unscaled value. For instance, for the number 123.45, the precision returned is 5.      | |
-| Scale       |  Number of digits to the right of the decimal point. For instance, for the number 123.45, the scale returned is 2.      | |
-| description       |  remarks of the column      | |
+	}	
+	```
 
-Update Employee.java
+	Embedd this object to associated entity by @Embedded annotation
 
-```java
-@Basic(fetch=FetchType.LAZY,optional=false)
-@Column(name="first_name",length=35,nullable=true)  
-private String firstName;
-//salary less than 10000000(1crore)
-@Column(precision=7, scale=2)
-private Double salary; 
-@Column(columnDefinition="TIMESTAMPTZ")
-private Date joinDate;
-@Column(description="M for Male,F for female")
-private Gender gender;
-```
+	Update Employee.java
+
+	```java
+	@Embedded
+	private Address homeAddress;
+	```
+
+	if you have two Address object in same entity what happens ? 
+
+
+	```java
+	@Embedded
+	private Address homeAddress;
+	@Embedded
+	private Address officeAddress;
+	```
+    Run app 
+
+	it shows Repeated column in mapping for entity.How we can solve it.We need to override default column name(street,city,post_code) by using @AtrributeOverride Annotation of homeAddreess or officeAddress(any one . other take default).
+
+	Update Employee.java
+
+	```java
+	Embedded
+	//street = field name
+	@AttributeOverrides({
+		@AttributeOverride(name="street",column=@Column(name="home_street")),
+		@AttributeOverride(name="city",column=@Column(name="home_city")),
+		@AttributeOverride(name="postcode",column=@Column(name="home_post_code"))
+	})
+	private Address homeAddress;
+
+	@Embedded
+	private Address officeAddress;
+	```
+
 
 ### Steps To create Jpa EE App ###
 
