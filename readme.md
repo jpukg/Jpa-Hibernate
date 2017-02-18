@@ -185,17 +185,36 @@ There are five states:
 
 1. does not exist : 
 2. New/Transient : when an entity created by new operator.it has no effect at database
-.if you want to any field is not managed,you can mark it @Transient.
+.if you want to any field is not managed/saved,you can mark it @Transient.
+
 	```java
 	@Transient
 	private byte[] picture;
 	``` 
-3. Managed/Persisted  : 	when an entity is assoicate with `EntityManager` by its method e.g persist,find etc then that object is managed state. Managed object property changed,then automatically update with db also.
+
+3. Managed/Persisted  : 	when an entity is assoicate with `EntityManager` by its method e.g persist,find etc then that object is managed state. 
 	1. em.persist(employee);
 	2. @PrePersist
 	3. Database insert
 	4. PostPersist
-4.
+when managed object property changed,then automatically update with db also.
+	1. @PreUpdate
+	2. Database Update
+	3. @PostUpdate	
+
+If an entity object that has to be retrieved already exists in the persistence context(collection of all managed entity of an EntityManager), the existing managed entity object is returned without actually accessing the database.
+
+but em.refresh(employee)  executes
+	1. fetch the object from database
+	2. @PostLoad
+
+4. Remove : when `em.remove(persistedEmployee);` then object goes to remove state
+	1. @PreRemov
+	2. Pending removal from database until transaction is commit.
+
+5. Detached : when 	`em.detach(employee);` or `em.close` then object to detached state
+	1.  the entity is serialized to another tier
+if you want to detached back to managed, the following occurs: the entity is de-serialized, `em.merge(employee)` is invoked		
 
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
