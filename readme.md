@@ -179,7 +179,7 @@ Run app by following command
 
 ### JPA Entity Life Cycle ###
 
-![Image of Nested](images/jpa_object_lifecycle.png) 
+![Image of Nested](images/jpa_object_lifecycle2.png) 
 
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
