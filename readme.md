@@ -167,6 +167,8 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 
 	//close resource
 	em.close( );
+
+	system.out.print(employee.getFirstName());
 	emf.close( );
 
 	```	
@@ -175,6 +177,9 @@ Run app by following command
 
 `mvn clean package`	
 
+### JPA Entity Life Cycle ###
+
+![Image of Nested](images/jpa_object_lifecycle.png) 
 
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
@@ -562,7 +567,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	  }
 	```
 2. User defined type Mapping : 
-	There are some value object(Address) are associated of entity object(Employee).It has no own entity exits . so it is not saved into db as separate table.every property of Address are mapped to db column. Such object are marked by @Embeddable annotation.
+	1. Embeddable Object : There are some value object(Address) are associated of entity object(Employee).It has no own entity exits . so it is not saved into db as separate table.every property of Address are mapped to db column. Such object are marked by @Embeddable annotation.
 
 	Add Address.java
 
