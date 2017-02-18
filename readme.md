@@ -204,7 +204,15 @@ There are five states:
 	2. Database Update
 	3. @PostUpdate	
 
-	If an entity object that has already exists in the persistence context(collection of all managed entity of an EntityManager), the existing managed entity object is returned without actually accessing the database by call `em.find(employee.class,1201)`.
+	Persistence context is the collection of all managed entity of an EntityManager. you can check if a specified entity object is in the persistence context:
+
+	` boolean isManaged = em.contains(employee);`
+	
+	The persistence context can be cleared by using the clear method, as so:
+
+    `em.clear();`
+
+	If an entity object that has already exists in the persistence context the existing managed entity object is returned without actually accessing the database by call `em.find(employee.class,1201)`.
 
 	but em.refresh(employee)  executes then always
 
