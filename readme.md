@@ -207,7 +207,7 @@ There are five states:
 	Persistence context is the collection of all managed entity of an EntityManager. you can check if a specified entity object is in the persistence context:
 
 	` boolean isManaged = em.contains(employee);`
-	
+
 	The persistence context can be cleared by using the clear method, as so:
 
     `em.clear();`
@@ -239,7 +239,7 @@ import javax.persistence.PostUpdate;
 
 @PrePersist
 public void validate() {
-   System.out.println("validating ......");
+   System.out.println("validating employee......");
 }
 
 @PostPersist
@@ -259,6 +259,55 @@ public void afterUpdate(){
 ```
 
 Run App
+
+### Entity Listener ###
+Mixing lifecycle event(cross-cutting event) code into your persistent classes is not recommended because it is not usable. JPA allows for use to separate another class by using `@EntityListeners` annotation.
+
+
+create EmployeeListener.java
+
+```java
+package com.javaaround.listener;
+import javax.persistence.PrePersist;
+import javax.persistence.PostPersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.PostUpdate;
+import com.javaaround.model.Employee;
+public class EmployeeListener {
+	@PrePersist
+    public void validate(Object obj) {
+       System.out.println("validating employee......" + ((Employee) obj).getId ());
+    }
+
+	@PostPersist
+	public void afterSave(Object obj){
+		System.out.println("saved successfully.thank you");
+	}
+
+	@PreUpdate
+	public void validateUpdate(Object obj) {
+	   System.out.println("validating  updating......");
+	}
+
+	@PostUpdate
+	public void afterUpdate(Object obj){
+		System.out.println("Update successfully.thank you");
+	}
+}
+```
+
+Update Employee.java 
+
+```java
+@Entity
+@EntityListeners({ 
+	EmployeeListener.class
+})
+@Data 
+public class Employee { 
+
+```
+
 
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty

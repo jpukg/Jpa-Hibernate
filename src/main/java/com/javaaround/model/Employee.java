@@ -1,5 +1,6 @@
 package com.javaaround.model;
 import javax.persistence.Entity;  
+import javax.persistence.EntityListeners;  
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,13 +18,14 @@ import javax.persistence.Lob;
 import javax.persistence.Embedded;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.AttributeOverride;
-import javax.persistence.PrePersist;
-import javax.persistence.PostPersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.PostUpdate;
+import com.javaaround.listener.EmployeeListener;
+
 
 
 @Entity
+@EntityListeners({ 
+	EmployeeListener.class
+})
 @Data 
 public class Employee { 
 	@Id 
@@ -55,24 +57,4 @@ public class Employee {
 	@Embedded
 	private Address officeAddress;
 
-	@PrePersist
-    public void validate() {
-       System.out.println("validating ......");
-    }
-
-	@PostPersist
-	public void afterSave(){
-		System.out.println("saved successfully.thank you");
-	}
-
-	@PreUpdate
-	public void validateUpdate() {
-	   System.out.println("validating  updating......");
-	}
-
-	@PostUpdate
-	public void afterUpdate(){
-		System.out.println("Update successfully.thank you");
-	}
-	
 }	
