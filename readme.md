@@ -182,6 +182,7 @@ Run app by following command
 ![Image of Nested](images/jpa_object_lifecycle2.png) 
 
 There are five states: 
+
 1. does not exist : 
 2. New/Transient : when an entity created by new operator.it has no effect at database
 .if you want to any field is not managed,you can mark it @Transient.
@@ -195,6 +196,7 @@ There are five states:
 	3. Database insert
 	4. PostPersist
 4.
+
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
 @NotBlank: Checks whether the value is not null nor empty, trimming the value first. It means that, it won’t allow just empty spaces
