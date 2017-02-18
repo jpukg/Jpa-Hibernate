@@ -382,6 +382,12 @@ public class Manager extends Employee {
 }
 ```
 
+### Callback Invocation Order ###
+
+If more than one callback method has to be invoked for a lifecycle event (e.g. from multiple listeners) the invocation order is based on the following rules:
+
+Default Listener -> top super class-> then super class-> actual enity listener
+
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
 @NotBlank: Checks whether the value is not null nor empty, trimming the value first. It means that, it won’t allow just empty spaces
