@@ -226,6 +226,8 @@ Update Employee.java
 ```java
 import javax.persistence.PrePersist;
 import javax.persistence.PostPersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.PostUpdate;
 
 @PrePersist
 public void validate() {
@@ -235,6 +237,16 @@ public void validate() {
 @PostPersist
 public void afterSave(){
 	System.out.println("saved successfully.thank you");
+}
+
+@PreUpdate
+public void validateUpdate() {
+   System.out.println("validating  updating......");
+}
+
+@PostUpdate
+public void afterUpdate(){
+	System.out.println("Update successfully.thank you");
 }
 ```
 
