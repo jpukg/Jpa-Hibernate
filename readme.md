@@ -192,7 +192,7 @@ There are five states:
 	private byte[] picture;
 	``` 
 
-3. Managed/Persisted  : 	when an entity is assoicate with `EntityManager` by its method e.g persist,find etc then that object is managed state. 
+3. Managed/Persisted  : 	when an entity is assoicate with `EntityManager` by its method e.g persist,find.merge etc then that object is going to managed state. 
 	1. em.persist(employee);
 	2. @PrePersist
 	3. Database insert
@@ -204,23 +204,41 @@ There are five states:
 	2. Database Update
 	3. @PostUpdate	
 
-	If an entity object that has to be retrieved already exists in the persistence context(collection of all managed entity of an EntityManager), the existing managed entity object is returned without actually accessing the database.
+	If an entity object that has already exists in the persistence context(collection of all managed entity of an EntityManager), the existing managed entity object is returned without actually accessing the database by call `em.find(employee.class,1201)`.
 
-	but em.refresh(employee)  executes
+	but em.refresh(employee)  executes then always
 
 		1. fetch the object from database
 		2. @PostLoad
 
 4. Remove : when `em.remove(persistedEmployee);` then object goes to remove state
 
-	1. @PreRemov
+	1. @PreRemove
 	2. Pending removal from database until transaction is commit.
 
 5. Detached : when 	`em.detach(employee);` or `em.close` then object to detached state
 
 	1.  the entity is serialized to another tier
-	
+
 	if you want to detached back to managed, the following occurs: the entity is de-serialized, `em.merge(employee)` is invoked		
+
+Update Employee.java
+```java
+import javax.persistence.PrePersist;
+import javax.persistence.PostPersist;
+
+@PrePersist
+public void validate() {
+   System.out.println("validating ......");
+}
+
+@PostPersist
+public void afterSave(){
+	System.out.println("saved successfully.thank you");
+}
+```
+
+Run App
 
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
