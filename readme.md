@@ -197,7 +197,9 @@ There are five states:
 	2. @PrePersist
 	3. Database insert
 	4. PostPersist
+
 	when managed object property changed,then automatically update with db also.
+
 	1. @PreUpdate
 	2. Database Update
 	3. @PostUpdate	
@@ -205,15 +207,19 @@ There are five states:
 	If an entity object that has to be retrieved already exists in the persistence context(collection of all managed entity of an EntityManager), the existing managed entity object is returned without actually accessing the database.
 
 	but em.refresh(employee)  executes
+
 		1. fetch the object from database
 		2. @PostLoad
 
 4. Remove : when `em.remove(persistedEmployee);` then object goes to remove state
+
 	1. @PreRemov
 	2. Pending removal from database until transaction is commit.
 
 5. Detached : when 	`em.detach(employee);` or `em.close` then object to detached state
+
 	1.  the entity is serialized to another tier
+	
 	if you want to detached back to managed, the following occurs: the entity is de-serialized, `em.merge(employee)` is invoked		
 
 @NotNull: Checks whether the value is not null, disregarding the content
