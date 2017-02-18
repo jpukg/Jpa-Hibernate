@@ -223,6 +223,7 @@ There are five states:
 
 	1. @PreRemove
 	2. Pending removal from database until transaction is commit.
+	3. @PostRemove
 
 5. Detached : when 	`em.detach(employee);` or `em.close` then object to detached state
 
@@ -261,7 +262,7 @@ public void afterUpdate(){
 Run App
 
 ### Entity Listener ###
-Mixing lifecycle event(cross-cutting event) code into your persistent classes is not recommended because it is not usable. JPA allows for use to separate another class by using `@EntityListeners` annotation.
+Mixing lifecycle event(cross-cutting event) code into your persistent classes is not recommended because it is not usable. JPA allows for use to separate another class and include it by `@EntityListeners` annotation.
 
 
 create EmployeeListener.java
@@ -308,6 +309,78 @@ public class Employee {
 
 ```
 
+### Default Entity Listener ### 
+
+Default entity listeners are listeners that should be applied by default to all the entity classes.to skip it using the @ExcludeDefaultListeners annotation. Currently, default listeners can only be specified in a mapping XML file because there is no equivalent annotation.The mapping file has to be located either in the default location, META-INF/orm.xml or  in another location that is specified explicitly in the persistence unit definition
+
+```xml
+<persistence-unit name="hibernatePU" transaction-type="RESOURCE_LOCAL">
+   <mapping-file>META-INF/myFile.xml</mapping-file>   
+</persistence-unit> 
+```
+
+create DefaultListener.java
+
+```java
+package com.javaaround.listener;
+import javax.persistence.PrePersist;
+import javax.persistence.PostPersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.PostUpdate;
+import com.javaaround.model.Employee;
+public class DefaultListener {
+	@PrePersist
+    public void validate(Object obj) {
+       System.out.println("default validating ......");
+    }
+
+	@PostPersist
+	public void afterSave(Object obj){
+		System.out.println("default saved successfully.thank you");
+	}
+
+	@PreUpdate
+	public void validateUpdate(Object obj) {
+	   System.out.println(" default validating  updating......");
+	}
+
+	@PostUpdate
+	public void afterUpdate(Object obj){
+		System.out.println("default Update successfully.thank you");
+	}
+}
+```
+
+create orm.xml at META-INF
+
+```xml
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
+ http://java.sun.com/xml/ns/persistence/orm_1_0.xsd" version="1.0">
+  <persistence-unit-metadata>
+    <persistence-unit-defaults>
+      <entity-listeners>
+        <entity-listener class="com.javaaround.listener.DefaultListener" />
+        <!-- <entity-listener class="samples.MyDefaultListener2" /> -->
+      </entity-listeners>
+    </persistence-unit-defaults>
+  </persistence-unit-metadata>
+</entity-mappings>
+```
+
+Run app again
+
+### Superclass listener ###
+
+By default Listeners that are attached to an entity class are inherited by its subclasses. to skip invoking any listeners declared in superclasses using the @ExcludeSuperclassListeners annotation
+
+```java
+import javax.persistence.ExcludeSuperclassListeners;
+@Entity @ExcludeSuperclassListeners
+public class Manager extends Employee {
+}
+```
 
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty

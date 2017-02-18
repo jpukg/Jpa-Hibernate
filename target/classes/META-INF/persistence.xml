@@ -28,6 +28,5 @@
 	      <property name="javax.persistence.schema-generation.scripts.drop-target" value="drop.sql"/>
          
     </properties>
-      
    </persistence-unit>      	
 </persistence>

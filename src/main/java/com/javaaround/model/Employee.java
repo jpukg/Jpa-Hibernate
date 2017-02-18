@@ -23,9 +23,9 @@ import com.javaaround.listener.EmployeeListener;
 
 
 @Entity
-@EntityListeners({ 
-	EmployeeListener.class
-})
+//@EntityListeners({ 
+	//EmployeeListener.class
+//})
 @Data 
 public class Employee { 
 	@Id 
