@@ -811,6 +811,110 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 	  }
 	```
+
+	### Converter ###
+
+	The following example use java 8 date.or you can use jodatime date
+
+	Update Employee.java
+
+	```java
+	import java.time.LocalDate;
+
+	private Boolean isActive;
+	private LocalDate createDate;
+	```
+
+	Update App.java
+
+	```java
+	 employee.setIsActive(Boolean.TRUE);
+	 employee.setCreateDate(LocalDateTime.now().toLocalDate());
+	```
+	Run App
+
+	Result : Boolean use @Basic mapping it converts 0,1
+	LocalDate can't convert date type !!!
+
+	if you want to Boolean convert to String eg. "T", "F"
+	LocalDate need to convert Date object at java side 
+
+	For that JPA 2.1 introduced Attribute Converter .  A Converter is a user defined class that provides custom conversion Logic in Java code and mark it @Converter annotation
+
+	Create BooleanConverter.java
+
+	```java
+	package com.javaaround.converter;
+	import javax.persistence.AttributeConverter;
+	import javax.persistence.Converter;
+
+	@Converter
+	public class BooleanConverter implements AttributeConverter<Boolean, String> {
+
+	 
+	   @Override
+	   public String convertToDatabaseColumn(Boolean isActive) {
+	     return Boolean.TRUE.equals(isActive) ? "T" : "F";
+	   }
+	   
+	   @Override
+	   public Boolean convertToEntityAttribute(String value) {
+	       return "T".equals(value);
+	   }
+
+	}
+	```
+
+	Create BooleanConverter.java
+
+	```java
+	package com.javaaround.converter;
+	import javax.persistence.AttributeConverter;
+	import javax.persistence.Converter;
+	import java.sql.Date;
+	import java.time.LocalDate;
+
+	@Converter
+	public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
+
+	 
+	   @Override
+	   public Date convertToDatabaseColumn(LocalDate localDate) {
+	     return localDate == null ? null : Date.valueOf(localDate);
+	   }
+	   
+	   @Override
+	   public LocalDate convertToEntityAttribute(Date date) {
+	       return date == null ? null : date.toLocalDate();
+	   }
+
+	}
+	```
+
+	There are two way to apply the above converter
+
+	1. Using @Convert annotation
+	2. global Converter(autoApply=true)
+
+	We want to LocalDateConverter use global converter
+
+	Update LocalDateConverter.java
+
+	`@Converter(autoApply=true)`
+
+	We want to BooleanConverter Using @Convert annotation
+
+	Update Employee.java
+
+	```java
+	import com.javaaround.converter.BooleanConverter;
+	import javax.persistence.Convert;
+
+	@Convert(converter=BooleanConverter.class)
+	private Boolean isActive;
+	
+	```
+
 2. User defined type Mapping : 
 	1. Embeddable Object : There are some value object(Address) are associated of entity object(Employee).It has no own entity exits . so it is not saved into db as separate table.every property of Address are mapped to db column. Such object are marked by @Embeddable annotation.
 

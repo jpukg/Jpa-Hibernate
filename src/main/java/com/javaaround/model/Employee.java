@@ -19,8 +19,9 @@ import javax.persistence.Embedded;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.AttributeOverride;
 import com.javaaround.listener.EmployeeListener;
-
-
+import java.time.LocalDate;
+import com.javaaround.converter.BooleanConverter;
+import javax.persistence.Convert;
 
 @Entity
 //@EntityListeners({ 
@@ -56,5 +57,9 @@ public class Employee {
 
 	@Embedded
 	private Address officeAddress;
+
+	@Convert(converter=BooleanConverter.class)
+	private Boolean isActive;
+	private LocalDate createDate;
 
 }	

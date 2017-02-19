@@ -7,6 +7,7 @@ import com.javaaround.model.Employee;
 import com.javaaround.util.Gender;
 import java.io.FileInputStream;
 import org.apache.commons.io.IOUtils;
+import java.time.LocalDateTime;
 /**
  * Hello world!
  *
@@ -47,6 +48,8 @@ public class App
 	  	  }catch(Exception e){
 
 	  	  }
+	  	  employee.setIsActive(Boolean.TRUE);
+	  	  employee.setCreateDate(LocalDateTime.now().toLocalDate());
           //save into db	      
 	      em.persist( employee );
 	      //end transaction
