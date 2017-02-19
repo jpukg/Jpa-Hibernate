@@ -389,13 +389,14 @@ If more than one callback method has to be invoked for a lifecycle event (e.g. f
 Default Listener -> top super class-> then super class-> actual enity listener
 
 ### Cascade ###
-There are some value object(Address) are associated of entity object(Employee)
+suppose you have parent to child object following
+
 ```java
 public class Employee { 
 
 	private Department deparment;
 }
-```java
+```
 
 if `em.remove(employee)` then employee goes to remove state but deparment which state going ? 
 
@@ -422,6 +423,7 @@ public class Employee {
 	private Department deparment;
 }
 ```java
+
 
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
