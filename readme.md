@@ -814,63 +814,63 @@ Bedefault class name is used to table name . you can give your custom name by @T
 2. User defined type Mapping : 
 	1. Embeddable Object : There are some value object(Address) are associated of entity object(Employee).It has no own entity exits . so it is not saved into db as separate table.every property of Address are mapped to db column. Such object are marked by @Embeddable annotation.
 
-	Add Address.java
+		Add Address.java
 
-	```java
-	package com.javaaround.model;
-	import javax.persistence.Embeddable;  
-	import javax.persistence.Column;
-	import lombok.Data;
+		```java
+		package com.javaaround.model;
+		import javax.persistence.Embeddable;  
+		import javax.persistence.Column;
+		import lombok.Data;
 
-	@Embeddable
-	@Data 
-	public class Address { 
-		
-		private String street;
-		private String city;
-		@Column(name="post_code")
-		private String postcode;
+		@Embeddable
+		@Data 
+		public class Address { 
+			
+			private String street;
+			private String city;
+			@Column(name="post_code")
+			private String postcode;
 
-	}	
-	```
+		}	
+		```
 
-	Embedd this object to associated entity by @Embedded annotation
+		Embedd this object to associated entity by @Embedded annotation
 
-	Update Employee.java
+		Update Employee.java
 
-	```java
-	@Embedded
-	private Address homeAddress;
-	```
+		```java
+		@Embedded
+		private Address homeAddress;
+		```
 
-	if you have two Address object in same entity what happens ? 
+		if you have two Address object in same entity what happens ? 
 
 
-	```java
-	@Embedded
-	private Address homeAddress;
-	@Embedded
-	private Address officeAddress;
-	```
-    Run app 
+		```java
+		@Embedded
+		private Address homeAddress;
+		@Embedded
+		private Address officeAddress;
+		```
+	    Run app 
 
-	it shows Repeated column in mapping for entity.How we can solve it.We need to override default column name(street,city,post_code) by using @AtrributeOverride Annotation of homeAddreess or officeAddress(any one . other take default).
+		it shows Repeated column in mapping for entity.How we can solve it.We need to override default column name(street,city,post_code) by using @AtrributeOverride Annotation of homeAddreess or officeAddress(any one . other take default).
 
-	Update Employee.java
+		Update Employee.java
 
-	```java
-	Embedded
-	//street = field name
-	@AttributeOverrides({
-		@AttributeOverride(name="street",column=@Column(name="home_street")),
-		@AttributeOverride(name="city",column=@Column(name="home_city")),
-		@AttributeOverride(name="postcode",column=@Column(name="home_post_code"))
-	})
-	private Address homeAddress;
+		```java
+		Embedded
+		//street = field name
+		@AttributeOverrides({
+			@AttributeOverride(name="street",column=@Column(name="home_street")),
+			@AttributeOverride(name="city",column=@Column(name="home_city")),
+			@AttributeOverride(name="postcode",column=@Column(name="home_post_code"))
+		})
+		private Address homeAddress;
 
-	@Embedded
-	private Address officeAddress;
-	```
+		@Embedded
+		private Address officeAddress;
+		```
 
 
 ### Steps To create Jpa EE App ###
