@@ -222,7 +222,7 @@ There are five states:
 4. Remove : when `em.remove(persistedEmployee);` then object goes to remove state
 
 	1. @PreRemove
-	2. Pending removal from database until transaction is commit.
+	2. Pending removal from database until transaction is commit. if transaction commit then finally remove from db.
 	3. @PostRemove
 
 5. Detached : when 	`em.detach(employee);` or `em.close` then object to detached state
@@ -388,9 +388,45 @@ If more than one callback method has to be invoked for a lifecycle event (e.g. f
 
 Default Listener -> top super class-> then super class-> actual enity listener
 
+### Cascade ###
+There are some value object(Address) are associated of entity object(Employee)
+```java
+public class Employee { 
+
+	private Department deparment;
+}
+```java
+
+if `em.remove(employee)` then employee goes to remove state but deparment which state going ? 
+
+JPA allows us to propagate entity state changes from Parents to Child entities automatically by `CascadeType` mappings.
+
+### CascadeType Element ###
+
+| CascadeType        | Description
+| ------------- |:-------------:| 
+| ALL     | Cascade all operations | 
+| PERSIST     | Cascade PERSIST operations | 
+| MERGE     | Cascade MERGE operations | 
+| REMOVE     | Cascade REMOVE operations | 
+| REFRESH     | Cascade REFRESH operations | 
+| DETACH     | Cascade DETACH operations | 
+
+Note : default value `ALL`
+
+```java
+import javax.persistence.CascadeType;
+import javax.persistence.OneToOne;
+public class Employee { 
+	@OneToOne(cascade = CascadeType.REMOVE)
+	private Department deparment;
+}
+```java
+
 @NotNull: Checks whether the value is not null, disregarding the content
 @NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
 @NotBlank: Checks whether the value is not null nor empty, trimming the value first. It means that, it won’t allow just empty spaces
+
 
 ### Parameters ###
 
