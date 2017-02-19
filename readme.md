@@ -422,7 +422,7 @@ public class Employee {
 	@OneToOne(cascade = CascadeType.REMOVE)
 	private Department deparment;
 }
-```java
+```
 
 
 @NotNull: Checks whether the value is not null, disregarding the content
