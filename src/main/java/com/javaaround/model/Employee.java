@@ -22,6 +22,16 @@ import com.javaaround.listener.EmployeeListener;
 import java.time.LocalDate;
 import com.javaaround.converter.BooleanConverter;
 import javax.persistence.Convert;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import javax.persistence.ElementCollection;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import java.util.*;  
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 
 @Entity
 //@EntityListeners({ 
@@ -46,7 +56,7 @@ public class Employee {
 	//private char[] remarks;	
 	private String remarks;
 
-	@Embedded
+	/*@Embedded
 	//street = field name
 	@AttributeOverrides({
 		@AttributeOverride(name="street",column=@Column(name="home_street")),
@@ -57,9 +67,21 @@ public class Employee {
 
 	@Embedded
 	private Address officeAddress;
-
+*/
 	@Convert(converter=BooleanConverter.class)
 	private Boolean isActive;
 	private LocalDate createDate;
+
+	/*@OneToMany
+	private List<Department> departments = new ArrayList<Department>();*/
+	@ElementCollection
+	@JoinTable(name="emp_address",joinColumns = @JoinColumn(name="emp_id"))
+	@GenericGenerator(name = "hilo-gen",strategy = "hilo")
+	@CollectionId(
+		columns = { @Column(name="address_id")},
+		generator = "hilo-gen",
+		type = @Type(type="long")
+	)
+	private List<Address> address = new ArrayList<Address>();
 
 }	

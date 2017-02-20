@@ -1,6 +1,7 @@
 F:\java_tutorial\java\Jpa\src\main\java\com\javaaround\App.java
 F:\java_tutorial\java\Jpa\src\main\java\com\javaaround\util\Gender.java
 F:\java_tutorial\java\Jpa\src\main\java\com\javaaround\model\Address.java
+F:\java_tutorial\java\Jpa\src\main\java\com\javaaround\model\Department.java
 F:\java_tutorial\java\Jpa\src\main\java\com\javaaround\converter\LocalDateConverter.java
 F:\java_tutorial\java\Jpa\src\main\java\com\javaaround\converter\BooleanConverter.java
 F:\java_tutorial\java\Jpa\src\main\java\com\javaaround\listener\DefaultListener.java

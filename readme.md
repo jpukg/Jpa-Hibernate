@@ -400,7 +400,7 @@ public class Employee {
 
 if `em.remove(employee)` then employee goes to remove state but deparment which state going ? 
 
-JPA allows us to propagate entity state changes from Parents to Child entities automatically by `CascadeType` mappings.
+JPA allows us to propagate entity state changes from Parents to Child entities automatically by `CascadeType` mappings. We will discuss in details at relationship mapping section.
 
 ### CascadeType Element ###
 
@@ -419,7 +419,7 @@ Note : default value `ALL`
 import javax.persistence.CascadeType;
 import javax.persistence.OneToOne;
 public class Employee { 
-	@OneToOne(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = CascadeType.REMOVE)
 	private Department deparment;
 }
 ```
@@ -975,6 +975,75 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		@Embedded
 		private Address officeAddress;
 		```
+	3. Collection(Embedded Object) Mapping
+
+	In the above we have two object(homeAddress,officeAddress) but if you have collection address(if you don't know how many address are needed) then lots of column created .it is not recommended. Instead we can create separate table and reference to employee id foreign key by mark @ElementCollection annotation(explicit relationship)
+
+	Update Employee.java
+
+	```java
+	import javax.persistence.ElementCollection;
+
+	@ElementCollection
+	private Set<Address> address = new HashSet();
+	```
+
+	Update App.java
+
+	```java
+	 Address adr1 = new Address();
+     adr1.setStreet("parijat");
+     adr1.setCity("gazipure");
+     adr1.setPostcode("1200");
+
+     Address adr2 = new Address();
+     adr2.setStreet("bishasbettka");
+     adr2.setCity("tangail");
+     adr2.setPostcode("1900");
+
+     employee.getAddress().add(adr1);
+  	 employee.getAddress().add(adr2);
+     //save into db	      
+     em.persist( employee );
+	```
+
+	Run App
+
+	![Image of Nested](images/collectionmap.png) 
+
+	Default Table created employee entity name _ Address entity name e.g EMPLOYEE_ADDRESS . it can overrid by `@JoinTable` annotation `name` property.
+
+	Dafault foreign key employee entity name _ employee entity id field e.g EMPLOYEE_ID
+	it can overrid by `@JoinTable` annotation `joinColumns` property
+
+	Update Employee.java
+
+	```java
+	import javax.persistence.JoinColumn;
+	import javax.persistence.JoinTable;
+	@JoinTable(
+		name="emp_address",
+		joinColumns = @JoinColumn(name="emp_id")
+	)
+	private Set<Address> address = new HashSet();
+	```
+
+	Addres table has no primary key (Id) column. if you want to provide by @CollectionId annotation.It is not standarise of jpa.it is hibernate specific feature.
+
+	Remember :  Set do not support @CollectionId
+
+	Update Employee.java
+
+	```java
+	@GenericGenerator(name = "hilo-gen",strategy = "hilo")
+	@CollectionId(
+		columns = { @Column(name="address_id")},
+		generator = "hilo-gen",
+		type = @Type(type="long")
+	)
+	private List<Address> address = new ArrayList<Address>();
+	```
+	Addres table has generate primary key (address_id) column.
 
 
 ### Steps To create Jpa EE App ###
