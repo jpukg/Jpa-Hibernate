@@ -711,15 +711,12 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	  employee.setJoinDate(new Date());
 	``` 
 
-	above example will map database datetime datatype(default).
+	above example will map database datetime datatype(default). but some database don't support datetime,they support date or time only.if wish to map it to a DATE or TIME then `@Temporal` annotation is used 
 
 	### @Temporal ###
 	| Element        | Value allow           | Default value  |
 	| ------------- |:-------------:| -----:|
 	| TemporalType     | DATE,TIME,DATETIME | DATETIME |
-	some database don't support datetime,they support date or time only
-
-	if wish to map it to a DATE or TIME then `@Temporal` annotation is used 
 
 	```java
 	@Temporal(TemporalType.DATE) 
@@ -1058,7 +1055,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 			private String firstName;
 		}
 		```
-		
+
 		update App.java
 
 		```java
