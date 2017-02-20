@@ -1097,7 +1097,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		)
 		private List<Address> address = new ArrayList<Address>();
 		```
-		Addres table has generate primary key (address_id) column.
+		Address table has generate now primary key (address_id) column.
 
 	3. Mapped superclass
 
