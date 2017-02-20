@@ -537,7 +537,7 @@ There are 4 generator types<br/>
 		initialValue = 1, allocationSize = 1 )
 		private int id; 
 		```
-4. AUTO : Provider selects the above generation strategy based on the used dialect.It is not recommended to use when your database is not fixed.it is default strategy
+4. AUTO : Provider selects the above generation strategy based on the used dialect.It is recommended to use when your database is not fixed.it is default strategy
 	-	Example
 
 		```java
@@ -770,7 +770,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	1. BLOB (Binary LOB)
 	2. CLOB (Character LOB). we know VARCHAR(255 character) have size limitations.for allow big text by using CLOB.
 
-	JPA defines the @Lob annotation  to define an attribute maps to a LOB type in the database.A @Lob may be either a binary or character type.
+	JPA defines the @Lob annotation  to define an attribute maps to a LOB type in the database.A @Lob may be either a binary or character or serialize type.
 
 	update Employee.java
 	```java
@@ -981,7 +981,10 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		private Address officeAddress;
 		```
 
-		Some time we need composite primary key to identify records. For example employee are identity by id and department name.
+		Some time we need composite primary key to identify records. For example employee are identity by id and department name. There are two way to assign composite primary key
+
+		1. Using @IdClass
+		2. Using @EmbeddedId 
 
 		Create Embeddable class EmployeeId.java
 
@@ -1000,7 +1003,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		}	
 		```
 
-		Embedded above object to Employee and mark it by @EmployeeId annotation
+		Embedded above object to Employee and mark it by @EmbeddedId annotation
 
 		Update Employee.java
 
@@ -1032,7 +1035,39 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 		Run App
 
+		Above example using  @IdClass
 
+		Update EmployeeId.java hide //@Embeddable
+
+		```java
+		//@Embeddable
+		
+		```
+		Update Employee.java
+
+		```java
+		@Entity
+		@IdClass(EmployeeId.class)
+		@Data 
+		public class Employee { 
+			@Id
+			private int id;
+			@Id
+			private String deptName;
+			@Basic(optional=false)  
+			private String firstName;
+		}
+		```
+		
+		update App.java
+
+		```java
+		Employee employee = new Employee( );
+        employee.setFirstName( "Md.Shamim Miah" );
+        employee.setId(222);
+        employee.setDeptName("IT");
+        em.persist(employee);
+		```
 	2. Collection(Embedded Object) Mapping
 
 		In the above we have two object(homeAddress,officeAddress) but if you have collection address(if you don't know how many address are needed) then lots of column created .it is not recommended. Instead we can create separate table and reference to employee id foreign key by mark @ElementCollection annotation(explicit relationship)
