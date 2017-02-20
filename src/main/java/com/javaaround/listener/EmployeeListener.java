@@ -7,7 +7,7 @@ import com.javaaround.model.Employee;
 public class EmployeeListener {
 	@PrePersist
     public void validate(Object obj) {
-       System.out.println("validating employee......" + ((Employee) obj).getId ());
+       //System.out.println("validating employee......" + ((Employee) obj).getId ());
     }
 
 	@PostPersist

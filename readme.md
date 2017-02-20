@@ -976,6 +976,59 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		@Embedded
 		private Address officeAddress;
 		```
+
+		Some time we need composite primary key to identify records. For example employee are identity by id and department name.
+
+		Create Embeddable class EmployeeId.java
+
+		```java
+		package com.javaaround.model;
+		import java.io.Serializable;
+		import javax.persistence.Embeddable;  
+		import lombok.Data;
+
+		@Embeddable
+		@Data 
+		public class EmployeeId implements Serializable{ 
+			private int id;
+			private String deptName;
+			
+		}	
+		```
+
+		Embedded above object to Employee and mark it by @EmployeeId annotation
+
+		Update Employee.java
+
+		```java
+		import javax.persistence.EmbeddedId;
+		import javax.persistence.Entity; 
+		@Entity
+		@Data 
+		public class Employee { 
+			@EmbeddedId
+			private EmployeeId employeeId;
+			@Basic(optional=false)  
+			private String firstName;
+		```
+
+		Update App.java
+
+		```java
+		  Employee employee = new Employee( );
+	      employee.setFirstName( "Md.Shamim Miah" );
+
+	      EmployeeId  empId = new EmployeeId();
+	      empId.setId(222);
+	      empId.setDeptName("IT");
+	      employee.setEmployeeId(empId);
+          //save into db	      
+	      em.persist( employee );
+		```
+
+		Run App
+
+
 	2. Collection(Embedded Object) Mapping
 
 		In the above we have two object(homeAddress,officeAddress) but if you have collection address(if you don't know how many address are needed) then lots of column created .it is not recommended. Instead we can create separate table and reference to employee id foreign key by mark @ElementCollection annotation(explicit relationship)

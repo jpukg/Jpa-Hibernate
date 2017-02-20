@@ -5,6 +5,7 @@ import javax.persistence.Persistence;
 import java.util.Date;
 import com.javaaround.model.Employee;
 import com.javaaround.model.Department;
+import com.javaaround.model.EmployeeId;
 import com.javaaround.model.Address;
 import com.javaaround.util.Gender;
 import java.io.FileInputStream;
@@ -46,7 +47,12 @@ public class App
 
 	      //employee.setId( 1204 );
 	      employee.setFirstName( "Md.Shamim Miah" );
-	      employee.setSalary( 40000.00 );
+
+	      EmployeeId  empId = new EmployeeId();
+	      empId.setId(222);
+	      empId.setDeptName("IT");
+
+	     /* employee.setSalary( 40000.00 );
 	      employee.setJoinDate(new Date());
 	      employee.setGender(Gender.M);
 	      employee.setRemarks("luren ipsomluren ipsomluren ipsomluren " 
@@ -71,10 +77,11 @@ public class App
 	  	  employee.setCreateDate(LocalDateTime.now().toLocalDate());
 
 	  	 /* employee.getDepartments().add(dpt1);
-	  	  employee.getDepartments().add(dpt2);*/
+	  	  employee.getDepartments().add(dpt2);
 
 	  	  employee.getAddress().add(adr1);
-	  	  employee.getAddress().add(adr2);
+	  	  employee.getAddress().add(adr2);*/
+	  	  employee.setEmployeeId(empId);
           //save into db	      
 	      em.persist( employee );
 	     /* em.persist( dpt1 );
