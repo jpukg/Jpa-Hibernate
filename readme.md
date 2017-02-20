@@ -975,7 +975,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		@Embedded
 		private Address officeAddress;
 		```
-	3. Collection(Embedded Object) Mapping
+	2. Collection(Embedded Object) Mapping
 
 	In the above we have two object(homeAddress,officeAddress) but if you have collection address(if you don't know how many address are needed) then lots of column created .it is not recommended. Instead we can create separate table and reference to employee id foreign key by mark @ElementCollection annotation(explicit relationship)
 
