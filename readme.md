@@ -616,7 +616,7 @@ public class com.javaaround.model.Employee {
 | length       |  define column size of string type     | highest value|
 | precision       |  The precision is the number of digits in the unscaled value. For instance, for the number 123.45, the precision returned is 5.      | |
 | Scale       |  Number of digits to the right of the decimal point. For instance, for the number 123.45, the scale returned is 2.      | |
-| description       |  remarks of the column      | |
+| table       |  specify secondary table to store it with this table      | |
 
 Update Employee.java
 
@@ -1044,6 +1044,10 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		private List<Address> address = new ArrayList<Address>();
 		```
 		Addres table has generate primary key (address_id) column.
+
+	3. Mapped superclass
+
+		ddd
 
 
 ### Steps To create Jpa EE App ###
