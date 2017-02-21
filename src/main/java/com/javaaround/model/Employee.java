@@ -47,10 +47,10 @@ public class Employee {
 	private int id;
 	@Basic(optional=false)  
 	private String firstName;
-	@ElementCollection
+	/*@ElementCollection
 	@CollectionTable(name="Emp_contacts", joinColumns=@JoinColumn(name="employee_id"))
 	@Column(name="CONTACT_LIST")
-	private Set<String> contacts;
+	private Map<Address,String> contacts;*/
 	/*//private Double salary; 
 	@Temporal(TemporalType.DATE) 
 	private Date joinDate;

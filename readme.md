@@ -1449,9 +1449,78 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		Address table has generate now primary key (address_id) column.
 	2. Map
 
+		Key is basic and value is embeddable object
+
+		Update Employee.java
+
+		```java
+		private Map<String,Address> contacts;
+		```
+		Update App.java
+		```java
+		Address homeAddress = new Address();
+        homeAddress.setStreet("parijat");
+        homeAddress.setCity("gazipure");
+        homeAddress.setPostcode("1200");
+
+        Address officeAddress = new Address();
+        officeAddress.setStreet("bishasbettka");
+        officeAddress.setCity("tangail");
+        officeAddress.setPostcode("1900"); 
+
+        Map<String,Address> contacts = new HashMap<String,Address>();
+        contacts.put("home",homeAddress);
+        contacts.put("office",officeAddress);
+        Employee employee = new Employee( ); 
+        employee.setFirstName("Md.Shamim");
+        employee.setContacts(contacts);
+
+		```
+		
+		Override Address column
+
+		@AttributeOverride(name="street",column=@Column(name="street_name"))
+
+
+		Key is entity and value is basic object
+
+		Update Department.java
+
+		```java
+		@ElementCollection
+	    @CollectionTable(name="EMP_SENIORITY")
+	    @MapKeyJoinColumn(name="EMP_ID") // define key map column since it is join
+	    @Column(name="SENIORITY")
+	    private Map<Employee, Integer> seniorities;
+		```
+
+		Update App.java
+
+		```java
+		 Employee employee = new Employee( ); 
+	      employee.setFirstName("Md.Shamim");
+	      Employee employee1 = new Employee( ); 
+	      employee1.setFirstName("Md.Shamim");
+	      Map<Employee,Integer> seniorities = new HashMap<Employee,Integer>();
+	      seniorities.put(employee,1);
+	      seniorities.put(employee1,2);
+	      
+	      Department department = new Department();
+	      department.setName("IT");
+	      department.setSeniorities(seniorities);
+	     
+          //save into db	      
+	      em.persist( department );
+	      em.persist( employee );
+	      em.persist( employee1 );	
+		```
 
 	### Entity Object Collection ###
 
+	Entity Object Collection means relationship mapping at database
+
+	1. OneToMany
+	2. ManyToMany
 
 ### Steps To create Jpa EE App ###
 

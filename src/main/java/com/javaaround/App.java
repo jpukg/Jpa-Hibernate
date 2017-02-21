@@ -28,12 +28,28 @@ public class App
 
 	      //start transaction
 	      em.getTransaction( ).begin( );
-	      Set<String> contacts = new HashSet<String>();
-	      contacts.add("20111112550");
-	      contacts.add("20111555550");
+
+	     /* Address homeAddress = new Address();
+	      homeAddress.setStreet("parijat");
+	      homeAddress.setCity("gazipure");
+	      homeAddress.setPostcode("1200");
+
+	      Address officeAddress = new Address();
+	      officeAddress.setStreet("bishasbettka");
+	      officeAddress.setCity("tangail");
+	      officeAddress.setPostcode("1900"); */
 	      Employee employee = new Employee( ); 
 	      employee.setFirstName("Md.Shamim");
-	      employee.setContacts(contacts);
+	      Employee employee1 = new Employee( ); 
+	      employee1.setFirstName("Md.Shamim");
+	      Map<Employee,Integer> seniorities = new HashMap<Employee,Integer>();
+	      seniorities.put(employee,1);
+	      seniorities.put(employee1,2);
+	      
+	      Department department = new Department();
+	      department.setName("IT");
+	      department.setSeniorities(seniorities);
+	      //employee.setContacts(contacts);
 	      
 	      /*  Department dpt1 = new Department();
 	      dpt1.setName("IT");
@@ -69,7 +85,9 @@ public class App
 	  	  employee.getDepartments().add(dpt2);*/
 
           //save into db	      
+	      em.persist( department );
 	      em.persist( employee );
+	      em.persist( employee1 );
 	     /* em.persist( dpt1 );
 	  	  em.persist( dpt2 );*/
 	      //end transaction

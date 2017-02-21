@@ -18,10 +18,14 @@ import javax.persistence.Lob;
 import javax.persistence.Embedded;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.AttributeOverride;
+import javax.persistence.ElementCollection;
+import javax.persistence.CollectionTable;
+import javax.persistence.MapKeyJoinColumn;
 import com.javaaround.listener.EmployeeListener;
 import java.time.LocalDate;
 import com.javaaround.converter.BooleanConverter;
 import javax.persistence.Convert;
+import java.util.Map;
 
 @Entity
 @Data 
@@ -31,5 +35,11 @@ public class Department {
 	private int id;
 	@Basic(optional=false)  
 	private String name;
+
+	@ElementCollection
+    @CollectionTable(name="EMP_SENIORITY")
+    @MapKeyJoinColumn(name="EMP_ID")
+    @Column(name="SENIORITY")
+    private Map<Employee, Integer> seniorities;
 	
 }	

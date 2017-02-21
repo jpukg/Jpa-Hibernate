@@ -3,7 +3,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Column;
 import lombok.Data;
 
-//@Embeddable
+@Embeddable
 @Data 
 public class Address { 
 	
