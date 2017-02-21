@@ -31,6 +31,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.CollectionTable;
 import java.util.*;  
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
@@ -38,7 +39,7 @@ import org.hibernate.annotations.Type;
 
 
 @Entity 
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.JOINED)
 @Data 
 public class Employee { 
 	@Id 
@@ -46,6 +47,10 @@ public class Employee {
 	private int id;
 	@Basic(optional=false)  
 	private String firstName;
+	@ElementCollection
+	@CollectionTable(name="Contacts", joinColumns=@JoinColumn(name="id"))
+	@Column(name="CONTACT_LIST")
+	private List<String> contacts;
 	/*//private Double salary; 
 	@Temporal(TemporalType.DATE) 
 	private Date joinDate;

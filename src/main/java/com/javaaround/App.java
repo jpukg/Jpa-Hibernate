@@ -4,13 +4,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.Date;
 import com.javaaround.model.ContactEmployee;
-import com.javaaround.model.RegularEmployee;
+import com.javaaround.model.Employee;
 import com.javaaround.model.Department;
 import com.javaaround.model.Address;
 import com.javaaround.util.Gender;
 import java.io.FileInputStream;
 import org.apache.commons.io.IOUtils;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Hello world!
  *
@@ -26,15 +28,13 @@ public class App
 
 	      //start transaction
 	      em.getTransaction( ).begin( );
-
-	      ContactEmployee employee = new ContactEmployee( ); 
+	      List<String> contacts = new ArrayList<String>();
+	      contacts.add("20111112550");
+	      contacts.add("20111555550");
+	      Employee employee = new Employee( ); 
 	      employee.setFirstName("Md.Shamim");
-	      employee.setPay_per_hour(122);
-	      employee.setContract_duration("2 years");
-	      RegularEmployee employee1 = new RegularEmployee( ); 
-	      employee1.setFirstName("Md.Shamim1");
-	      employee1.setSalary(122.00);
-	      employee1.setBonus(1000);
+	      employee.setContacts(contacts);
+	      
 	      /*  Department dpt1 = new Department();
 	      dpt1.setName("IT");
 
@@ -70,7 +70,6 @@ public class App
 
           //save into db	      
 	      em.persist( employee );
-	      em.persist( employee1 );
 	     /* em.persist( dpt1 );
 	  	  em.persist( dpt2 );*/
 	      //end transaction

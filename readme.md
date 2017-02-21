@@ -643,6 +643,16 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 `@Table(uniqueConstraints=@UniqueConstraint(columnNames="firstName"))`
 
+
+### JPA Types ###
+
+	1. Entity Types : object has own identity(primary key value) e.g Employee
+	2. Value Types : Object has no database identity(no primary key) . Value Type object belongs to an Entity Type Object.
+		1. Basic Types :  they map a single database value (column) to a single Java type. e.g String, Character, Boolean, Integer, Long, Byte
+		2. Composite(Embeddable) Types : There are some custom object(Address) are associated of another entity object(Employee). it is not saved into db as separate table.
+		3. Collection types :  collection of Basic value types, Composite types and custom types.
+			
+
 ### Attribute Mappings ###
 
 1. Basic Mappings : 
@@ -917,8 +927,10 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	
 	```
 
-2. User defined type Mapping : 
-	1. Embeddable Object : There are some value object(Address) are associated of entity object(Employee).It has no own entity exits . so it is not saved into db as separate table.every property of Address are mapped to db column. Such object are marked by @Embeddable annotation.
+2. User defined type Mapping :
+	
+
+	1. Embeddable Object : Eevery property of Embeddable(Address) are mapped to db column. Such object are marked by @Embeddable annotation.
 
 		Add Address.java
 
