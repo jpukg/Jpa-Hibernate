@@ -48,9 +48,9 @@ public class Employee {
 	@Basic(optional=false)  
 	private String firstName;
 	@ElementCollection
-	@CollectionTable(name="Contacts", joinColumns=@JoinColumn(name="employee_id"))
+	@CollectionTable(name="Emp_contacts", joinColumns=@JoinColumn(name="employee_id"))
 	@Column(name="CONTACT_LIST")
-	private List<String> contacts;
+	private Set<String> contacts;
 	/*//private Double salary; 
 	@Temporal(TemporalType.DATE) 
 	private Date joinDate;

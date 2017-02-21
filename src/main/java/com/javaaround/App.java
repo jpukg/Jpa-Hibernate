@@ -12,7 +12,7 @@ import java.io.FileInputStream;
 import org.apache.commons.io.IOUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 /**
  * Hello world!
  *
@@ -28,7 +28,7 @@ public class App
 
 	      //start transaction
 	      em.getTransaction( ).begin( );
-	      List<String> contacts = new ArrayList<String>();
+	      Set<String> contacts = new HashSet<String>();
 	      contacts.add("20111112550");
 	      contacts.add("20111555550");
 	      Employee employee = new Employee( ); 

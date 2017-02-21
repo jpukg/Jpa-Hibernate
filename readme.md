@@ -1291,85 +1291,85 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	| indexed     | List and Map are index based collection, so an extra column will be created in the table for indexing.
 	| 	non-indexed     | Set is non-indexed.
 
-	 @ElementCollection annotation is used to collection mapping
+	@ElementCollection annotation is used to collection mapping
 
 	### Basic Type Collection ###
 
-		1. List
+	1. List
 
-			Update Employee.java
-			```java
-			@ElementCollection
-			@Column(name="CONTACT_LIST")
-			private List<String> contacts;
-			```
+		Update Employee.java
+		```java
+		@ElementCollection
+		@Column(name="CONTACT_LIST")
+		private List<String> contacts;
+		```
 
-			Update App.java
+		Update App.java
 
-			```java
-			List<String> contacts = new ArrayList<String>();
-	        contacts.add("20111112550");
-	        contacts.add("20111555550");
-	        Employee employee = new Employee( ); 
-	        employee.setFirstName("Md.Shamim");
-	        employee.setContacts(contacts);
-	      
-			```
+		```java
+		List<String> contacts = new ArrayList<String>();
+        contacts.add("20111112550");
+        contacts.add("20111555550");
+        Employee employee = new Employee( ); 
+        employee.setFirstName("Md.Shamim");
+        employee.setContacts(contacts);
+      
+		```
 
-			Run App
+		Run App
 
-			Default Table created = Entity property name here contacts.
-	        Dafault foreign key = id
+		Default Table created = Entity property name here contacts.
+        Dafault foreign key = id
 
-	        you can override by `@JoinTable` or `@CollectionTable` annotation
+        you can override by `@JoinTable` or `@CollectionTable` annotation
 
-	        Update Employee.java
+        Update Employee.java
 
-	        ```java
-	        @JoinTable(name="Emp_contacts", joinColumns=@JoinColumn(name="employee_id"))
-	        ```
+        ```java
+        @JoinTable(name="Emp_contacts", joinColumns=@JoinColumn(name="employee_id"))
+        ```
 
-	        Run App again
+        Run App again
 
-	    2. Map
-	    
-	    	Update Employee.java
+    2. Map
+    
+    	Update Employee.java
 
-	    	```java
-	    	@ElementCollection
-			@Column(name="CONTACT_LIST")
-			private Map<String, String> contacts;
-	    	```  
+    	```java
+    	@ElementCollection
+		@Column(name="CONTACT_LIST")
+		private Map<String, String> contacts;
+    	```  
 
-	    	Update App.java
+    	Update App.java
 
-			```java
-			Map contactMap = new HashMap(); 
-		    contactMap.put("home","000-289-3214"); 
-		    contactMap.put("mobile","001-760-2332"); 
-	        Employee employee = new Employee( ); 
-	        employee.setFirstName("Md.Shamim");
-	        employee.setContacts(contacts);
-	      
-			```
+		```java
+		Map contactMap = new HashMap(); 
+	    contactMap.put("home","000-289-3214"); 
+	    contactMap.put("mobile","001-760-2332"); 
+        Employee employee = new Employee( ); 
+        employee.setFirstName("Md.Shamim");
+        employee.setContacts(contacts);
+      
+		```
 
-			Run App 
+		Run App 
 
-			Default Table created = employeeentityname_property name e.g EMPLOYEE_ADDRESS . 
-			Dafault foreign key = employeeentityname_employeeentityid field e.g EMPLOYEE_ID
-			Extra column is create to store key value = property name_KEY e.g CONTACTS_KEY.It can overrid by `@MapKeyColumn` annotation `name` property
+		Default Table created = employeeentityname_property name e.g EMPLOYEE_ADDRESS . 
+		Dafault foreign key = employeeentityname_employeeentityid field e.g EMPLOYEE_ID
+		Extra column is create to store key value = property name_KEY e.g CONTACTS_KEY.It can overrid by `@MapKeyColumn` annotation `name` property
 
-			Update Employee.java
+		Update Employee.java
 
-			```java
-			@ElementCollection
-			@JoinTable(name="Emp_contacts", joinColumns=@JoinColumn(name="empl_id"))
-			@MapKeyColumn(name="CONTACT_TYPE")
-			@Column(name="CONTACT_LIST")
-			private Map<String, String> contacts;
-			```
+		```java
+		@ElementCollection
+		@JoinTable(name="Emp_contacts", joinColumns=@JoinColumn(name="empl_id"))
+		@MapKeyColumn(name="CONTACT_TYPE")
+		@Column(name="CONTACT_LIST")
+		private Map<String, String> contacts;
+		```
 
-			Run App  Again
+		Run App  Again
 
 	### Embeddable Object Collection ###
 
