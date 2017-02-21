@@ -639,12 +639,7 @@ private Gender gender;
 Bedefault class name is used to table name . you can give your custom name by @Table annotation
 `@Table(name="employesssss")`
 
-@Table annotation can also for used to define constraints of a field
-
-```java
-@Table(uniqueConstraints=@UniqueConstraint(columnNames="firstName")) 
-
-```
+@Table annotation can also for used to define constraints of a field.`@Table(uniqueConstraints=@UniqueConstraint(columnNames="firstName"))`
 
 ### JPA Types ###
 
