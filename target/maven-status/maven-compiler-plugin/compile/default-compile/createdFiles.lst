@@ -5,6 +5,8 @@ com\javaaround\listener\EmployeeListener.class
 com\javaaround\model\Address.class
 com\javaaround\listener\DefaultListener.class
 com\javaaround\model\EmployeeId.class
+com\javaaround\model\RegularEmployee.class
 com\javaaround\converter\LocalDateConverter.class
+com\javaaround\model\ContactEmployee.class
 com\javaaround\converter\BooleanConverter.class
 com\javaaround\App.class

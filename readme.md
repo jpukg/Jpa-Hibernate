@@ -867,7 +867,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	}
 	```
 
-	Create BooleanConverter.java
+	Create LocalDateConverter.java
 
 	```java
 	package com.javaaround.converter;
@@ -898,13 +898,13 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	1. Using @Convert annotation
 	2. global Converter(autoApply=true)
 
-	We want to LocalDateConverter use global converter
+	We are using LocalDateConverter by global converter
 
 	Update LocalDateConverter.java
 
 	`@Converter(autoApply=true)`
 
-	We want to BooleanConverter Using @Convert annotation
+	We are using BooleanConverter by @Convert annotation
 
 	Update Employee.java
 
@@ -1101,9 +1101,9 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 		![Image of Nested](images/collectionmap.png) 
 
-		Default Table created employee entity name _ Address entity name e.g EMPLOYEE_ADDRESS . it can overrid by `@JoinTable` annotation `name` property.
+		Default Table created = employee_entity_name_Address_entity_name e.g EMPLOYEE_ADDRESS . it can overrid by `@JoinTable` annotation `name` property.
 
-		Dafault foreign key employee entity name _ employee entity id field e.g EMPLOYEE_ID
+		Dafault foreign key = employee_entity_name_employee_entity_id field e.g EMPLOYEE_ID
 		it can overrid by `@JoinTable` annotation `joinColumns` property
 
 		Update Employee.java
@@ -1118,7 +1118,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		private Set<Address> address = new HashSet();
 		```
 
-		Addres table has no primary key (Id) column. if you want to provide by @CollectionId annotation.It is not standarise of jpa.it is hibernate specific feature.
+		Address table has no primary key (Id) column. if you want to provide it through @CollectionId annotation.It is not standarise of jpa.it is hibernate specific feature.
 
 		Remember :  Set do not support @CollectionId
 
@@ -1135,10 +1135,93 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		```
 		Address table has generate now primary key (address_id) column.
 
-	3. Mapped superclass
+	3. Inheritance Mapping
 
-		ddd
+		![Image of Nested](images/inheritance1.jpg) 
 
+		There are four strategy of inheritance mapping
+
+		1. Mapped SupperClass
+
+			In Mapped Supperclass strategy,keep basic properties in a super class and mark it @MappedSuperclass. It will not be associated with any database table.If we want to change the column name different from super class, we need to use @AttributeOverride
+
+			Update Employee.java
+
+			```java
+			import javax.persistence.MappedSuperclass;
+			@MappedSuperclass
+			@Data 
+			public class Employee { 
+				@Id 
+				@GeneratedValue(strategy = GenerationType.AUTO)  
+				private int id;
+				@Basic(optional=false)  
+				private String firstName;
+			}
+			```
+
+			Create RegularEmployee.java
+
+			```java
+			package com.javaaround.model;
+			import javax.persistence.Entity; 
+			import javax.persistence.Column; 
+			import javax.persistence.AttributeOverride; 
+			import lombok.Data; 
+			  
+			@Entity
+			@AttributeOverride( name="firstName", column = @Column(name="first_name") )
+			@Data 
+			public class RegularEmployee extends Employee{  
+			    private Double salary;  
+			    private int bonus;  
+			   
+			}  
+			```
+
+			Create ContactEmployee.java
+
+			```java
+			package com.javaaround.model;
+			import javax.persistence.Entity; 
+			import javax.persistence.Column; 
+			import javax.persistence.AttributeOverride; 
+			import lombok.Data; 
+			  
+			@Entity
+			@AttributeOverride( name="firstName", column = @Column(name="first_name") )
+			@Data 
+			public class ContactEmployee extends Employee{  
+			    @Column(name="pay_per_hour")  
+			    private float pay_per_hour;  
+			      
+			    @Column(name="contract_duration")  
+			    private String contract_duration;  
+			   
+			}  
+			```
+
+			Update App.java
+
+			```java
+			ContactEmployee employee = new ContactEmployee( ); 
+	        employee.setFirstName("Md.Shamim");
+	        employee.setPay_per_hour(122);
+	        employee.setContract_duration("2 years");
+	        RegularEmployee employee1 = new RegularEmployee( ); 
+	        employee1.setFirstName("Md.Shamim1");
+	        employee1.setSalary(122.00);
+	        employee1.setBonus(1000);
+
+            //save into db	      
+	        em.persist( employee );
+	        em.persist( employee1 );
+			```
+
+			There are following problem of above strategy
+			1.  Cannot query, persist, or have relationships because it has no entity
+
+		2. SINGLE_TABLE	 strategy
 
 ### Steps To create Jpa EE App ###
 

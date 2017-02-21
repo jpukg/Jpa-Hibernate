@@ -27,16 +27,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.ElementCollection;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.MappedSuperclass;
 import java.util.*;  
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 
-@Entity
-//@EntityListeners({ 
-	//EmployeeListener.class
-//})
+@MappedSuperclass
 @Data 
 public class Employee { 
 	@Id 
@@ -44,7 +42,7 @@ public class Employee {
 	private int id;
 	@Basic(optional=false)  
 	private String firstName;
-	private Double salary; 
+	/*//private Double salary; 
 	@Temporal(TemporalType.DATE) 
 	private Date joinDate;
 	@Enumerated(EnumType.STRING)
@@ -54,7 +52,7 @@ public class Employee {
 	private byte[] picture;
 	@Lob
 	//private char[] remarks;	
-	private String remarks;
+	private String remarks;*/
 
 	/*@Embedded
 	//street = field name
@@ -67,13 +65,13 @@ public class Employee {
 
 	@Embedded
 	private Address officeAddress;
-*/
+
 	@Convert(converter=BooleanConverter.class)
 	private Boolean isActive;
 	private LocalDate createDate;
 
 	/*@OneToMany
-	private List<Department> departments = new ArrayList<Department>();*/
+	private List<Department> departments = new ArrayList<Department>();
 	@ElementCollection
 	@JoinTable(name="emp_address",joinColumns = @JoinColumn(name="emp_id"))
 	@GenericGenerator(name = "hilo-gen",strategy = "hilo")
@@ -82,6 +80,6 @@ public class Employee {
 		generator = "hilo-gen",
 		type = @Type(type="long")
 	)
-	private List<Address> address = new ArrayList<Address>();
+	private List<Address> address = new ArrayList<Address>();*/
 
 }	
