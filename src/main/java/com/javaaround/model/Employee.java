@@ -32,7 +32,6 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.CollectionTable;
-import javax.persistence.MapKeyColumn;
 import java.util.*;  
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
@@ -49,10 +48,9 @@ public class Employee {
 	@Basic(optional=false)  
 	private String firstName;
 	@ElementCollection
-	@JoinTable(name="Emp_contacts", joinColumns=@JoinColumn(name="empl_id"))
-	@MapKeyColumn(name="CONTACT_TYPE")
+	@CollectionTable(name="Contacts", joinColumns=@JoinColumn(name="employee_id"))
 	@Column(name="CONTACT_LIST")
-	private Map<String, String> contacts;
+	private List<String> contacts;
 	/*//private Double salary; 
 	@Temporal(TemporalType.DATE) 
 	private Date joinDate;

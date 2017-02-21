@@ -1257,7 +1257,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		   @Inheritance(strategy = InheritanceType.JOINED)
 		   ````
 
-		   Subclass map by @PrimaryKeyJoinColumn annotation 
+		   Subclass map by @PrimaryKeyJoinColumn annotation  to define foreign key
 		   ### @PrimaryKeyJoinColumn ###
 			| property        | Description 
 			| ------------- |:-------------:

@@ -12,7 +12,7 @@ import java.io.FileInputStream;
 import org.apache.commons.io.IOUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.*;
+import java.util.List;
 /**
  * Hello world!
  *
@@ -28,13 +28,12 @@ public class App
 
 	      //start transaction
 	      em.getTransaction( ).begin( );
-	      Map contactMap = new HashMap(); 
-		  contactMap.put("home","000-289-3214"); 
-		  contactMap.put("mobile","001-760-2332"); 
-		
+	      List<String> contacts = new ArrayList<String>();
+	      contacts.add("20111112550");
+	      contacts.add("20111555550");
 	      Employee employee = new Employee( ); 
 	      employee.setFirstName("Md.Shamim");
-	      employee.setContacts(contactMap);
+	      employee.setContacts(contacts);
 	      
 	      /*  Department dpt1 = new Department();
 	      dpt1.setName("IT");
