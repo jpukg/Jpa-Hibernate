@@ -1277,6 +1277,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 
 3. Collection Mapping
+
 	| Collection Form        | Description 
 	| ------------- |:-------------:
 	| indexed     | List and Map are index based collection, so an extra column will be created in the table for indexing.
