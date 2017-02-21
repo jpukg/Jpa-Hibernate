@@ -3,11 +3,12 @@ import javax.persistence.Entity;
 import javax.persistence.Column; 
 import javax.persistence.AttributeOverride; 
 import javax.persistence.DiscriminatorValue; 
+import javax.persistence.PrimaryKeyJoinColumn; 
 import lombok.Data; 
   
 @Entity
 @AttributeOverride( name="firstName", column = @Column(name="first_name") )
-@DiscriminatorValue("outsideemp")  
+@PrimaryKeyJoinColumn(name="employee_id", referencedColumnName="id")
 @Data 
 public class ContactEmployee extends Employee{  
     @Column(name="pay_per_hour")  

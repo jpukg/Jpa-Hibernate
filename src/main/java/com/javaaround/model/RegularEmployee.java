@@ -3,11 +3,12 @@ import javax.persistence.Entity;
 import javax.persistence.Column; 
 import javax.persistence.DiscriminatorValue; 
 import javax.persistence.AttributeOverride; 
+import javax.persistence.PrimaryKeyJoinColumn; 
 import lombok.Data; 
   
 @Entity
 @AttributeOverride( name="firstName", column = @Column(name="first_name") )
-@DiscriminatorValue("dckilemp")  
+@PrimaryKeyJoinColumn(name="employee_id", referencedColumnName="id")
 @Data 
 public class RegularEmployee extends Employee{  
     private Double salary;  

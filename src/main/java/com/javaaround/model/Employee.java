@@ -29,6 +29,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import java.util.*;  
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
@@ -36,7 +38,7 @@ import org.hibernate.annotations.Type;
 
 
 @Entity 
-@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)   
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data 
 public class Employee { 
 	@Id 
