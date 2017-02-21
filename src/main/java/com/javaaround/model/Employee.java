@@ -34,7 +34,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 
-@MappedSuperclass
+@Entity  
 @Data 
 public class Employee { 
 	@Id 

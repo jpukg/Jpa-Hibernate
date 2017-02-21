@@ -1148,7 +1148,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		}; 
 
 		```
-		
+
 		1. Mapped SupperClass
 
 			In Mapped Supperclass strategy,keep basic properties in a super class and mark it @MappedSuperclass. It will not be associated with any database table.If we want to change the column name different from super class, we need to use @AttributeOverride
@@ -1231,7 +1231,22 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 		2. SINGLE_TABLE	 strategy
 
-			The single table strategy maps all entities of the inheritance structure to the same database table. This approach makes polymorphic queries very efficient and provides the best performance. It is default strategy
+			The single table strategy maps all entities of the inheritance structure to the same database table. It is default strategy . Here, an extra column (also known as discriminator column) is created in the table to identify the  subclass.
+
+
+			Update Employee.java
+
+			```java
+			@Entity 
+			//@MappedSuperclass
+			```
+
+			Run App
+
+			Result : 
+			![Image of Nested](images/single_table.png)
+
+			This approach makes polymorphic queries very efficient and provides the best performance. 
 
 ### Steps To create Jpa EE App ###
 
