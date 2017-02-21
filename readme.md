@@ -647,7 +647,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 2. Value Types : Object has no database identity(no primary key) . Value Type object belongs to an Entity Type Object.
 	1. Basic Types :  they map a single database value (column) to a single Java type. e.g String, Character, Boolean, Integer, Long, Byte
 	2. Composite(Embeddable) Types : There are some custom object(Address) are associated of another entity object(Employee). it is not saved into db as separate table.
-	3. Collection types :  collection of Basic value types, Composite types and custom types.
+	3. Collection types :  collection of Basic value types, Composite types and custom types. it is saved into db as a separate table.
 			
 ### Attribute Mappings ###
 
@@ -1291,13 +1291,53 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	| indexed     | List and Map are index based collection, so an extra column will be created in the table for indexing.
 	| 	non-indexed     | Set is non-indexed.
 
-	
+	 @ElementCollection annotation is used to collection mapping
 
 	### Basic Type Collection ###
 
+		1. List
+
+			Update Employee.java
+			```java
+			@ElementCollection
+			@Column(name="CONTACT_LIST")
+			private List<String> contacts;
+			```
+
+			Update App.java
+
+			```java
+			List<String> contacts = new ArrayList<String>();
+	        contacts.add("20111112550");
+	        contacts.add("20111555550");
+	        Employee employee = new Employee( ); 
+	        employee.setFirstName("Md.Shamim");
+	        employee.setContacts(contacts);
+	      
+			```
+
+			Run App
+
+			Default Table created = Entity property name here contacts.
+	        Dafault foreign key = id
+
+	        you can override by `@JoinTable` or `@CollectionTable` annotation
+
+	        Update Employee.java
+
+	        ```java
+	        @JoinTable(name="Emp_contacts", joinColumns=@JoinColumn(name="employee_id"))
+	        ```
+
+	        Run App again
+
+	    2. Map
+	    
+	    	    
+
 	### Embeddable Object Collection ###
 
-	In the above we have two object(homeAddress,officeAddress) but if you have collection address(if you don't know how many address are needed) then lots of column created .it is not recommended. Instead we can create separate table and reference to employee id foreign key by mark @ElementCollection annotation(explicit relationship)
+	In the above we have two object(homeAddress,officeAddress) but if you have collection address(if you don't know how many address are needed) then lots of column created .it is not recommended. Instead we can create separate table and reference to employee id foreign key
 
 	Update Employee.java
 
@@ -1331,10 +1371,9 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 	![Image of Nested](images/collectionmap.png) 
 
-	Default Table created = employee_entity_name_Address_entity_name e.g EMPLOYEE_ADDRESS . it can overrid by `@JoinTable` annotation `name` property.
-
+	Default Table created = employee_entity_name_Address_entity_name e.g EMPLOYEE_ADDRESS . 
 	Dafault foreign key = employee_entity_name_employee_entity_id field e.g EMPLOYEE_ID
-	it can overrid by `@JoinTable` annotation `joinColumns` property
+	you can override by `@JoinTable` or `@CollectionTable` annotation `joinColumns` property
 
 	Update Employee.java
 

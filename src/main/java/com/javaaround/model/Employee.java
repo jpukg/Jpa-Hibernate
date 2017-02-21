@@ -48,7 +48,7 @@ public class Employee {
 	@Basic(optional=false)  
 	private String firstName;
 	@ElementCollection
-	@CollectionTable(name="Contacts", joinColumns=@JoinColumn(name="id"))
+	@JoinTable(name="Emp_contacts", joinColumns=@JoinColumn(name="employee_id"))
 	@Column(name="CONTACT_LIST")
 	private List<String> contacts;
 	/*//private Double salary; 

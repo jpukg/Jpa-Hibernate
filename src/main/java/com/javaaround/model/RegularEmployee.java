@@ -5,10 +5,10 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.AttributeOverride; 
 import javax.persistence.PrimaryKeyJoinColumn; 
 import lombok.Data; 
-  
+/*  
 @Entity
 @AttributeOverride( name="firstName", column = @Column(name="first_name") )
-@PrimaryKeyJoinColumn(name="employee_id", referencedColumnName="id")
+@PrimaryKeyJoinColumn(name="employee_id", referencedColumnName="id")*/
 @Data 
 public class RegularEmployee extends Employee{  
     private Double salary;  
