@@ -1244,8 +1244,19 @@ Bedefault class name is used to table name . you can give your custom name by @T
 			Run App
 
 			Result : 
+
 			![Image of Nested](images/single_table.png)
 
+			In the above image, By default
+
+			1. discriminator column = DTYPE . it you can overrid by @DiscriminatorColumn
+
+				### @DiscriminatorColumn ###
+				| property        | Description 
+				| ------------- |:-------------:
+				| name     | Column name of discriminator
+				| discriminatorType     | DiscriminatorType enum.value CHAR,INTEGER,STRING,CLASS.default String
+				
 			This approach makes polymorphic queries very efficient and provides the best performance. 
 
 ### Steps To create Jpa EE App ###
