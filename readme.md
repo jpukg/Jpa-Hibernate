@@ -1139,8 +1139,16 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 		![Image of Nested](images/inheritance1.jpg) 
 
-		There are four strategy of inheritance mapping
+		There are four strategy of inheritance mapping. Strategy are define by @InheritanceType
+		```java
+		public enum InheritanceType {
+		    SINGLE_TABLE,
+		    JOINED,
+		    TABLE_PER_CLASS
+		}; 
 
+		```
+		
 		1. Mapped SupperClass
 
 			In Mapped Supperclass strategy,keep basic properties in a super class and mark it @MappedSuperclass. It will not be associated with any database table.If we want to change the column name different from super class, we need to use @AttributeOverride
@@ -1222,6 +1230,8 @@ Bedefault class name is used to table name . you can give your custom name by @T
 			1.  Cannot query, persist, or have relationships because it has no entity
 
 		2. SINGLE_TABLE	 strategy
+
+			The single table strategy maps all entities of the inheritance structure to the same database table. This approach makes polymorphic queries very efficient and provides the best performance. It is default strategy
 
 ### Steps To create Jpa EE App ###
 
