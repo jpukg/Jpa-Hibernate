@@ -1372,75 +1372,86 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		Run App  Again
 
 	### Embeddable Object Collection ###
+	1. Set/List
+		In the above we have two object(homeAddress,officeAddress) but if you have collection address(if you don't know how many address are needed) then lots of column created .it is not recommended. Instead we can create separate table and reference to employee id foreign key
 
-	In the above we have two object(homeAddress,officeAddress) but if you have collection address(if you don't know how many address are needed) then lots of column created .it is not recommended. Instead we can create separate table and reference to employee id foreign key
+		Update Employee.java
 
-	Update Employee.java
+		```java
+		import javax.persistence.ElementCollection;
 
-	```java
-	import javax.persistence.ElementCollection;
+		@ElementCollection
+		private Set<Address> address = new HashSet();
+		```
+        For non generic Collection
 
-	@ElementCollection
-	private Set<Address> address = new HashSet();
-	```
+        ```java
+		import javax.persistence.ElementCollection;
 
-	Update App.java
+		@ElementCollection(targetClass=Address.class)
+		private Set address = new HashSet();
+		```
 
-	```java
-	 Address adr1 = new Address();
-     adr1.setStreet("parijat");
-     adr1.setCity("gazipure");
-     adr1.setPostcode("1200");
+		Update App.java
 
-     Address adr2 = new Address();
-     adr2.setStreet("bishasbettka");
-     adr2.setCity("tangail");
-     adr2.setPostcode("1900");
+		```java
+		 Address adr1 = new Address();
+	     adr1.setStreet("parijat");
+	     adr1.setCity("gazipure");
+	     adr1.setPostcode("1200");
 
-     employee.getAddress().add(adr1);
-  	 employee.getAddress().add(adr2);
-     //save into db	      
-     em.persist( employee );
-	```
+	     Address adr2 = new Address();
+	     adr2.setStreet("bishasbettka");
+	     adr2.setCity("tangail");
+	     adr2.setPostcode("1900");
 
-	Run App
+	     employee.getAddress().add(adr1);
+	  	 employee.getAddress().add(adr2);
+	     //save into db	      
+	     em.persist( employee );
+		```
 
-	![Image of Nested](images/collectionmap.png) 
+		Run App
 
-	Default Table created = employeeentityname_property_name e.g EMPLOYEE_ADDRESS . 
-	Dafault foreign key = employeeentityname_employeeentityid field e.g EMPLOYEE_ID
-	you can override by `@JoinTable` or `@CollectionTable` annotation `joinColumns` property
+		![Image of Nested](images/collectionmap.png) 
 
-	Update Employee.java
+		Default Table created = employeeentityname_property_name e.g EMPLOYEE_ADDRESS . 
+		Dafault foreign key = employeeentityname_employeeentityid field e.g EMPLOYEE_ID
+		you can override by `@JoinTable` or `@CollectionTable` annotation `joinColumns` property
 
-	```java
-	import javax.persistence.JoinColumn;
-	import javax.persistence.JoinTable;
-	@JoinTable(
-		name="emp_address",
-		joinColumns = @JoinColumn(name="emp_id")
-	)
-	private Set<Address> address = new HashSet();
-	```
+		Update Employee.java
 
-	Address table has no primary key (Id) column. if you want to provide it through @CollectionId annotation.It is not standarise of jpa.it is hibernate specific feature.
+		```java
+		import javax.persistence.JoinColumn;
+		import javax.persistence.JoinTable;
+		@JoinTable(
+			name="emp_address",
+			joinColumns = @JoinColumn(name="emp_id")
+		)
+		private Set<Address> address = new HashSet();
+		```
 
-	Remember :  Set do not support @CollectionId
+		Address table has no primary key (Id) column. if you want to provide it through @CollectionId annotation.It is not standarise of jpa.it is hibernate specific feature.
 
-	Update Employee.java
+		Remember :  Set do not support @CollectionId
 
-	```java
-	@GenericGenerator(name = "hilo-gen",strategy = "hilo")
-	@CollectionId(
-		columns = { @Column(name="address_id")},
-		generator = "hilo-gen",
-		type = @Type(type="long")
-	)
-	private List<Address> address = new ArrayList<Address>();
-	```
-	Address table has generate now primary key (address_id) column.
+		Update Employee.java
+
+		```java
+		@GenericGenerator(name = "hilo-gen",strategy = "hilo")
+		@CollectionId(
+			columns = { @Column(name="address_id")},
+			generator = "hilo-gen",
+			type = @Type(type="long")
+		)
+		private List<Address> address = new ArrayList<Address>();
+		```
+		Address table has generate now primary key (address_id) column.
+	2. Map
+
 
 	### Entity Object Collection ###
+
 
 ### Steps To create Jpa EE App ###
 
