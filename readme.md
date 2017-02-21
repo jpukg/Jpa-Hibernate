@@ -641,11 +641,13 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 @Table annotation can also for used to define constraints of a field
 
-`@Table(uniqueConstraints=@UniqueConstraint(columnNames="firstName"))`
+ ```java
+ @Table(uniqueConstraints=@UniqueConstraint(columnNames="firstName")) 
+
+ ```
 
 
 ### JPA Types ###
-
 	1. Entity Types : object has own identity(primary key value) e.g Employee
 	2. Value Types : Object has no database identity(no primary key) . Value Type object belongs to an Entity Type Object.
 		1. Basic Types :  they map a single database value (column) to a single Java type. e.g String, Character, Boolean, Integer, Long, Byte
