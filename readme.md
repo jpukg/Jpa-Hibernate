@@ -1280,7 +1280,13 @@ Bedefault class name is used to table name . you can give your custom name by @T
 			@DiscriminatorValue("outsideemp")  
 			```
 
-			This approach makes polymorphic queries very efficient and provides the best performance. 
+			### Advantages ###
+
+			Single table inheritance mapping is the fastest of all inheritance models, since it never requires a join to retrieve a persistent instance from the database. Similarly, persisting or updating a persistent instance requires only a single INSERT or UPDATE statement. Finally, relations to any class within a single table inheritance hierarchy are just as efficient as relations to a base class.
+
+			### Disadvantages ###
+
+			The larger the inheritance model gets, the "wider" the mapped table gets, in that for every field in the entire inheritance hierarchy, a column must exist in the mapped table. This may have undesirable consequence on the database size, since a wide or deep inheritance hierarchy will result in tables with many mostly-empty columns 
 
 ### Steps To create Jpa EE App ###
 
