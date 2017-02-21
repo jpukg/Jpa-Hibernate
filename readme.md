@@ -1277,8 +1277,16 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 
 3. Collection Mapping
+	| Collection Form        | Description 
+	| ------------- |:-------------:
+	| indexed     | List and Map are index based collection, so an extra column will be created in the table for indexing.
+	| 	non-indexed     | Set is non-indexed.
 
-	1. Embedded Object Collection
+	
+
+	### Basic Type Collection ###
+
+	### Embeddable Object Collection ###
 
 	In the above we have two object(homeAddress,officeAddress) but if you have collection address(if you don't know how many address are needed) then lots of column created .it is not recommended. Instead we can create separate table and reference to employee id foreign key by mark @ElementCollection annotation(explicit relationship)
 
@@ -1347,6 +1355,8 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	private List<Address> address = new ArrayList<Address>();
 	```
 	Address table has generate now primary key (address_id) column.
+
+	### Entity Object Collection ###
 
 ### Steps To create Jpa EE App ###
 
