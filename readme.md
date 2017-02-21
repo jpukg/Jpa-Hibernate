@@ -1333,7 +1333,43 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 	    2. Map
 	    
-	    	    
+	    	Update Employee.java
+
+	    	```java
+	    	@ElementCollection
+			@Column(name="CONTACT_LIST")
+			private Map<String, String> contacts;
+	    	```  
+
+	    	Update App.java
+
+			```java
+			Map contactMap = new HashMap(); 
+		    contactMap.put("home","000-289-3214"); 
+		    contactMap.put("mobile","001-760-2332"); 
+	        Employee employee = new Employee( ); 
+	        employee.setFirstName("Md.Shamim");
+	        employee.setContacts(contacts);
+	      
+			```
+
+			Run App 
+
+			Default Table created = employeeentityname_property name e.g EMPLOYEE_ADDRESS . 
+			Dafault foreign key = employeeentityname_employeeentityid field e.g EMPLOYEE_ID
+			Extra column is create to store key value = property name_KEY e.g CONTACTS_KEY.It can overrid by `@MapKeyColumn` annotation `name` property
+
+			Update Employee.java
+
+			```java
+			@ElementCollection
+			@JoinTable(name="Emp_contacts", joinColumns=@JoinColumn(name="empl_id"))
+			@MapKeyColumn(name="CONTACT_TYPE")
+			@Column(name="CONTACT_LIST")
+			private Map<String, String> contacts;
+			```
+
+			Run App  Again
 
 	### Embeddable Object Collection ###
 
@@ -1371,8 +1407,8 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 	![Image of Nested](images/collectionmap.png) 
 
-	Default Table created = employee_entity_name_Address_entity_name e.g EMPLOYEE_ADDRESS . 
-	Dafault foreign key = employee_entity_name_employee_entity_id field e.g EMPLOYEE_ID
+	Default Table created = employeeentityname_property_name e.g EMPLOYEE_ADDRESS . 
+	Dafault foreign key = employeeentityname_employeeentityid field e.g EMPLOYEE_ID
 	you can override by `@JoinTable` or `@CollectionTable` annotation `joinColumns` property
 
 	Update Employee.java
