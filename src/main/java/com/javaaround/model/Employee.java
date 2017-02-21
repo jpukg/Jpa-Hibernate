@@ -27,14 +27,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.ElementCollection;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import java.util.*;  
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 
-@Entity  
+@Entity 
+@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)   
 @Data 
 public class Employee { 
 	@Id 

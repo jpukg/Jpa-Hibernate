@@ -1249,14 +1249,37 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 			In the above image, By default
 
-			1. discriminator column = DTYPE . it you can overrid by @DiscriminatorColumn
+			1. discriminator column = DTYPE . you can overrid by @DiscriminatorColumn
 
 				### @DiscriminatorColumn ###
 				| property        | Description 
 				| ------------- |:-------------:
 				| name     | Column name of discriminator
 				| discriminatorType     | DiscriminatorType enum.value CHAR,INTEGER,STRING,CLASS.default String
-				
+			2. discriminator Value = class name . you can overrid by @DiscriminatorValue
+			
+			Update Employee.java
+
+			```java
+			import javax.persistence.DiscriminatorColumn;
+			import javax.persistence.DiscriminatorType;
+			@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)  
+			```	
+
+			Update ContactEmployee.java
+
+			```java
+			import javax.persistence.DiscriminatorValue; 
+			@DiscriminatorValue("outsideemp")  
+			```
+
+			Update RegularEmployee.java
+
+			```java
+			import javax.persistence.DiscriminatorValue; 
+			@DiscriminatorValue("outsideemp")  
+			```
+
 			This approach makes polymorphic queries very efficient and provides the best performance. 
 
 ### Steps To create Jpa EE App ###
