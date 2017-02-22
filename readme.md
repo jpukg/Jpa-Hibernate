@@ -388,41 +388,7 @@ If more than one callback method has to be invoked for a lifecycle event (e.g. f
 
 Default Listener -> top super class-> then super class-> actual enity listener
 
-### Cascade ###
-suppose you have parent to child object following
 
-```java
-public class Employee { 
-
-	private Department deparment;
-}
-```
-
-if `em.remove(employee)` then employee goes to remove state but deparment which state going ? 
-
-JPA allows us to propagate entity state changes from Parents to Child entities automatically by `CascadeType` mappings. We will discuss in details at relationship mapping section.
-
-### CascadeType Element ###
-
-| CascadeType        | Description
-| ------------- |:-------------:| 
-| ALL     | Cascade all operations | 
-| PERSIST     | Cascade PERSIST operations | 
-| MERGE     | Cascade MERGE operations | 
-| REMOVE     | Cascade REMOVE operations | 
-| REFRESH     | Cascade REFRESH operations | 
-| DETACH     | Cascade DETACH operations | 
-
-Note : default value `ALL`
-
-```java
-import javax.persistence.CascadeType;
-import javax.persistence.OneToOne;
-public class Employee { 
-	@OneToMany(cascade = CascadeType.REMOVE)
-	private Department deparment;
-}
-```
 
 
 @NotNull: Checks whether the value is not null, disregarding the content
@@ -1291,7 +1257,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	| indexed     | List and Map are index based collection, so an extra column will be created in the table for store index / key.
 	| 	non-indexed     | Set is non-indexed.
 
-	@ElementCollection annotation is used to collection mapping
+	@ElementCollection annotation is used to collection(Collection or Map of Basic or Embeddable objects) mapping and stored in a separate table.
 
 	### Basic Type Collection ###
 
@@ -1369,7 +1335,34 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		private Map<String, String> contacts;
 		```
 
+
 		Run App  Again
+
+		When key is enum type
+
+		```java
+		package com.javaaround.util;
+		public enum PhoneType{
+			HOME,OFFICE
+		}
+		```
+
+		```java
+		@ElementCollection
+	    @CollectionTable(name="EMP_PHONE")
+	    @MapKeyEnumerated(EnumType.STRING) // default orinal
+	    @MapKeyColumn(name="PHONE_TYPE")
+	    @Column(name="PHONE_NUM")
+	    private Map<PhoneType, String> phoneNumbers = new HashMap();
+		```
+
+		when key is date type
+
+		```java
+		@MapKeyTemporal(TemporalType.DATE)
+        protected java.util.Map<java.util.Date, Employee> employees;
+		```
+
 
 	### Embeddable Object Collection ###
 	1. Set/List
@@ -1520,7 +1513,75 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 	Entity Object Collection means relationship mapping at database
 
-	1. OneToMany   -> ManyToOne
+	1. OneToMany   -> ManyToOne : 
+
+
+		![Image of Nested](images/oneToMany.png)
+		 
+		Update Employee.java
+
+		```java
+		import javax.persistence.ManyToOne;
+		@Entity 
+		@Data 
+		public class Employee { 
+			@Id 
+			@GeneratedValue(strategy = GenerationType.AUTO)  
+			private int id;
+			@Basic(optional=false)  
+			private String firstName;
+			@ManyToOne
+			@JoinColumn(name = "department_id")
+			private Department department;
+			
+		}	
+		```
+
+		Update Department.java
+
+		```java
+		@Entity
+		@Data 
+		public class Department { 
+			@Id 
+			@GeneratedValue
+			private int id;
+			@Basic(optional=false)  
+			private String name;
+			
+		}		
+		```
+
+		Run App
+
+		error :  object references an unsaved transient instance - save the transient instance before flushing
+
+		Solution :
+		1. Save manually department instance
+		`em.persist(department);`
+		2. Save automatically using cascade (recommended)
+
+
+		JPA allows us to propagate entity state changes from Parents to Child entities automatically by `CascadeType` mappings. 
+		### CascadeType Element ###
+
+		| CascadeType        | Description
+		| ------------- |:-------------:| 
+		| ALL     | Cascade all operations | 
+		| PERSIST     | Cascade PERSIST operations | 
+		| MERGE     | Cascade MERGE operations | 
+		| REMOVE     | Cascade REMOVE operations | 
+		| REFRESH     | Cascade REFRESH operations | 
+		| DETACH     | Cascade DETACH operations | 
+
+		`@ManyToOne(cascade=CascadeType.ALL)`
+
+		In th above example is an unidirectional relationship since only one entity has a relationship field that refers to the other among two
+
+		In a bidirectional relationship, both entity have a reference to each other 
+
+
+
 	2. ManyToMany
 
 ### OneToOne Relation Mapping ###
