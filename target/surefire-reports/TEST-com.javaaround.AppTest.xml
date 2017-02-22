@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="com.javaaround.AppTest" time="2.992" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="com.javaaround.AppTest" time="2.358" errors="1" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_73\jre\bin"/>
@@ -62,5 +62,102 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.javaaround.AppTest" name="AppTest" time="2.992"/>
+  <testcase classname="com.javaaround.AppTest" name="AppTest" time="2.358">
+    <error message="Unable to execute JPA schema generation create command [create table Employee (id number(10,0) not null, firstName varchar2(255 char) not null, department_id number(10,0), INDEX number(10,0), primary key (id))]" type="javax.persistence.PersistenceException">javax.persistence.PersistenceException: Unable to execute JPA schema generation create command [create table Employee (id number(10,0) not null, firstName varchar2(255 char) not null, department_id number(10,0), INDEX number(10,0), primary key (id))]
+	at org.hibernate.jpa.internal.schemagen.GenerationTargetToDatabase.acceptCreateCommands(GenerationTargetToDatabase.java:64)
+	at org.hibernate.jpa.internal.schemagen.JpaSchemaGenerator.doGeneration(JpaSchemaGenerator.java:507)
+	at org.hibernate.jpa.internal.schemagen.JpaSchemaGenerator.access$300(JpaSchemaGenerator.java:69)
+	at org.hibernate.jpa.internal.schemagen.JpaSchemaGenerator$Generation.execute(JpaSchemaGenerator.java:184)
+	at org.hibernate.jpa.internal.schemagen.JpaSchemaGenerator.performGeneration(JpaSchemaGenerator.java:76)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$4.perform(EntityManagerFactoryBuilderImpl.java:864)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$4.perform(EntityManagerFactoryBuilderImpl.java:850)
+	at org.hibernate.boot.registry.classloading.internal.ClassLoaderServiceImpl.withTccl(ClassLoaderServiceImpl.java:425)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:849)
+	at org.hibernate.jpa.HibernatePersistenceProvider.createEntityManagerFactory(HibernatePersistenceProvider.java:75)
+	at org.hibernate.ejb.HibernatePersistence.createEntityManagerFactory(HibernatePersistence.java:54)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:55)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:39)
+	at com.javaaround.App.main(App.java:25)
+	at com.javaaround.AppTest.AppTest(AppTest.java:11)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:76)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+Caused by: java.sql.SQLSyntaxErrorException: ORA-00904: : invalid identifier
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:440)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:396)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:837)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:445)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:191)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:523)
+	at oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:193)
+	at oracle.jdbc.driver.T4CStatement.executeForRows(T4CStatement.java:999)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1315)
+	at oracle.jdbc.driver.OracleStatement.executeInternal(OracleStatement.java:1890)
+	at oracle.jdbc.driver.OracleStatement.execute(OracleStatement.java:1855)
+	at oracle.jdbc.driver.OracleStatementWrapper.execute(OracleStatementWrapper.java:304)
+	at org.hibernate.jpa.internal.schemagen.GenerationTargetToDatabase.acceptCreateCommands(GenerationTargetToDatabase.java:61)
+	... 42 more
+</error>
+    <system-err>Feb 23, 2017 12:13:40 AM org.hibernate.ejb.HibernatePersistence logDeprecation
+WARN: HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+Feb 23, 2017 12:13:40 AM org.hibernate.ejb.HibernatePersistence logDeprecation
+WARN: HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+Feb 23, 2017 12:13:40 AM org.hibernate.ejb.HibernatePersistence logDeprecation
+WARN: HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+Feb 23, 2017 12:13:40 AM org.hibernate.jpa.internal.util.LogHelper logPersistenceUnitInformation
+INFO: HHH000204: Processing PersistenceUnitInfo [
+	name: hibernatePU
+	...]
+Feb 23, 2017 12:13:40 AM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {4.3.9.Final}
+Feb 23, 2017 12:13:40 AM org.hibernate.cfg.Environment &lt;clinit&gt;
+INFO: HHH000206: hibernate.properties not found
+Feb 23, 2017 12:13:40 AM org.hibernate.cfg.Environment buildBytecodeProvider
+INFO: HHH000021: Bytecode provider name : javassist
+Feb 23, 2017 12:13:41 AM org.hibernate.annotations.common.reflection.java.JavaReflectionManager &lt;clinit&gt;
+INFO: HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+Feb 23, 2017 12:13:41 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH000402: Using Hibernate built-in connection pool (not for production use!)
+Feb 23, 2017 12:13:41 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH000401: using driver [oracle.jdbc.driver.OracleDriver] at URL [jdbc:oracle:thin:@localhost:1521/XE]
+Feb 23, 2017 12:13:41 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH000046: Connection properties: {user=root, password=****}
+Feb 23, 2017 12:13:41 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH000006: Autocommit mode: false
+Feb 23, 2017 12:13:41 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Feb 23, 2017 12:13:42 AM org.hibernate.dialect.Dialect &lt;init&gt;
+INFO: HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
+Feb 23, 2017 12:13:42 AM org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory &lt;init&gt;
+INFO: HHH000397: Using ASTQueryTranslatorFactory
+Feb 23, 2017 12:13:42 AM org.hibernate.dialect.Dialect &lt;init&gt;
+INFO: HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
+</system-err>
+  </testcase>
 </testsuite>

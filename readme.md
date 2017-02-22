@@ -1601,6 +1601,66 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		*/
 		```
 
+		Specifies the ordering of the elements of a collection by @OrderBy annotation 
+
+		Order by primary key
+
+		```java
+		//Generic
+		@OneToMany(mappedBy = "department")
+		@OrderBy
+		private List<Employee> employees;
+
+		```
+
+		Order by a string field.default asc
+
+		```java
+		//Generic
+		@OneToMany(mappedBy = "department")
+		@OrderBy("firstName")
+		private List<Employee> employees;
+
+		```
+
+		Order by a string field by desc
+
+		```java
+		//Generic
+		@OneToMany(mappedBy = "department")
+		@OrderBy("firstName desc")
+		private List<Employee> employees;
+
+		```
+
+		if embeddable use .(dot) notation
+
+		```java
+		@Entity 
+	    public class Person {
+	         ...
+	       @ElementCollection
+	       @OrderBy("zipcode.zip, zipcode.plusFour")
+	       public Set<Address> getResidences() {...};
+	       ...
+	    }
+	 
+	    @Embeddable 
+	    public class Address {
+	       protected String street;
+	       protected String city;
+	       protected String state;
+	       @Embedded protected Zipcode zipcode;
+	    }
+	 
+	    @Embeddable 
+	    public class Zipcode {
+	       protected String zip;
+	       protected String plusFour;
+	    }
+		```
+
+		
 		Update Department
 
 		```java
@@ -1629,7 +1689,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		```
 
 		Note : @MapKeyClass && @MapKey is not use same time at a field
-		
+
 
 	2. ManyToMany
 
