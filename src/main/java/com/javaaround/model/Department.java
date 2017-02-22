@@ -21,11 +21,13 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.ElementCollection;
 import javax.persistence.CollectionTable;
 import javax.persistence.OneToMany;
+import javax.persistence.MapKey ;
 import com.javaaround.listener.EmployeeListener;
 import java.time.LocalDate;
 import com.javaaround.converter.BooleanConverter;
 import javax.persistence.Convert;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Data 
@@ -36,5 +38,6 @@ public class Department {
 	@Basic(optional=false)  
 	private String name;
 	@OneToMany(mappedBy = "department")
-	private List<Employee> employees;
+	@MapKey 
+	private Map<Integer, Employee> empMap;
 }	

@@ -1581,14 +1581,14 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		Cascading of the remove operation if and only occurs when the remove is called on the object(em.remove(employee)). This is not normally what is desired on a dependent relationship.When dependent entity(Department) setting null or refer to  another department then previous entity should be automatically without remove operation occur
 
 		It is done by setting `orphanRemoval=true` on @OneToOne and @OneToMany annotations:
-		
+
 
 		In th above example is an unidirectional relationship since only one entity has a relationship field that refers to the other among two
 
 		In a bidirectional relationship, both entity have a reference to each other 
 
 
-		Update Employee.java
+		Update Department.java
 
 		```java
 		//Generic
@@ -1600,6 +1600,36 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		private List<Employee> employees;
 		*/
 		```
+
+		Update Department
+
+		```java
+		@OneToMany(mappedBy = "department")
+	    private Map<Integer, Employee> empMap;
+		```
+
+		Run App : extra column `EMPMAP_KEY` is generated . If the Map key is the primary key or a persistent field or property of the entity that is the Map value, use the @MapKey annotation then `EMPMAP_KEY` is not generated
+
+		Update Department
+
+		```java
+		@OneToMany(mappedBy = "department")
+		@MapKey
+	    private Map<Integer, Employee> empMap;
+		```
+
+		if you want tp name of the persistent field or property of the associated entity that is used as the map key instead of primary field
+
+		`@MapKey(name="empddd_id")`
+
+		For non generic map @MapKeyClass is used define key type
+		```java
+	    @MapKeyClass(String.class)
+        Map images; 
+		```
+
+		Note : @MapKeyClass && @MapKey is not use same time at a field
+		
 
 	2. ManyToMany
 
