@@ -1288,7 +1288,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 	| Collection Form        | Description 
 	| ------------- |:-------------:
-	| indexed     | List and Map are index based collection, so an extra column will be created in the table for indexing.
+	| indexed     | List and Map are index based collection, so an extra column will be created in the table for store index / key.
 	| 	non-indexed     | Set is non-indexed.
 
 	@ElementCollection annotation is used to collection mapping
@@ -1373,6 +1373,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 	### Embeddable Object Collection ###
 	1. Set/List
+	
 		In the above we have two object(homeAddress,officeAddress) but if you have collection address(if you don't know how many address are needed) then lots of column created .it is not recommended. Instead we can create separate table and reference to employee id foreign key
 
 		Update Employee.java
@@ -1476,7 +1477,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
         employee.setContacts(contacts);
 
 		```
-		
+
 		Override Address column
 
 		@AttributeOverride(name="street",column=@Column(name="street_name"))
@@ -1519,8 +1520,105 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 	Entity Object Collection means relationship mapping at database
 
-	1. OneToMany
+	1. OneToMany   -> ManyToOne
 	2. ManyToMany
+
+### OneToOne Relation Mapping ###
+
+## Access Type ###
+There are two accsss type
+1. Field access : JPA provider access fields directly, like how we can access fields within a class.
+2. Property access : JPA provider calls getter and setter methods runtime to load/store
+
+The default behaviour is, location of the mandatory id property of the POJO with @Id  annotation in jpa determines the access level of this domain object. It can be property and field
+
+```java
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+@Column(name = "ID")
+private Long studentId;
+```
+
+Here default access is field.
+
+```java
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+@Column(name = "ID")
+public Long getStudentId() {
+	return studentId;
+}
+```
+
+Here default access is property.
+
+JPA provides @Access annotation for overriding the default behavior by using AccessType.FIELD and AccessType.PROPERTY
+
+
+```java
+@Access(value=AccessType.FIELD)
+@Entity
+public class Employee{
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID")
+	private Long id;
+	
+	@Column(name = "FNAME")
+	private String firstName;
+
+	public Long getId() {
+		return id;
+	}
+ 
+	public void setId(Long id) {
+		this.id = id;
+	}
+ 
+	public String getFirstName() {
+		return firstName;
+	}
+ 
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+}
+```
+
+JPA supports Mixed Access by override the access strategy of individ- ual properties with @Access annotation
+
+```java
+@Access(value=AccessType.FIELD)
+@Entity
+public class Employee{
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID")
+	private Long id;
+	
+	@Column(name = "FNAME")
+	private String firstName;
+
+	public Long getId() {
+		return id;
+	}
+ 
+	public void setId(Long id) {
+		this.id = id;
+	}
+ 	@Access(value=AccessType.PROPERTY)
+	public String getFirstName() {
+		return firstName;
+	}
+ 
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+}
+```
 
 ### Steps To create Jpa EE App ###
 
