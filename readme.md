@@ -1517,7 +1517,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 
 		![Image of Nested](images/oneToMany.png)
-		 
+
 		Update Employee.java
 
 		```java
@@ -1576,11 +1576,30 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 		`@ManyToOne(cascade=CascadeType.ALL)`
 
+		### Orphan Removal (JPA 2.0) ### 
+
+		Cascading of the remove operation if and only occurs when the remove is called on the object(em.remove(employee)). This is not normally what is desired on a dependent relationship.When dependent entity(Department) setting null or refer to  another department then previous entity should be automatically without remove operation occur
+
+		It is done by setting `orphanRemoval=true` on @OneToOne and @OneToMany annotations:
+		
+
 		In th above example is an unidirectional relationship since only one entity has a relationship field that refers to the other among two
 
 		In a bidirectional relationship, both entity have a reference to each other 
 
 
+		Update Employee.java
+
+		```java
+		//Generic
+		@OneToMany(mappedBy = "department")
+		private List<Employee> employees;
+
+		/* for non generic
+		@OneToMany(mappedBy = "department",targetEntity=Phone.class)
+		private List<Employee> employees;
+		*/
+		```
 
 	2. ManyToMany
 
