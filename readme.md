@@ -2061,6 +2061,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	```
 
 ## Access Type ###
+
 There are two accsss type
 
 1. Field access : JPA provider access fields directly, like how we can access fields within a class.
