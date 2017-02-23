@@ -14,6 +14,6 @@ public class Project {
 	@GeneratedValue
 	private int id;
 	private String name;
-	@ManyToMany(mappedBy="projects",cascade=CascadeType.ALL)
-    private List<Employee> employees;
+	/*@ManyToMany(mappedBy="projects",cascade=CascadeType.ALL)
+    private List<Employee> employees;*/
 }	

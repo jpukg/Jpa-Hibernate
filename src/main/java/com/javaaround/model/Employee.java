@@ -35,6 +35,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.*;  
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
@@ -55,8 +57,7 @@ public class Employee {
 		inverseJoinColumns=@JoinColumn(name="project_id", referencedColumnName="ID")
 	)
     private List<Project> projects;*/
-    @OneToOne
-    @JoinColumn(name="empdetails_id")
+    @OneToOne(cascade=CascadeType.ALL)
     private EmployeeDetails empDetails;
 	
 }	

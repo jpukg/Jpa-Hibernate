@@ -4,10 +4,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Id;
+import javax.persistence.Column;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Data 
+@Data
+@NoArgsConstructor 
 public class EmployeeDetails { 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)  
@@ -18,7 +25,8 @@ public class EmployeeDetails {
 	private String postcode;
 	private String fatherName;
 
-	@OneToOne
+	@OneToOne(mappedBy="empDetails",cascade=CascadeType.ALL)
+	@PrimaryKeyJoinColumn
     private Employee emp;
 
 }	

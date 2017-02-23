@@ -6,6 +6,7 @@ import java.util.Date;
 import com.javaaround.model.ContactEmployee;
 import com.javaaround.model.Employee;
 import com.javaaround.model.Department;
+import com.javaaround.model.EmployeeDetails;
 import com.javaaround.model.Address;
 import com.javaaround.model.Project;
 import com.javaaround.util.Gender;

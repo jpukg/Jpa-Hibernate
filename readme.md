@@ -1533,8 +1533,6 @@ Bedefault class name is used to table name . you can give your custom name by @T
 			@Basic(optional=false)  
 			private String firstName;
 			@ManyToOne
-			@JoinColumn(name = "department_id") 
-			// equivalent @PrimaryKeyJoinColumn(name="deptID", referencedColumnName="ID")
 			private Department department;
 			
 		}	
@@ -1564,6 +1562,16 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		`em.persist(department);`
 		2. Save automatically using cascade (recommended)
 
+		Run App
+		 default create join column format owingenityname_primary key. we can ovveride by @JoinColumn annotaion
+
+		```java
+		@ManyToOne
+		@JoinColumn(name = "department_iddd")
+		private Department department;
+
+		```` 
+			 
 
 		JPA allows us to propagate entity state changes from Parents to Child entities automatically by `CascadeType` mappings. 
 		### CascadeType Element ###
@@ -1980,6 +1988,75 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 
 ### OneToOne Relation Mapping ###
+
+	Assume employee side contains foreign key
+
+
+	1. Update Employee.java
+
+	```java
+	@OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="empdetails_id")
+    private EmployeeDetails empDetails;
+	```
+
+	2. Create EmployeeDetails.java
+
+	```java
+	package com.javaaround.model;
+	import javax.persistence.Embeddable;  
+	import javax.persistence.Column;
+	import javax.persistence.Entity;
+	import javax.persistence.GeneratedValue;
+	import javax.persistence.GenerationType;
+	import javax.persistence.OneToOne;
+	import javax.persistence.CascadeType;
+	import javax.persistence.PrimaryKeyJoinColumn;
+	import javax.persistence.Id;
+	import javax.persistence.Column;
+	import lombok.Data;
+	import lombok.NoArgsConstructor;
+
+	@Entity
+	@Data
+	@NoArgsConstructor 
+	public class EmployeeDetails { 
+		@Id 
+		@GeneratedValue(strategy = GenerationType.AUTO)  
+		private int id;
+		private String street;
+		private String city;
+		@Column(name="post_code")
+		private String postcode;
+		private String fatherName;
+
+		@OneToOne(mappedBy="empDetails",cascade=CascadeType.ALL)
+	    private Employee emp;
+
+	}	
+	```
+
+	### shared primary key ###
+
+	In this technique, jpa will ensure that it will use a common primary key value in both the tables by @PrimaryKeyJoinColumn annotation
+
+	Update Employee.java
+
+	```java
+	@OneToOne(cascade=CascadeType.ALL)
+   // @JoinColumn(name="empdetails_id") 
+    private EmployeeDetails empDetails;	
+	```
+	Since Assume employee side contains foreign key need to employee reference to define join column
+
+	Update EmployeeDetails.java
+
+	```java
+	@OneToOne(mappedBy="empDetails",cascade=CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private Employee emp;
+
+	```
 
 ## Access Type ###
 There are two accsss type
