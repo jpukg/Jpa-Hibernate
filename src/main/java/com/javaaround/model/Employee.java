@@ -48,8 +48,7 @@ public class Employee {
 	private int id;
 	@Basic(optional=false)  
 	private String firstName;
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "department_id")
-	private Department department;
+	@ManyToMany
+    private List<Project> projects;
 	
 }	

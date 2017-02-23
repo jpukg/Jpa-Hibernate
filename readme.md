@@ -1660,7 +1660,13 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	    }
 		```
 
-		
+		You can fetch lazy loading
+
+		```
+		@OneToMany(mappedBy = "department",fetch=FetchType.LAZY)
+		private List<Employee> employees;
+		```
+
 		Update Department
 
 		```java
@@ -1692,6 +1698,41 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 
 	2. ManyToMany
+
+		![Image of Nested](images/manyTomany.png)
+
+		In database,many to many relationships does not support. To suppor manyTomany,we require extra table that have two oneTomany relationship
+
+		In JPA , ManyToMany relationship is defined through the @ManyToMany annotation
+
+		Update Employee.java
+
+		```java
+		@ManyToMany
+        private List<Project> projects;
+		```
+		Create project.java
+
+		```java
+		package com.javaaround.model;
+		import javax.persistence.Entity;  
+		import javax.persistence.Id;
+		import javax.persistence.GeneratedValue;
+		import javax.persistence.ManyToMany;
+		import lombok.Data;
+		import java.util.List;
+
+		@Entity
+		@Data 
+		public class Project { 
+			@Id 
+			@GeneratedValue
+			private int id;
+			private String name;
+			@ManyToMany(mappedBy="projects")
+		    private List<Employee> employees;
+		}	
+		```
 
 ### OneToOne Relation Mapping ###
 
