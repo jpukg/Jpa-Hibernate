@@ -2157,7 +2157,7 @@ public class Employee{
 }
 ```
 
-### Steps To create Jpa EE App ###
+### Steps To integrate Jpa to EE(Ejb) App ###
 
 ![Image of Nested](images/EE.png) 
 
@@ -2311,6 +2311,116 @@ public class Employee{
 	upload ear/target/ear-1.0.ear by glassfish administrator UI <br>
 
 
-Complete project download linke <br>
+### Usage at servlet ###
+
+Update HelloEjb.java
+```java
+public List<Employee> showAllEmployee(){
+	 Query query = em.createQuery("SELECT e FROM Employee e");
+	return (List<Employee>) query.getResultList();
+}
+```
+
+Create GuestServlet.java servlets/servlet/src/main/com/javaaround/servlet
+
+```java
+package com.javaaround.servlet;
+ 
+import java.io.IOException;
+import javax.ejb.EJB;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.javaaround.HelloEjb;
+import com.javaaround.model.Employee;
+import java.util.List;
+ 
+@WebServlet(name="GuestServlet", urlPatterns={"/employee"})
+public class GuestServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+ 
+    // Injected DAO EJB:
+    @EJB 
+    HelloEjb helloEjb;
+ 
+    @Override
+    protected void doGet(
+        HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Employee> employees = helloEjb.showAllEmployee();
+        if (employees != null) {
+            for (Employee employee : employees) { 
+                System.out.println(employee);
+            }
+        }
+        // Display the list of guests:
+        request.setAttribute("employees", helloEjb.showAllEmployee());
+        request.getRequestDispatcher("/employee.jsp").forward(request, response);
+    }
+ 
+    
+}
+```
+
+Create employee.jsp
+
+```jsp
+<%@page contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="java.util.*,com.javaaround.model.Employee"%>
+ 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+ 
+<html>
+    <head>
+        <title>JPA Employee Web Application Tutorial</title>
+    </head>
+ 
+    <body>
+        <form method="POST" action="guest">
+            Name: <input type="text" name="name" />
+            <input type="submit" value="Add" />
+        </form>
+ 
+        <hr><ol> <%
+            @SuppressWarnings("unchecked") 
+            List<Employee> employees = (List<Employee>)request.getAttribute("employees");
+            if (employees != null) {
+                for (Employee employee : employees) { %>
+                    <li> <%= employee %> </li> <%
+                }
+            } %>
+        </ol><hr>
+
+     </body>
+ </html>
+```
+
+Add ejb dependeny at servlets/servlet/pom.xml
+
+```xml
+<dependency>
+ <groupId>root.project</groupId>
+ <artifactId>ejbs</artifactId>
+ <version>1.0</version>
+</dependency>
+```
+
+Run App
+
+`mvn clean package`
+
+upload servlets/servlet/target/simple-1.0.war by glassfish administrator UI <br>
+
+Browse
+
+localhost:<your port>/simple-1.0/employee
+
+
+Complete project download link <br>
 
 [Download](https://www.dropbox.com/s/06m6h3o47f52aky/jpaEE2.zip?dl=0)
+
+### Steps To integrate Jpa to Java Web(Servlet) App ###
