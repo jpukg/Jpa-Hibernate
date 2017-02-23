@@ -2161,6 +2161,7 @@ public class Employee{
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.
 There are two types of EntityManager
+
 1. Application-Managed Entity Manager : 
 
 	when an entity manager is created explicitly by entity manager factory then it Application managed em.
@@ -2429,7 +2430,7 @@ There are two types of Container-Managed
 	In Extended-scoped Entity manager , persistence context is alive as long as enterprise bean is alive.
 
 	Update TransactionScoped.java
-	
+
 	```java
 	@Stateful
 	public class TransactionScoped{
