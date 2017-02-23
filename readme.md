@@ -1132,25 +1132,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	        em.persist( employee1 );
 			```
 
-			Relationship attribute overrid by ` @AssociationOverride`
-
-			```java
-			@MappedSuperclass
-		    public class Employee {
-		        ...
-		        @ManyToOne
-		        protected Address address;
-		        ...
-		    }
-		 
-		    @Entity 
-		        @AssociationOverride(name="address", 
-		                             joinColumns=@JoinColumn(name="ADDR_ID"))
-		        // address field mapping overridden to ADDR_ID foreign key
-		    public class PartTimeEmployee extends Employee {
-		        ...
-		    }
-		    ```
+			
 
 			There are following problem of above strategy
 			1.  Cannot query, persist, or have relationships because it has no entity
@@ -1701,6 +1683,26 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		@OneToMany(mappedBy = "department",fetch=FetchType.LAZY)
 		private List<Employee> employees;
 		```
+
+		Relationship attribute overrid by ` @AssociationOverride`
+
+		```java
+		@MappedSuperclass
+	    public class Employee {
+	        ...
+	        @ManyToOne
+	        protected Address address;
+	        ...
+	    }
+	 
+	    @Entity 
+	        @AssociationOverride(name="address", 
+	                             joinColumns=@JoinColumn(name="ADDR_ID"))
+	        // address field mapping overridden to ADDR_ID foreign key
+	    public class PartTimeEmployee extends Employee {
+	        ...
+	    }
+	    ```
 
 		Update Department
 
