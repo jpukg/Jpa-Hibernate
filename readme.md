@@ -212,6 +212,7 @@ There are five states:
 
     `em.clear();`
 
+
 	If an entity object that has already exists in the persistence context the existing managed entity object is returned without actually accessing the database by call `em.find(employee.class,1201)`.
 
 	but em.refresh(employee)  executes then always
@@ -2157,6 +2158,44 @@ public class Employee{
 }
 ```
 
+### EntityManager ###
+EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.
+There are two types of EntityManager
+1. Application-Managed Entity Manager : 
+
+	when an entity manager is created explicitly by entity manager factory then it Application managed em.
+
+	```java
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory( "hibernatePU" );
+	//equivalent above
+	@PersistenceUnit(unitName="hibernatePU")
+	EntityManagerFactory emf;
+	EntityManager em = emf.createEntityManager();
+	```
+
+	Since above entity manger is appliation managed .so all thing like transaction begin,ends,rollback and em close need to done manaually
+
+	```java
+	//start transaction
+	em.getTransaction( ).begin( );
+	em.getTransaction( ).commit( );
+	em.getTransaction( ).rollback();
+	//close resource
+	em.close( );
+	emf.close( );
+	```
+
+2. Container-Managed Entity Manager : 
+
+	When The Java EE container(glassfish,tomee,weblogic) manages the lifecycle of  entity managers like ransaction begin,ends,em close then it is called Container-Managed Entity Manager
+
+	Container manager entity manger is created by @PersistenceContext annotation
+
+	```java
+	@PersistenceContext(unitName="nameofcontext")
+	EntityManager em;
+	```
+	
 ### Steps To integrate Jpa to EE(Ejb) App ###
 
 ![Image of Nested](images/EE.png) 
@@ -2310,6 +2349,97 @@ public class Employee{
 
 	upload ear/target/ear-1.0.ear by glassfish administrator UI <br>
 
+	or by command
+
+	asadmin deploy "F:\java_tutorial\java\jpaEE2\ear\target\ear-1.0.ear"
+
+	for redeploy use 
+
+	asadmin redeploy "F:\java_tutorial\java\jpaEE2\ear\target\ear-1.0.ear"
+	give name of project : ear-1.0
+
+There are two types of Container-Managed
+
+1. Transaction-scoped Entity manager
+
+	In Transaction-scoped Entity manager , persistence context is alive as long as transaction is alive. container create transaction start when an method start , trasaction ends when an method ends
+
+	```java
+	package com.javaaround;
+
+	import javax.ejb.Stateless;
+	import javax.ejb.LocalBean;
+	import javax.ejb.Startup;
+	import javax.annotation.PostConstruct;
+	import javax.persistence.EntityManager;
+	import javax.persistence.PersistenceContext;
+	import com.javaaround.model.Employee;
+	import java.util.List;
+
+	import javax.persistence.EntityManager;
+	import javax.persistence.Query;
+
+	@Stateless
+	public class TransactionScoped{
+
+		@PersistenceContext(unitName = "hibernatePU")
+		/*equivalent above
+		default value transcation
+		@PersistenceContext(unitName = "hibernatePU",type=PersistenceContextType.TRANSACTION)
+		*/
+		EntityManager em;
+		public void saveEmployee(){
+			Employee employee = new Employee( ); 
+	        employee.setFirstName( "Md.Shamim Miah" );
+	        employee.setSalary( 40000.00 );
+	        em.persist( employee );
+		}
+
+		public void updateEmployee(){
+	        employee.setSalary( 50000.00 );
+		}
+	}
+	```
+
+	Update HelloEjb.java
+
+	```java
+	@Singleton
+	@LocalBean
+	@Startup
+	@TransactionManagement(TransactionManagementType.BEAN)
+	public class HelloEjb{
+		@EJB 
+	    TransactionScoped transactionScoped;
+	    
+		@PostConstruct
+		public void main(){
+			transactionScoped.saveEmployee();
+			transactionScoped.updateEmployee();
+		}
+	}
+	```
+
+	Update does not occure
+
+
+
+2. Extended-scoped Entity Manager
+
+	In Extended-scoped Entity manager , persistence context is alive as long as enterprise bean is alive.
+
+	Update TransactionScoped.java
+	
+	```java
+	@Stateful
+	public class TransactionScoped{
+	@PersistenceContext(unitName = "hibernatePU",type=PersistenceContextType.EXTENDED)
+	EntityManager em;
+	```
+
+	Update does  occure now 
+	
+
 
 ### Usage at servlet ###
 
@@ -2424,3 +2554,5 @@ Complete project download link <br>
 [Download](https://www.dropbox.com/s/06m6h3o47f52aky/jpaEE2.zip?dl=0)
 
 ### Steps To integrate Jpa to Java Web(Servlet) App ###
+
+
