@@ -1533,7 +1533,8 @@ Bedefault class name is used to table name . you can give your custom name by @T
 			@Basic(optional=false)  
 			private String firstName;
 			@ManyToOne
-			@JoinColumn(name = "department_id")
+			@JoinColumn(name = "department_id") 
+			// equivalent @PrimaryKeyJoinColumn(name="deptID", referencedColumnName="ID")
 			private Department department;
 			
 		}	
@@ -1885,12 +1886,97 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	    @Entity
 	    public class Dependent {
 	       @EmbeddedId DependentId id;
-	        ...
+	       //@MapsId // maps the empid attribute of parent
 	       @MapsId("empid")  //  maps the empid attribute of embedded id
 	       @ManyToOne Employee emp;
 	    }
 		```
 
+		### Mapping a Join Table with Additional Columns ###
+
+		```java
+		@Entity
+		public class Employee {
+		  @Id
+		  private long id;
+		  ...
+		  @OneToMany(mappedBy="employee")
+		  private List<ProjectAssociation> projects;
+		  ...
+		}
+		@Entity
+		public class Project {
+		  @Id
+		  private long id;
+		  ...
+		  @OneToMany(mappedBy="project")
+		  private List<ProjectAssociation> employees;
+		  ...
+		  // Add an employee to the project.
+		  // Create an association object for the relationship and set its data.
+		  public void addEmployee(Employee employee, boolean teamLead) {
+		    ProjectAssociation association = new ProjectAssociation();
+		    association.setEmployee(employee);
+		    association.setProject(this);
+		    association.setEmployeeId(employee.getId());
+		    association.setProjectId(this.getId());
+		    association.setIsTeamLead(teamLead);
+
+		    this.employees.add(association);
+		    // Also add the association object to the employee.
+		    employee.getProjects().add(association);
+		  }
+		}
+		@Entity
+		@Table(name="PROJ_EMP")
+		@IdClass(ProjectAssociationId.class)
+		public class ProjectAssociation {
+		  @Id
+		  private long employeeId;
+		  @Id
+		  private long projectId;
+		  @Column(name="IS_PROJECT_LEAD")
+		  private boolean isProjectLead;
+		  @ManyToOne
+		  @PrimaryKeyJoinColumn(name="EMPLOYEEID", referencedColumnName="ID")
+		  /* if this JPA model doesn't create a table for the "PROJ_EMP" entity,
+		  *  please comment out the @PrimaryKeyJoinColumn, and use the ff:
+		  *  @JoinColumn(name = "employeeId", updatable = false, insertable = false)
+		  * or @JoinColumn(name = "employeeId", updatable = false, insertable = false, referencedColumnName = "id")
+		  */
+		  private Employee employee;
+		  @ManyToOne
+		  @PrimaryKeyJoinColumn(name="PROJECTID", referencedColumnName="ID")
+		  /* the same goes here:
+		  *  if this JPA model doesn't create a table for the "PROJ_EMP" entity,
+		  *  please comment out the @PrimaryKeyJoinColumn, and use the ff:
+		  *  @JoinColumn(name = "projectId", updatable = false, insertable = false)
+		  * or @JoinColumn(name = "projectId", updatable = false, insertable = false, referencedColumnName = "id")
+		  */
+		  private Project project;
+		  ...
+		}
+		public class ProjectAssociationId implements Serializable {
+
+		  private long employeeId;
+
+		  private long projectId;
+		  ...
+
+		  public int hashCode() {
+		    return (int)(employeeId + projectId);
+		  }
+
+		  public boolean equals(Object object) {
+		    if (object instanceof ProjectAssociationId) {
+		      ProjectAssociationId otherId = (ProjectAssociationId) object;
+		      return (otherId.employeeId == this.employeeId) && (otherId.projectId == this.projectId);
+		    }
+		    return false;
+		  }
+
+		}
+		```
 
 
 ### OneToOne Relation Mapping ###

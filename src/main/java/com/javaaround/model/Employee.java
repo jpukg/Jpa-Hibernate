@@ -49,11 +49,14 @@ public class Employee {
 	private int id;
 	@Basic(optional=false)  
 	private String firstName;
-	@ManyToMany(cascade=CascadeType.ALL)
+	/*@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 		joinColumns=@JoinColumn(name="employee_id", referencedColumnName="ID"),
 		inverseJoinColumns=@JoinColumn(name="project_id", referencedColumnName="ID")
 	)
-    private List<Project> projects;
+    private List<Project> projects;*/
+    @OneToOne
+    @JoinColumn(name="empdetails_id")
+    private EmployeeDetails empDetails;
 	
 }	

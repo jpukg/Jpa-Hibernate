@@ -32,8 +32,15 @@ public class App
 
 	      Employee shamim = new Employee( ); 
 	      shamim.setFirstName("Md.Shamim");
+
+	      EmployeeDetails shamimDetails = new EmployeeDetails();
+	      shamimDetails.setStreet("244");
+	      shamimDetails.setCity("Tangail");
+	      shamimDetails.setPostcode("1902");
+	      shamimDetails.setFatherName("Md.Shamsul Alam");
 	      
-	      Employee rafiq = new Employee( ); 
+	      shamim.setEmpDetails(shamimDetails);
+	      /*Employee rafiq = new Employee( ); 
 	      rafiq.setFirstName("Md.Rafig");
 
 	      Project consProject = new Project();
@@ -50,8 +57,8 @@ public class App
 	      shamim.setProjects(projects);
 	      rafiq.setProjects(projects);
           //save into db	      
+	      em.persist(shamim);*/
 	      em.persist(shamim);
-	      em.persist(rafiq);
 
 
 	      em.getTransaction( ).commit( );
