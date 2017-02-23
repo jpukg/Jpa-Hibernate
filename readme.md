@@ -1978,7 +1978,8 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		  public boolean equals(Object object) {
 		    if (object instanceof ProjectAssociationId) {
 		      ProjectAssociationId otherId = (ProjectAssociationId) object;
-		      return (otherId.employeeId == this.employeeId) && (otherId.projectId == this.projectId);
+		      return (otherId.employeeId == this.employeeId) && 
+		      (otherId.projectId == this.projectId);
 		    }
 		    return false;
 		  }
@@ -2047,6 +2048,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
    // @JoinColumn(name="empdetails_id") 
     private EmployeeDetails empDetails;	
 	```
+
 	Since Assume employee side contains foreign key need to employee reference to define join column
 
 	Update EmployeeDetails.java
