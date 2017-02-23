@@ -1993,7 +1993,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	Assume employee side contains foreign key
 
 
-	1. Update Employee.java
+	Update Employee.java
 
 	```java
 	@OneToOne(cascade=CascadeType.ALL)
@@ -2001,7 +2001,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
     private EmployeeDetails empDetails;
 	```
 
-	2. Create EmployeeDetails.java
+	Create EmployeeDetails.java
 
 	```java
 	package com.javaaround.model;
