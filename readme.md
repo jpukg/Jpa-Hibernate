@@ -1132,6 +1132,26 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	        em.persist( employee1 );
 			```
 
+			Relationship attribute overrid by ` @AssociationOverride`
+
+			```java
+			@MappedSuperclass
+		    public class Employee {
+		        ...
+		        @ManyToOne
+		        protected Address address;
+		        ...
+		    }
+		 
+		    @Entity 
+		        @AssociationOverride(name="address", 
+		                             joinColumns=@JoinColumn(name="ADDR_ID"))
+		        // address field mapping overridden to ADDR_ID foreign key
+		    public class PartTimeEmployee extends Employee {
+		        ...
+		    }
+		    ```
+		    
 			There are following problem of above strategy
 			1.  Cannot query, persist, or have relationships because it has no entity
 
@@ -1783,7 +1803,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 		Default join table is create one enity_other entity here EMPLOYEE_PROJECT
 
-		You can join table by specify
+		You can  specify own join table name
 
 		```java
 		@JoinTable(
@@ -1799,6 +1819,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 
 ## Access Type ###
 There are two accsss type
+
 1. Field access : JPA provider access fields directly, like how we can access fields within a class.
 2. Property access : JPA provider calls getter and setter methods runtime to load/store
 
