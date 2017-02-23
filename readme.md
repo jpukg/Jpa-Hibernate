@@ -1151,7 +1151,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		        ...
 		    }
 		    ```
-		    
+
 			There are following problem of above strategy
 			1.  Cannot query, persist, or have relationships because it has no entity
 
@@ -1680,6 +1680,21 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	    }
 		```
 
+		@OrderColumn is used to maintain the persistent order of a list
+
+		```java
+		@OneToMany(mappedBy = "department")
+		@OrderColumn
+		private List<Employee> employees;
+		```
+
+		Default column name `index` is created . we can override it + some behaviour
+
+
+		```
+		@OrderColumn(name="insert_order",columnDefinition="int",insertable=false,nullable=true,updatable=false)
+		```
+
 		You can fetch lazy loading
 
 		```
@@ -1811,6 +1826,67 @@ Bedefault class name is used to table name . you can give your custom name by @T
 			joinColumns=@JoinColumn(name="EMP_ID", referencedColumnName="ID"),
 			inverseJoinColumns=@JoinColumn(name="PROJ_ID", referencedColumnName="ID"))
 		)
+		```
+
+		Complex override
+
+		```java
+		@Entity
+	    public class Employee {
+	        @Id int id;
+	        @AssociationOverride(
+	          name="phoneNumbers",
+	          joinTable=@JoinTable(
+	             name="EMPPHONES",
+	             joinColumns=@JoinColumn(name="EMP"),
+	             inverseJoinColumns=@JoinColumn(name="PHONE")
+	          )
+	        )
+	        @Embedded ContactInfo contactInfo;
+	       ...
+	    }
+	 
+	    @Embeddable
+	    public class ContactInfo {
+	        @ManyToOne Address address; // Unidirectional
+	        @ManyToMany(targetEntity=PhoneNumber.class) List phoneNumbers;
+	    }
+	 
+	    @Entity
+	    public class PhoneNumber {
+	        @Id int number;
+	        @ManyToMany(mappedBy="contactInfo.phoneNumbers")
+	        Collection<Employee> employees;
+	     }
+		```
+
+		@MapsId designates a ManyToOne or  OneToOne relationship attribute that provides the mapping for an EmbeddedId primary key, an attribute within an EmbeddedId primary key, or a simple primary key of the parent entity(default).
+
+		```java
+		 // parent entity has simple primary key
+
+	    @Entity
+	    public class Employee {
+	       @Id long empId;
+	       String name;
+	       ...
+	    } 
+
+	    // dependent entity uses EmbeddedId for composite key
+
+	    @Embeddable
+	    public class DependentId {
+	       String name;
+	       long empid;   // corresponds to primary key type of Employee
+	    }
+
+	    @Entity
+	    public class Dependent {
+	       @EmbeddedId DependentId id;
+	        ...
+	       @MapsId("empid")  //  maps the empid attribute of embedded id
+	       @ManyToOne Employee emp;
+	    }
 		```
 
 
