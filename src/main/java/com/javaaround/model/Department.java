@@ -35,7 +35,5 @@ public class Department {
 	private int id;
 	@Basic(optional=false)  
 	private String name;
-	@OneToMany(mappedBy = "department")
-	@OrderColumn(name="INDEX")
-	private List<Employee> employees;
+	
 }	

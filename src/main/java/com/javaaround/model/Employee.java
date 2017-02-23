@@ -31,8 +31,10 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.CascadeType;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import java.util.*;  
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
@@ -40,7 +42,6 @@ import org.hibernate.annotations.Type;
 
 
 @Entity 
-//@Inheritance(strategy = InheritanceType.JOINED)
 @Data 
 public class Employee { 
 	@Id 
@@ -48,7 +49,11 @@ public class Employee {
 	private int id;
 	@Basic(optional=false)  
 	private String firstName;
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(
+		joinColumns=@JoinColumn(name="employee_id", referencedColumnName="ID"),
+		inverseJoinColumns=@JoinColumn(name="project_id", referencedColumnName="ID")
+	)
     private List<Project> projects;
 	
 }	

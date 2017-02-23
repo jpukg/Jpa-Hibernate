@@ -3,6 +3,7 @@ com\javaaround\model\Department.class
 com\javaaround\model\Employee.class
 com\javaaround\listener\EmployeeListener.class
 com\javaaround\model\Address.class
+com\javaaround\model\Project.class
 com\javaaround\listener\DefaultListener.class
 com\javaaround\model\EmployeeId.class
 com\javaaround\model\RegularEmployee.class

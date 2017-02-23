@@ -1708,7 +1708,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		Update Employee.java
 
 		```java
-		@ManyToMany
+		@ManyToMany(cascade=CascadeType.ALL)
         private List<Project> projects;
 		```
 		Create project.java
@@ -1729,10 +1729,71 @@ Bedefault class name is used to table name . you can give your custom name by @T
 			@GeneratedValue
 			private int id;
 			private String name;
-			@ManyToMany(mappedBy="projects")
+			@ManyToMany
 		    private List<Employee> employees;
 		}	
 		```
+
+		Since any entity does not foreign key(foreign key hava another table) you can pickup
+		any one entity to define it through `@JoinTable` annotation.We pickup employee(owner) so project(inverse)
+
+		Update Employee.java
+
+		```java
+		@JoinTable(
+			name="EMP_PRO"
+			joinColumns=@JoinColumn(name="EMP_ID", referencedColumnName="ID"),
+			inverseJoinColumns=@JoinColumn(name="PROJ_ID", referencedColumnName="ID"))
+		)
+		```
+
+		Update Project.java
+
+		```java
+		@ManyToMany(mappedBy="projects",cascade=CascadeType.ALL)
+		```
+
+		Update App.java
+
+		```java
+		Employee shamim = new Employee( ); 
+        shamim.setFirstName("Md.Shamim");
+
+        Project consProject = new Project();
+        consProject.setName("Construction");
+
+        Project trainingProject = new Project();
+        trainingProject.setName("Training");
+
+        //shamim have engaged many project
+        List<Project> projects = new ArrayList<Project>();
+        projects.add(consProject);
+        projects.add(trainingProject);
+
+        rafiq.setProjects(projects);
+        //save into db	      
+	    em.persist(shamim);
+	    em.persist(rafiq);
+		```
+
+		Run App : 
+
+		![Image of Nested](images/manyresult.png)
+		
+
+		Default join table is create one enity_other entity here EMPLOYEE_PROJECT
+
+		You can join table by specify
+
+		```java
+		@JoinTable(
+			name="EMP_PRO"
+			joinColumns=@JoinColumn(name="EMP_ID", referencedColumnName="ID"),
+			inverseJoinColumns=@JoinColumn(name="PROJ_ID", referencedColumnName="ID"))
+		)
+		```
+
+
 
 ### OneToOne Relation Mapping ###
 

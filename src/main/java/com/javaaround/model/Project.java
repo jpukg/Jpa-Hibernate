@@ -3,6 +3,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToMany;
+import javax.persistence.CascadeType;
 import lombok.Data;
 import java.util.List;
 
@@ -13,6 +14,6 @@ public class Project {
 	@GeneratedValue
 	private int id;
 	private String name;
-	@ManyToMany(mappedBy="projects")
+	@ManyToMany(mappedBy="projects",cascade=CascadeType.ALL)
     private List<Employee> employees;
 }	
