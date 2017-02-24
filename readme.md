@@ -2208,7 +2208,7 @@ There are following types of JPQL
 
 	```java
 	TypedQuery<Employee> query = em.createQuery("Select e FROM Employee e WHERE e.salary > 100000");
-	``
+	```
 
 	if where clause have  dynamic parameter
 
@@ -2229,6 +2229,11 @@ There are following types of JPQL
 		TypedQuery<Employee> query = em.createQuery("Select e FROM Employee e WHERE e.salary > : salary");
 		query.setParameter("salary", 100000);
 		```
+		date param(no time)
+
+		```java
+		query.setParameter("date", new java.util.Date(), TemporalType.DATE);
+		``
 	2. Position parameter : Positional parameters are prefixed with a question mark (?)  or  (?)followed the numeric position of the parameter in the query
 
 		```java
