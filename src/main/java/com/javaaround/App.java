@@ -33,16 +33,9 @@ public class App
 
 	      //start transaction
 	      em.getTransaction( ).begin( );
-	      TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee e",Employee.class);
-
-		  //single row
-		  Employee employee1= query.getSingleResult ();
-		  System.out.println(employee1.getFirstName());
-
-		  //all row
-		  List<Employee> empList = query.getResultList();
-		  for(Employee employee : empList)
-			System.out.println(employee.getFirstName());
+	      Query query = em.createQuery("UPDATE Employee e SET e.firstName = 'Md.Alamin' WHERE e.id = 1");
+		  int rowAffected = query.executeUpdate();
+		  System.out.println(rowAffected);
 	      em.getTransaction( ).commit( );
 
 	      //close resource

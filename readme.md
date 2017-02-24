@@ -2160,9 +2160,10 @@ public class Employee{
 
 ### JPQL ###
 
-SQl is used to manipulate data from dataabse directly whereas JPQl is also used to manipulate data from dataabse indirectly . To create JPQL ` EntityManager.createQuery()` is used
+JPQL is similar to SQL, but operates on objects, attributes and relationships instead of tables and columns . To create JPQL ` EntityManager.createQuery()` is used
 
-There are there types of JPQL
+There are following types of JPQL
+
 1. Dynamic Query : 
 
 	Update persistence.xml
@@ -2203,11 +2204,71 @@ There are there types of JPQL
 	  System.out.println(employee.getFirstName());
 	```
 
-	Query.executeUpdate - for running only DELETE and UPDATE queries.
+	With where clause 
+
+	```java
+	TypedQuery<Employee> query = em.createQuery("Select e FROM Employee e WHERE e.salary > 100000");
+	``
+
+	if where clause have  dynamic parameter
+
+	```java
+	TypedQuery<Employee> query = em.createQuery("Select e FROM Employee e WHERE e.salary > "+" 100000");
+	```
+	Above way input param have some drawback
+
+	1. translating a JPQL query to SQL every time when is invoked hence the query will not be cached.then you will have performance problems to solve.
+	2. Since you are using simple String concatenation, and since Strings are immutable, the JVM will generate many String objects, most of which will be discarded in the end and will be lingering in your memory until the time the next garbage collection happens. This again may have affect on the performance of your application.
+	3. security problem.a hacker can easily pass any value it to alter sql
+
+	Above problem can be solve easily by two
+
+	1. Named Paramter: Named parameters that are prefixed with a colon (:) and set by javax.persistence.Query.setParameter(String name, Object value);
+
+		```java
+		TypedQuery<Employee> query = em.createQuery("Select e FROM Employee e WHERE e.salary > : salary");
+		query.setParameter("salary", 100000);
+		```
+	2. Position parameter : Positional parameters are prefixed with a question mark (?)  or  (?)followed the numeric position of the parameter in the query
+
+		```java
+		TypedQuery<Employee> query = em.createQuery("Select e FROM Employee e WHERE e.salary > ?");
+		query.setParameter(1, 100000);
+		```
+
+		Or you can specify position manually
+
+		```java
+		TypedQuery<Employee> query = em.createQuery("Select e FROM Employee e WHERE e.salary > ?2");
+		query.setParameter(2, 100000);
+		```
+	
+	Query for a List of element arrays.	
+
+	```java
+	Query query = em.createQuery("Select e.firstName, e.lastName FROM Employee e");
+	List<Object[]> result5 = query.getResultList();
+	```
+
+	Update data
+
+	```java
+
+	Query query = em.createQuery("UPDATE Employee e SET e.firstName = 'Md.Alamin' WHERE e.id = 1");
+    int rowAffected = query.executeUpdate();
+    System.out.println(rowAffected);
+	```
+
+	Delete data
+
+	```java
+	Query query = em.createQuery("DELETE FROM Employee e WHERE e.id=1");
+	int rowCount = query.executeUpdate();
+	```
 	
 2. Named Query : 
-2. NativeQuery : 
-2. Criteria Query : 
+3. NativeQuery : 
+4. Criteria Query : 
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.
 There are two types of EntityManager
