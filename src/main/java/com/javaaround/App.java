@@ -33,9 +33,13 @@ public class App
 
 	      //start transaction
 	      em.getTransaction( ).begin( );
-	      Query query = em.createQuery("UPDATE Employee e SET e.firstName = 'Md.Alamin' WHERE e.id = 1");
-		  int rowAffected = query.executeUpdate();
-		  System.out.println(rowAffected);
+	      Query query = em.createQuery("Select e.firstName, e.id FROM Employee e");
+		List<Object[]> result = query.getResultList();
+
+		for(Object obj: result){
+			Object[] myArray = (Object[]) obj;
+			System.out.println("id=" + myArray[0] + "name=" + myArray[1]);
+		}
 	      em.getTransaction( ).commit( );
 
 	      //close resource

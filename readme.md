@@ -2204,6 +2204,17 @@ There are following types of JPQL
 	  System.out.println(employee.getFirstName());
 	```
 
+	if you select few field of an entity instead of full entity then return list of array of `Object`
+
+	```java
+	Query query = em.createQuery("Select e.firstName, e.id FROM Employee e");
+	List<Object[]> result = query.getResultList();
+
+	for(Object obj: result){
+		Object[] myArray = (Object[]) obj;
+		System.out.println("id=" + myArray[0] + "name=" + myArray[1]);
+	}
+	```
 	With where clause 
 
 	```java
@@ -2248,12 +2259,7 @@ There are following types of JPQL
 		query.setParameter(2, 100000);
 		```
 	
-	Query for a List of element arrays.	
-
-	```java
-	Query query = em.createQuery("Select e.firstName, e.lastName FROM Employee e");
-	List<Object[]> result5 = query.getResultList();
-	```
+	
 
 	Update data
 
