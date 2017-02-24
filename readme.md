@@ -2196,6 +2196,9 @@ There are two types of EntityManager
 	@PersistenceContext(unitName="nameofcontext")
 	EntityManager em;
 	```
+
+	Discuss in details at integrate jpa to EE
+
 	
 ### Steps To integrate Jpa to EE(Ejb) App ###
 
@@ -2358,89 +2361,7 @@ There are two types of EntityManager
 
 	asadmin redeploy "F:\java_tutorial\java\jpaEE2\ear\target\ear-1.0.ear"
 	give name of project : ear-1.0
-
-There are two types of Container-Managed
-
-1. Transaction-scoped Entity manager
-
-	In Transaction-scoped Entity manager , persistence context is alive as long as transaction is alive. container create transaction start when an method start , trasaction ends when an method ends
-
-	```java
-	package com.javaaround;
-
-	import javax.ejb.Stateless;
-	import javax.ejb.LocalBean;
-	import javax.ejb.Startup;
-	import javax.annotation.PostConstruct;
-	import javax.persistence.EntityManager;
-	import javax.persistence.PersistenceContext;
-	import com.javaaround.model.Employee;
-	import java.util.List;
-
-	import javax.persistence.EntityManager;
-	import javax.persistence.Query;
-
-	@Stateless
-	public class TransactionScoped{
-
-		@PersistenceContext(unitName = "hibernatePU")
-		/*equivalent above
-		default value transcation
-		@PersistenceContext(unitName = "hibernatePU",type=PersistenceContextType.TRANSACTION)
-		*/
-		EntityManager em;
-		public void saveEmployee(){
-			Employee employee = new Employee( ); 
-	        employee.setFirstName( "Md.Shamim Miah" );
-	        employee.setSalary( 40000.00 );
-	        em.persist( employee );
-		}
-
-		public void updateEmployee(){
-	        employee.setSalary( 50000.00 );
-		}
-	}
-	```
-
-	Update HelloEjb.java
-
-	```java
-	@Singleton
-	@LocalBean
-	@Startup
-	@TransactionManagement(TransactionManagementType.BEAN)
-	public class HelloEjb{
-		@EJB 
-	    TransactionScoped transactionScoped;
-	    
-		@PostConstruct
-		public void main(){
-			transactionScoped.saveEmployee();
-			transactionScoped.updateEmployee();
-		}
-	}
-	```
-
-	Update does not occure
-
-
-
-2. Extended-scoped Entity Manager
-
-	In Extended-scoped Entity manager , persistence context is alive as long as enterprise bean is alive.
-
-	Update TransactionScoped.java
-
-	```java
-	@Stateful
-	public class TransactionScoped{
-	@PersistenceContext(unitName = "hibernatePU",type=PersistenceContextType.EXTENDED)
-	EntityManager em;
-	```
-
-	Update does  occure now 
 	
-
 
 ### Usage at servlet ###
 
@@ -2554,6 +2475,298 @@ Complete project download link <br>
 
 [Download](https://www.dropbox.com/s/06m6h3o47f52aky/jpaEE2.zip?dl=0)
 
+There are two types of Container-Managed
+
+1. Transaction-scoped Entity manager
+
+	In Transaction-scoped Entity manager , persistence context is alive as long as transaction is alive. container create transaction start when an method start , trasaction ends when an method ends
+
+	```java
+	package com.javaaround;
+
+	import javax.ejb.Stateless;
+	import javax.ejb.LocalBean;
+	import javax.ejb.Startup;
+	import javax.annotation.PostConstruct;
+	import javax.persistence.EntityManager;
+	import javax.persistence.PersistenceContext;
+	import com.javaaround.model.Employee;
+	import java.util.List;
+
+	import javax.persistence.EntityManager;
+	import javax.persistence.Query;
+
+	@Stateless
+	public class TransactionScoped{
+
+		@PersistenceContext(unitName = "hibernatePU")
+		/*equivalent above
+		default value transcation
+		@PersistenceContext(unitName = "hibernatePU",type=PersistenceContextType.TRANSACTION)
+		*/
+		EntityManager em;
+		public void saveEmployee(){
+			Employee employee = new Employee( ); 
+	        employee.setFirstName( "Md.Shamim Miah" );
+	        employee.setSalary( 40000.00 );
+	        em.persist( employee );
+		}
+
+		public void updateEmployee(){
+	        employee.setSalary( 50000.00 );
+		}
+	}
+	```
+
+	Update HelloEjb.java
+
+	```java
+	@Singleton
+	@LocalBean
+	@Startup
+	@TransactionManagement(TransactionManagementType.BEAN)
+	public class HelloEjb{
+		@EJB 
+	    TransactionScoped transactionScoped;
+	    
+		@PostConstruct
+		public void main(){
+			transactionScoped.saveEmployee();
+			transactionScoped.updateEmployee();
+		}
+	}
+	```
+
+	Update does not occure
+
+
+
+2. Extended-scoped Entity Manager
+
+	In Extended-scoped Entity manager , persistence context is alive as long as enterprise bean is alive.
+
+	Update TransactionScoped.java
+
+	```java
+	@Stateful
+	public class TransactionScoped{
+	@PersistenceContext(unitName = "hibernatePU",type=PersistenceContextType.EXTENDED)
+	EntityManager em;
+	```
+
+	Update does  occure now 
+
+### Merge() Operation ###
+
+![Image of Nested](images/merge.png)
+
+Create a MergeBean.java
+
+```java
+@Stateless
+public class MergeBean{
+	@PersistenceContext(unitName = "hibernatePU")
+	EntityManager em;
+	public Employee getEmployee(){
+		return em.find(Employee.class,2);
+	}
+
+	public void updateEmployee(Employee emp){
+        Employee employee = emp.merge();
+        employee.setSalary(50000);
+	}
+}
+``` 
+
+Update HelloEjb.java
+
+```java
+@EJB 
+MergeBean mergeBean;
+
+@PostConstruct
+public void main(){
+	Employee employee = mergeBean.getEmployee();
+	mergeBean.updateEmployee(employee);
+	
+}
+```
+
 ### Steps To integrate Jpa to Java Web(Servlet) App ###
+
+1. create java web project using maven by following command
+
+mvn archetype:generate
+
+Search 'maven-archetype-webapp' by edit-find(windows) . choose project no Give groupId,arctifactId etc
+
+2. Update web.xml
+
+```xml
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+  <display-name>Archetype Created Web Application</display-name>
+</web-app>
+```
+
+3. Create persistence.xml at src/main/resource/META-INF
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+ xsi:schemaLocation="
+ http://xmlns.jcp.org/xml/ns/persistence 
+ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
+  <persistence-unit name="hibernatePU" transaction-type="RESOURCE_LOCAL">
+   	  
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      	
+      <class>com.javaaround.model.Employee</class>
+      <properties>
+         
+          <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test" />
+          <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+          <property name="javax.persistence.jdbc.user" value="root" />
+          <property name="javax.persistence.jdbc.password" value="" />
+          <!-- flag for sql show or not at console -->
+          <property name="javax.persistence.jdbc.show_sql" value="true" /> 
+         
+    </properties>
+   </persistence-unit>      	
+</persistence>
+```
+
+3. Create Employee.java at src/main/com/javaaround/model
+
+```java
+package com.javaaround.model;
+import javax.persistence.Entity;  
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import lombok.Data;
+
+@Entity
+@Data 
+public class Employee { 
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  
+	private int id;  
+	private String firstName;
+	private Double salary;  
+	  
+	
+}	
+```
+
+4. Create Servlet at src/main/com/javaaround/servlet
+
+```java
+package com.javaaround.servlet;
+ 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import com.javaaround.listener.EntityManagerListener;
+import com.javaaround.model.Employee;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+ 
+@WebServlet(name="GuestServlet", urlPatterns={"/employee"})
+public class GuestServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    @Override
+    protected void doGet(
+        HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        EntityManager em = EntityManagerListener.createEntityManager();
+        TypedQuery<Employee>  query =  em.createQuery("SELECT e FROM Employee e",Employee.class);      
+        List<Employee> employees = query.getResultList();
+        
+        request.setAttribute("employees", employees);
+        request.getRequestDispatcher("/employee.jsp").forward(request, response);
+    }
+ 
+    
+}
+```
+
+5. Create listener at src/main/com/javaaround/listener
+
+```java
+package com.javaaround.listener;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
+@WebListener
+public class EntityManagerListener implements ServletContextListener{  
+	
+	private static EntityManagerFactory emf;
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        emf = Persistence.createEntityManagerFactory("hibernatePU");
+    }
+    @Override
+    public void contextDestroyed(ServletContextEvent event) {
+        emf.close();
+    }
+    public static EntityManager createEntityManager() {
+        if (emf == null) {
+            throw new IllegalStateException("Context is not initialized yet.");
+        }
+        return emf.createEntityManager();
+    }
+} 
+```
+
+6. Add dependency at pom.xml
+
+```xml
+<dependency>
+  <groupId>javax</groupId>
+  <artifactId>javaee-api</artifactId>
+  <version>7.0</version>
+</dependency>
+ <dependency>
+     <groupId>mysql</groupId>
+     <artifactId>mysql-connector-java</artifactId>
+     <version>5.1.6</version>
+ </dependency>
+ <dependency>
+   <groupId>org.eclipse.persistence</groupId>
+   <artifactId>javax.persistence</artifactId>
+   <version>2.1.1</version>
+ </dependency>
+ <dependency>
+   <groupId>org.projectlombok</groupId>
+   <artifactId>lombok</artifactId>
+   <version>1.16.12</version>
+ </dependency>
+ <dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-entitymanager</artifactId>
+   <version>4.3.9.Final</version>
+ </dependency>
+```
+
+6. Deploy App
+
+deploy "F:\java_tutorial\java\JpaJavaWeb\target\JpaJavaWeb.war"
+
+Browse : 
+ 
+http://localhost:8181/JpaJavaWeb/employee
+
 
 
