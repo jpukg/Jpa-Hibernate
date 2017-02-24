@@ -2158,6 +2158,56 @@ public class Employee{
 }
 ```
 
+### JPQL ###
+
+SQl is used to manipulate data from dataabse directly whereas JPQl is also used to manipulate data from dataabse indirectly . To create JPQL ` EntityManager.createQuery()` is used
+
+There are there types of JPQL
+1. Dynamic Query : 
+
+	Update persistence.xml
+	```xml
+	<property name="javax.persistence.schema-generation.database.action" value="none"/> 
+	```
+
+	Update App.java
+
+	```java
+	Query query = em.createQuery("SELECT e FROM Employee e");
+
+	//single row
+	Employee employee1= (Employee) query.getSingleResult ();
+	System.out.println(employee1.getFirstName());
+
+	//all row
+	List<Employee> empList = query.getResultList();
+	for(Employee employee : empList)
+		System.out.println(employee.getFirstName());
+
+	```
+
+	JPA 2.0 introduce TypedQuery . It is easier to run queries and process the query results in a type safe manner (no need to cast).
+
+	Update App.java
+
+	```java
+	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee e",Employee.class);
+
+    //single row
+    Employee employee1= query.getSingleResult ();
+    System.out.println(employee1.getFirstName());
+
+    //all row
+    List<Employee> empList = query.getResultList();
+    for(Employee employee : empList)
+	  System.out.println(employee.getFirstName());
+	```
+
+	Query.executeUpdate - for running only DELETE and UPDATE queries.
+	
+2. Named Query : 
+2. NativeQuery : 
+2. Criteria Query : 
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.
 There are two types of EntityManager
@@ -2760,9 +2810,9 @@ public class EntityManagerListener implements ServletContextListener{
  </dependency>
 ```
 
-6. Deploy App
+6. Deploy App in glassfish
 
-deploy "F:\java_tutorial\java\JpaJavaWeb\target\JpaJavaWeb.war"
+asadmin deploy "F:\java_tutorial\java\JpaJavaWeb\target\JpaJavaWeb.war"
 
 Browse : 
  

@@ -2,6 +2,8 @@ package com.javaaround;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import java.util.Date;
 import com.javaaround.model.ContactEmployee;
 import com.javaaround.model.Employee;
@@ -24,44 +26,23 @@ public class App
     public static void main( String[] args )
     {
     	  //Persistence.generateSchema("hibernatePU", null);
+    	  	
 	      EntityManagerFactory emf = Persistence.createEntityManagerFactory( "hibernatePU" );
 	  
 	      EntityManager em = emf.createEntityManager();
 
 	      //start transaction
 	      em.getTransaction( ).begin( );
+	      TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee e",Employee.class);
 
-	      Employee shamim = new Employee( ); 
-	      shamim.setFirstName("Md.Shamim");
+		  //single row
+		  Employee employee1= query.getSingleResult ();
+		  System.out.println(employee1.getFirstName());
 
-	      EmployeeDetails shamimDetails = new EmployeeDetails();
-	      shamimDetails.setStreet("244");
-	      shamimDetails.setCity("Tangail");
-	      shamimDetails.setPostcode("1902");
-	      shamimDetails.setFatherName("Md.Shamsul Alam");
-	      
-	      shamim.setEmpDetails(shamimDetails);
-	      /*Employee rafiq = new Employee( ); 
-	      rafiq.setFirstName("Md.Rafig");
-
-	      Project consProject = new Project();
-	      consProject.setName("Construction");
-
-	      Project trainingProject = new Project();
-	      trainingProject.setName("Training");
-
-	      //shamim have engaged many project
-	      List<Project> projects = new ArrayList<Project>();
-	      projects.add(consProject);
-	      projects.add(trainingProject);
-
-	      shamim.setProjects(projects);
-	      rafiq.setProjects(projects);
-          //save into db	      
-	      em.persist(shamim);*/
-	      em.persist(shamim);
-
-
+		  //all row
+		  List<Employee> empList = query.getResultList();
+		  for(Employee employee : empList)
+			System.out.println(employee.getFirstName());
 	      em.getTransaction( ).commit( );
 
 	      //close resource
