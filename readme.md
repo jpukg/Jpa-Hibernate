@@ -2406,7 +2406,7 @@ Advantage
 1. compilation time Type Safe rather than at runtime.so Errors can be detected during compile time
 
 ### CriteriaBuilder ### 
-CriteriaBuilder is the main interface into to create CriteriaQuery. EntityManagerFactory.getCriteriaBuilder() or EntityManager.getCriteriaBuilder() is used to create  CriteriaBuilder . The Criteria API only supports select queries before 2.1 but currently supports delete and update query also(2.1 improvement)
+CriteriaBuilder is the main interface into to create `CriteriaQuery. EntityManagerFactory.getCriteriaBuilder()` or `EntityManager.getCriteriaBuilder()` is used to create  CriteriaBuilder . The Criteria API only supports select queries before 2.1 but currently supports delete and update query also(2.1 improvement)
 
 CriteriaBuilder defines API to create CriteriaQuery objects by following methods:
 
@@ -2491,10 +2491,13 @@ The Criteria API has two modes
 	if you want name based access 
 
 	1. give an alias of field
+
 		```java
 		 criteriaQuery.multiselect(employee.get("firstName").alias("first"), employee.get("id").alias("eid"));
 		```
+
 	2. Access throgh alias name
+
 		```java
 		String firstName = (String) result.get(0).get("first"); 
 		  Integer id = (Integer) result.get(0).get("eid");
@@ -2506,7 +2509,18 @@ The Criteria API has two modes
     		System.out.println("id=" + eid + "name=" + fName);
 	      }
 		```	
-		
+
+
+	We can get back a class instance instead of an object array.
+
+	```java
+	CriteriaQuery criteriaQuery = cb.createQuery();
+	Root employee = criteriaQuery.from(Employee.class);
+	criteriaQuery.select(cb.construct(EmployeeInfo.class,employee.get("firstName"), employee.get("id")));
+
+	Query query = em.createQuery(criteriaQuery);
+	List<EmployeeInfo> result = query.getResultList();
+	```
 
 	### Where Clause ###
 	By default all instances of the class are selected. you can filter by where(Expression), where(Predicate...) 

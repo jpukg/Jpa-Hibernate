@@ -39,22 +39,16 @@ public class App
 	      //start transaction
 	      em.getTransaction( ).begin( );
 	      CriteriaBuilder cb = em.getCriteriaBuilder();
-		  CriteriaQuery<Tuple> criteriaQuery = cb.createTupleQuery();
+		  CriteriaQuery criteriaQuery = cb.createQuery();
 		  Root employee = criteriaQuery.from(Employee.class);
-		  criteriaQuery.multiselect(employee.get("firstName").alias("first"), employee.get("id").alias("eid"));
+		  criteriaQuery.select(cb.construct(EmployeeInfo.class,employee.get("firstName"), employee.get("id")));
 
 		  Query query = em.createQuery(criteriaQuery);
-		  List<Tuple> result = query.getResultList();
-		  //specfic index element
-		  String firstName = (String) result.get(0).get("first"); 
-		  Integer id = (Integer) result.get(0).get("eid");
-		  System.out.println("id=" + id + "name=" + firstName);
-		  //all element
-	      for(Tuple tuple : result){
-	      	String fName = (String) tuple.get("first"); //oth value
-		    Integer  eid = (Integer) tuple.get("eid"); // 1th value
-    		System.out.println("id=" + eid + "name=" + fName);
-	      }
+		  List<EmployeeInfo> result = query.getResultList();
+		  
+	      for(EmployeeInfo employeeInfo : result)
+    		System.out.println(employeeInfo.getFirstName());
+	      
 	      em.getTransaction( ).commit( );
 
 	      //close resource
