@@ -35,6 +35,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.*;  
@@ -42,7 +44,9 @@ import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-
+@NamedQueries({
+	@NamedQuery(name="findAllEmployees",query="SELECT e FROM Employee e")
+})
 @Entity 
 @Data 
 public class Employee { 
@@ -58,6 +62,8 @@ public class Employee {
 	)
     private List<Project> projects;*/
     @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="empdetails_id")
+   
     private EmployeeDetails empDetails;
 	
 }	

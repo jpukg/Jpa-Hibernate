@@ -2215,6 +2215,35 @@ There are following types of JPQL
 		System.out.println("id=" + myArray[0] + "name=" + myArray[1]);
 	}
 	```
+
+	We can get back a class instance instead of an object array.
+
+	Create EmployeeInfo.java
+	```java
+	package com.javaaround.model;
+	import lombok.Data;
+
+	@Data 
+	public class EmployeeInfo { 
+		private int id;
+		private String firstName;
+		public EmployeeInfo(String firstName,int id){
+			this.id = id;
+			this.firstName = firstName;
+		}
+	}	
+	```
+
+	Update App.java
+
+	```java
+	TypedQuery<EmployeeInfo> query  = em.createQuery("Select new  com.javaaround.model.EmployeeInfo(e.firstName, e.id) FROM Employee e",EmployeeInfo.class);
+    
+    List<EmployeeInfo> empInfoList = query.getResultList();
+    for(EmployeeInfo employeeInfo : empInfoList)
+		System.out.println(employeeInfo.getFirstName());
+	```
+
 	With where clause 
 
 	```java
@@ -2228,11 +2257,11 @@ There are following types of JPQL
 	```
 	Above way input param have some drawback
 
-	1. translating a JPQL query to SQL every time when is invoked hence the query will not be cached.then you will have performance problems to solve.
+	1. translating a JPQL query to SQL every time when is invoked hence the query will not be cached.then you will have performance problems .
 	2. Since you are using simple String concatenation, and since Strings are immutable, the JVM will generate many String objects, most of which will be discarded in the end and will be lingering in your memory until the time the next garbage collection happens. This again may have affect on the performance of your application.
 	3. security problem.a hacker can easily pass any value it to alter sql
 
-	Above problem can be solve easily by two
+	Above problem can be solve easily by two way
 
 	1. Named Paramter: Named parameters that are prefixed with a colon (:) and set by javax.persistence.Query.setParameter(String name, Object value);
 
@@ -2245,7 +2274,7 @@ There are following types of JPQL
 		```java
 		query.setParameter("date", new java.util.Date(), TemporalType.DATE);
 		``
-	2. Position parameter : Positional parameters are prefixed with a question mark (?)  or  (?)followed the numeric position of the parameter in the query
+	2. Position parameter : Positional parameters are prefixed with a question mark (?)  or ?<position>
 
 		```java
 		TypedQuery<Employee> query = em.createQuery("Select e FROM Employee e WHERE e.salary > ?");
@@ -2277,9 +2306,87 @@ There are following types of JPQL
 	int rowCount = query.executeUpdate();
 	```
 	
-2. Named Query : 
+2. Named Query : it is used to create static queries so tha jpa provider gives an opportunity to preprocess the query and can lead to faster result.This types of query gives an unique name and used again and again
+
+The name element of `@NamedQuery` specifies the name of the query that will be used with the `EntityManager.createNamedQuery` method.
+
+Update Employee.java
+
+```java
+@NamedQueries({
+	@NamedQuery(name="findAllEmployees",query="SELECT e FROM Employee e")
+})
+@Entity 
+@Data 
+public class Employee { 
+```
+
+Update App.java
+
+```java
+TypedQuery<Employee> query = em.createNamedQuery("findAllEmployees",Employee.class);
+List<Employee> empList = query.getResultList();
+for(Employee employee : empList)
+	System.out.println(employee.getFirstName());
+```
+
 3. NativeQuery : 
-4. Criteria Query : 
+
+
+### Scalar Function ###
+
+```java
+TypedQuery<Employee> query = em.createQuery("Select UPPER(e.firstName) FROM Employee e WHERE e.salary > 100000");
+
+//lower
+LOWER(e.firstName)
+
+//TRIM
+TRIM(e.firstName)
+
+//TRIM
+TRIM(e.firstName)
+
+//LENGTH
+LENGTH(e.firstName,0,2)
+
+
+//NULLIF
+NULLIF(e.salary, 0)
+
+//SQRT
+SQRT(e.id)
+
+//MOD
+MOD(e.id/2)
+
+//ABS
+ABS(e.id)
+
+//CONCAT
+CONCAT(e.firstName, ' ', e.lastName)
+
+//date,time,timestamp
+
+TypedQuery<Employee> query = em.createQuery("Select 	
+CURRENT_DATE,	
+CURRENT_TIME,CURRENT_TIMESTAMP FROM Employee e WHERE e.salary > 100000");
+
+```
+
+### Aggregate Function ###
+
+```java
+TypedQuery<Employee> query = em.createQuery("Select MAX(e.salary), COUNT(e)  FROM Employee e WHERE e.salary > 100000");
+
+//MIN
+MIN(e.salary) 
+
+```
+### JPA Criteria API ###
+
+JPQL queries are defined as strings, similarly to SQL. JPA criteria queries, on the other hand, are defined by instantiation of Java objects that represent query elements.
+ 
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.
 There are two types of EntityManager

@@ -9,6 +9,7 @@ import com.javaaround.model.ContactEmployee;
 import com.javaaround.model.Employee;
 import com.javaaround.model.Department;
 import com.javaaround.model.EmployeeDetails;
+import com.javaaround.model.EmployeeInfo;
 import com.javaaround.model.Address;
 import com.javaaround.model.Project;
 import com.javaaround.util.Gender;
@@ -33,13 +34,10 @@ public class App
 
 	      //start transaction
 	      em.getTransaction( ).begin( );
-	      Query query = em.createQuery("Select e.firstName, e.id FROM Employee e");
-		List<Object[]> result = query.getResultList();
-
-		for(Object obj: result){
-			Object[] myArray = (Object[]) obj;
-			System.out.println("id=" + myArray[0] + "name=" + myArray[1]);
-		}
+	      TypedQuery<EmployeeInfo> query  = em.createQuery("Select new  com.javaaround.model.EmployeeInfo(e.firstName, e.id) FROM Employee e",EmployeeInfo.class);
+	      List<EmployeeInfo> empInfoList = query.getResultList();
+	      for(EmployeeInfo employeeInfo : empInfoList)
+	  		System.out.println(employeeInfo.getFirstName());
 	      em.getTransaction( ).commit( );
 
 	      //close resource
