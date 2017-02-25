@@ -2458,13 +2458,17 @@ The Criteria API has two modes
 	in | criteriaBuilder.in(employee.get("firstName")).value("Bob").value("Fred").value("Joe")
 	employee.get("firstName").in("Bob", "Fred", "Joe")
 	employee.get("firstName").in(criteriaBuilder.parameter(List.class, "names")
+
 	and | criteriaBuilder.and(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("lastName"), "Smith"))
 	or | criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("lastName"), "Smith"))
+
 	not | criteriaBuilder.not(criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("firstName"), "Bobby"))) or criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("firstName"), "Bobby")).not()
+
 	conjunction | Predicate where = criteriaBuilder.conjunction();
 	if (name != null) {
 	    where = criteriaBuilder.and(where, criteriaBuilder.equal(employee.get("firstName"), name));
 	}
+	
 	disjunction | Predicate where = criteriaBuilder.disjunction();
 	if (name != null) {
 	    where = criteriaBuilder.or(where, criteriaBuilder.equal(employee.get("firstName"), name));
