@@ -2418,7 +2418,7 @@ CriteriaBuilder defines API to create CriteriaQuery objects by following methods
 
 The Criteria API has two modes
 
-1. the non-typed mode : strings to reference attributes of a class
+1. the non-typed mode : every attributes of a class are reference to string although it have int,double
 	
 
 	here is the JPQL
@@ -2445,7 +2445,7 @@ The Criteria API has two modes
   		System.out.println(employee.getFirstName());
 	```
 
-	Get single property
+	Get single property. every attributes of a class are reference to string
 
 	```java
 	CriteriaQuery criteriaQuery = cb.createQuery();
@@ -2462,14 +2462,51 @@ The Criteria API has two modes
 
 	```java
 	criteriaQuery.multiselect(employee.get("firstName"), employee.get("id"));
-
-	Query query = em.createQuery(criteriaQuery);
 	List<Object[]> result = query.getResultList();
     for(Object obj : result){
       Object[] myArray = (Object[]) obj;
 	  System.out.println("id=" + myArray[1] + "name=" + myArray[0]);
     }
 	```
+
+	In the above example , object array is returned by JPA multi-select queries, but an object array is not a very useful data structure. instead we can use `Tuple` . It is a map-like structure that allows the results to be retrieved by name or index.
+
+	Update App.java 
+	```java
+	import import javax.persistence.Tuple;
+	 CriteriaQuery<Tuple> criteriaQuery = cb.createTupleQuery();
+	  List<Tuple> result = query.getResultList();
+	  //specfic index element
+	  String firstName = (String) result.get(0).get(0); 
+	  Integer id = (Integer) result.get(0).get(1);
+	  System.out.println("id=" + id + "name=" + firstName);
+	  //all element
+      for(Tuple tuple : result){
+      	String fName = (String) tuple.get(0); //oth value
+	    Integer  eid = (Integer) tuple.get(1); // 1th value
+		System.out.println("id=" + eid + "name=" + fName);
+      }
+	```  
+
+	if you want name based access 
+
+	1. give an alias of field
+		```java
+		 criteriaQuery.multiselect(employee.get("firstName").alias("first"), employee.get("id").alias("eid"));
+		```
+	2. Access throgh alias name
+		```java
+		String firstName = (String) result.get(0).get("first"); 
+		  Integer id = (Integer) result.get(0).get("eid");
+		  System.out.println("id=" + id + "name=" + firstName);
+		  //all element
+	      for(Tuple tuple : result){
+	      	String fName = (String) tuple.get("first"); //oth value
+		    Integer  eid = (Integer) tuple.get("eid"); // 1th value
+    		System.out.println("id=" + eid + "name=" + fName);
+	      }
+		```	
+		
 
 	### Where Clause ###
 	By default all instances of the class are selected. you can filter by where(Expression), where(Predicate...) 
@@ -2561,6 +2598,7 @@ There are two types of EntityManager
 ### Steps To integrate Jpa to EE(Ejb) App ###
 
 ![Image of Nested](images/EE.png) 
+
 
 1. create javaee project using maven by following command
 
@@ -2954,169 +2992,169 @@ public void main(){
 
 1. create java web project using maven by following command
 
-mvn archetype:generate
+	mvn archetype:generate
 
-Search 'maven-archetype-webapp' by edit-find(windows) . choose project no Give groupId,arctifactId etc
+	Search 'maven-archetype-webapp' by edit-find(windows) . choose project no Give groupId,arctifactId etc
 
 2. Update web.xml
 
-```xml
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
-		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-         version="3.1">
-  <display-name>Archetype Created Web Application</display-name>
-</web-app>
-```
+	```xml
+	<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+			 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	         version="3.1">
+	  <display-name>Archetype Created Web Application</display-name>
+	</web-app>
+	```
 
 3. Create persistence.xml at src/main/resource/META-INF
 
-```xml
-<?xml version="1.0" encoding="UTF-8" ?>
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
- xsi:schemaLocation="
- http://xmlns.jcp.org/xml/ns/persistence 
- http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
-  <persistence-unit name="hibernatePU" transaction-type="RESOURCE_LOCAL">
-   	  
-      <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      	
-      <class>com.javaaround.model.Employee</class>
-      <properties>
-         
-          <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test" />
-          <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-          <property name="javax.persistence.jdbc.user" value="root" />
-          <property name="javax.persistence.jdbc.password" value="" />
-          <!-- flag for sql show or not at console -->
-          <property name="javax.persistence.jdbc.show_sql" value="true" /> 
-         
-    </properties>
-   </persistence-unit>      	
-</persistence>
-```
+	```xml
+	<?xml version="1.0" encoding="UTF-8" ?>
+	<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+	 xsi:schemaLocation="
+	 http://xmlns.jcp.org/xml/ns/persistence 
+	 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
+	  <persistence-unit name="hibernatePU" transaction-type="RESOURCE_LOCAL">
+	   	  
+	      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+	      	
+	      <class>com.javaaround.model.Employee</class>
+	      <properties>
+	         
+	          <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test" />
+	          <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+	          <property name="javax.persistence.jdbc.user" value="root" />
+	          <property name="javax.persistence.jdbc.password" value="" />
+	          <!-- flag for sql show or not at console -->
+	          <property name="javax.persistence.jdbc.show_sql" value="true" /> 
+	         
+	    </properties>
+	   </persistence-unit>      	
+	</persistence>
+	```
 
 3. Create Employee.java at src/main/com/javaaround/model
 
-```java
-package com.javaaround.model;
-import javax.persistence.Entity;  
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import lombok.Data;
+	```java
+	package com.javaaround.model;
+	import javax.persistence.Entity;  
+	import javax.persistence.Id;
+	import javax.persistence.GeneratedValue;
+	import javax.persistence.GenerationType;
+	import lombok.Data;
 
-@Entity
-@Data 
-public class Employee { 
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)  
-	private int id;  
-	private String firstName;
-	private Double salary;  
-	  
-	
-}	
-```
+	@Entity
+	@Data 
+	public class Employee { 
+		@Id 
+		@GeneratedValue(strategy = GenerationType.IDENTITY)  
+		private int id;  
+		private String firstName;
+		private Double salary;  
+		  
+		
+	}	
+	```
 
 4. Create Servlet at src/main/com/javaaround/servlet
 
-```java
-package com.javaaround.servlet;
- 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import com.javaaround.listener.EntityManagerListener;
-import com.javaaround.model.Employee;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
- 
-@WebServlet(name="GuestServlet", urlPatterns={"/employee"})
-public class GuestServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    @Override
-    protected void doGet(
-        HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        EntityManager em = EntityManagerListener.createEntityManager();
-        TypedQuery<Employee>  query =  em.createQuery("SELECT e FROM Employee e",Employee.class);      
-        List<Employee> employees = query.getResultList();
-        
-        request.setAttribute("employees", employees);
-        request.getRequestDispatcher("/employee.jsp").forward(request, response);
-    }
- 
-    
-}
-```
+	```java
+	package com.javaaround.servlet;
+	 
+	import java.io.IOException;
+	import javax.servlet.ServletException;
+	import javax.servlet.annotation.WebServlet;
+	import javax.servlet.http.HttpServlet;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+	import java.util.List;
+	import com.javaaround.listener.EntityManagerListener;
+	import com.javaaround.model.Employee;
+	import javax.persistence.EntityManager;
+	import javax.persistence.TypedQuery;
+	 
+	@WebServlet(name="GuestServlet", urlPatterns={"/employee"})
+	public class GuestServlet extends HttpServlet {
+	    private static final long serialVersionUID = 1L;
+	    @Override
+	    protected void doGet(
+	        HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException {
+	        EntityManager em = EntityManagerListener.createEntityManager();
+	        TypedQuery<Employee>  query =  em.createQuery("SELECT e FROM Employee e",Employee.class);      
+	        List<Employee> employees = query.getResultList();
+	        
+	        request.setAttribute("employees", employees);
+	        request.getRequestDispatcher("/employee.jsp").forward(request, response);
+	    }
+	 
+	    
+	}
+	```
 
 5. Create listener at src/main/com/javaaround/listener
 
-```java
-package com.javaaround.listener;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
-@WebListener
-public class EntityManagerListener implements ServletContextListener{  
-	
-	private static EntityManagerFactory emf;
-    @Override
-    public void contextInitialized(ServletContextEvent event) {
-        emf = Persistence.createEntityManagerFactory("hibernatePU");
-    }
-    @Override
-    public void contextDestroyed(ServletContextEvent event) {
-        emf.close();
-    }
-    public static EntityManager createEntityManager() {
-        if (emf == null) {
-            throw new IllegalStateException("Context is not initialized yet.");
-        }
-        return emf.createEntityManager();
-    }
-} 
-```
+	```java
+	package com.javaaround.listener;
+	import javax.persistence.EntityManager;
+	import javax.persistence.EntityManagerFactory;
+	import javax.persistence.Persistence;
+	import javax.servlet.ServletContextEvent;
+	import javax.servlet.ServletContextListener;
+	import javax.servlet.annotation.WebListener;
+	@WebListener
+	public class EntityManagerListener implements ServletContextListener{  
+		
+		private static EntityManagerFactory emf;
+	    @Override
+	    public void contextInitialized(ServletContextEvent event) {
+	        emf = Persistence.createEntityManagerFactory("hibernatePU");
+	    }
+	    @Override
+	    public void contextDestroyed(ServletContextEvent event) {
+	        emf.close();
+	    }
+	    public static EntityManager createEntityManager() {
+	        if (emf == null) {
+	            throw new IllegalStateException("Context is not initialized yet.");
+	        }
+	        return emf.createEntityManager();
+	    }
+	} 
+	```
 
 6. Add dependency at pom.xml
 
-```xml
-<dependency>
-  <groupId>javax</groupId>
-  <artifactId>javaee-api</artifactId>
-  <version>7.0</version>
-</dependency>
- <dependency>
-     <groupId>mysql</groupId>
-     <artifactId>mysql-connector-java</artifactId>
-     <version>5.1.6</version>
- </dependency>
- <dependency>
-   <groupId>org.eclipse.persistence</groupId>
-   <artifactId>javax.persistence</artifactId>
-   <version>2.1.1</version>
- </dependency>
- <dependency>
-   <groupId>org.projectlombok</groupId>
-   <artifactId>lombok</artifactId>
-   <version>1.16.12</version>
- </dependency>
- <dependency>
-   <groupId>org.hibernate</groupId>
-   <artifactId>hibernate-entitymanager</artifactId>
-   <version>4.3.9.Final</version>
- </dependency>
-```
+	```xml
+	<dependency>
+	  <groupId>javax</groupId>
+	  <artifactId>javaee-api</artifactId>
+	  <version>7.0</version>
+	</dependency>
+	 <dependency>
+	     <groupId>mysql</groupId>
+	     <artifactId>mysql-connector-java</artifactId>
+	     <version>5.1.6</version>
+	 </dependency>
+	 <dependency>
+	   <groupId>org.eclipse.persistence</groupId>
+	   <artifactId>javax.persistence</artifactId>
+	   <version>2.1.1</version>
+	 </dependency>
+	 <dependency>
+	   <groupId>org.projectlombok</groupId>
+	   <artifactId>lombok</artifactId>
+	   <version>1.16.12</version>
+	 </dependency>
+	 <dependency>
+	   <groupId>org.hibernate</groupId>
+	   <artifactId>hibernate-entitymanager</artifactId>
+	   <version>4.3.9.Final</version>
+	 </dependency>
+	```
 
 6. Deploy App in glassfish
 

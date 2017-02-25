@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import org.apache.commons.io.IOUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javax.persistence.Tuple;
 import java.util.*;
 /**
  * Hello world!
@@ -38,15 +39,21 @@ public class App
 	      //start transaction
 	      em.getTransaction( ).begin( );
 	      CriteriaBuilder cb = em.getCriteriaBuilder();
-		  CriteriaQuery criteriaQuery = cb.createQuery();
+		  CriteriaQuery<Tuple> criteriaQuery = cb.createTupleQuery();
 		  Root employee = criteriaQuery.from(Employee.class);
-		  criteriaQuery.multiselect(employee.get("firstName"), employee.get("id"));
+		  criteriaQuery.multiselect(employee.get("firstName").alias("first"), employee.get("id").alias("eid"));
 
 		  Query query = em.createQuery(criteriaQuery);
-		  List<Object[]> result = query.getResultList();
-	      for(Object obj : result){
-	      	Object[] myArray = (Object[]) obj;
-    		System.out.println("id=" + myArray[0] + "name=" + myArray[1]);
+		  List<Tuple> result = query.getResultList();
+		  //specfic index element
+		  String firstName = (String) result.get(0).get("first"); 
+		  Integer id = (Integer) result.get(0).get("eid");
+		  System.out.println("id=" + id + "name=" + firstName);
+		  //all element
+	      for(Tuple tuple : result){
+	      	String fName = (String) tuple.get("first"); //oth value
+		    Integer  eid = (Integer) tuple.get("eid"); // 1th value
+    		System.out.println("id=" + eid + "name=" + fName);
 	      }
 	      em.getTransaction( ).commit( );
 
