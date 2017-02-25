@@ -38,14 +38,16 @@ public class App
 	      //start transaction
 	      em.getTransaction( ).begin( );
 	      CriteriaBuilder cb = em.getCriteriaBuilder();
-		  CriteriaQuery<Employee> criteriaQuery = cb.createQuery(Employee.class);
-		  Root<Employee> root = criteriaQuery.from(Employee.class);
-		  criteriaQuery.select(root);
+		  CriteriaQuery criteriaQuery = cb.createQuery();
+		  Root employee = criteriaQuery.from(Employee.class);
+		  criteriaQuery.multiselect(employee.get("firstName"), employee.get("id"));
 
-		  TypedQuery<Employee> query = em.createQuery(criteriaQuery);
-	      List<Employee> empList = query.getResultList();
-	      for(Employee employee : empList)
-	  		System.out.println(employee.getFirstName());
+		  Query query = em.createQuery(criteriaQuery);
+		  List<Object[]> result = query.getResultList();
+	      for(Object obj : result){
+	      	Object[] myArray = (Object[]) obj;
+    		System.out.println("id=" + myArray[0] + "name=" + myArray[1]);
+	      }
 	      em.getTransaction( ).commit( );
 
 	      //close resource

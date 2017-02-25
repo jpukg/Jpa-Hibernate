@@ -2238,7 +2238,8 @@ There are following types of JPQL
 	Update App.java
 
 	```java
-	TypedQuery<EmployeeInfo> query  = em.createQuery("Select new  com.javaaround.model.EmployeeInfo(e.firstName, e.id) FROM Employee e",EmployeeInfo.class);
+	TypedQuery<EmployeeInfo> query  = em.createQuery("Select new  com.javaaround.model.EmployeeInfo(e.firstName, e.id) FROM 
+	Employee e",EmployeeInfo.class);
     
     List<EmployeeInfo> empInfoList = query.getResultList();
     for(EmployeeInfo employeeInfo : empInfoList)
@@ -2295,7 +2296,8 @@ There are following types of JPQL
 
 	```java
 
-	Query query = em.createQuery("UPDATE Employee e SET e.firstName = 'Md.Alamin' WHERE e.id = 1");
+	Query query = em.createQuery("UPDATE Employee e SET e.firstName = 'Md.Alamin' 
+	WHERE e.id = 1");
     int rowAffected = query.executeUpdate();
     System.out.println(rowAffected);
 	```
@@ -2388,7 +2390,8 @@ CURRENT_TIME,CURRENT_TIMESTAMP FROM Employee e WHERE e.salary > 100000");
 ### Aggregate Function ###
 
 ```java
-TypedQuery<Employee> query = em.createQuery("Select MAX(e.salary), COUNT(e)  FROM Employee e WHERE e.salary > 100000");
+TypedQuery<Employee> query = em.createQuery("Select MAX(e.salary), COUNT(e)  
+FROM Employee e WHERE e.salary > 100000");
 
 //MIN
 MIN(e.salary) 
@@ -2433,13 +2436,39 @@ The Criteria API has two modes
 	import javax.persistence.criteria.Root;
 	CriteriaBuilder cb = em.getCriteriaBuilder();
 	CriteriaQuery<Employee> criteriaQuery = cb.createQuery(Employee.class);
-	Root<Employee> root = criteriaQuery.from(Employee.class);
-	criteriaQuery.select(root);
+	Root<Employee> employee = criteriaQuery.from(Employee.class);
+	criteriaQuery.select(employee);
 
 	TypedQuery<Employee> query = em.createQuery(criteriaQuery);
     List<Employee> empList = query.getResultList();
     for(Employee employee : empList)
   		System.out.println(employee.getFirstName());
+	```
+
+	Get single property
+
+	```java
+	CriteriaQuery criteriaQuery = cb.createQuery();
+	Root employee = criteriaQuery.from(Employee.class);
+	criteriaQuery.select(employee.get("firstName"));
+	  
+	Query query = em.createQuery(criteriaQuery);
+	List<String> fnameList = query.getResultList();
+    for(String fname : fnameList)
+  		System.out.println(fname);
+	```
+
+	Get Muliple property
+
+	```java
+	criteriaQuery.multiselect(employee.get("firstName"), employee.get("id"));
+
+	Query query = em.createQuery(criteriaQuery);
+	List<Object[]> result = query.getResultList();
+    for(Object obj : result){
+      Object[] myArray = (Object[]) obj;
+	  System.out.println("id=" + myArray[1] + "name=" + myArray[0]);
+    }
 	```
 
 	### Where Clause ###
@@ -2461,6 +2490,23 @@ The Criteria API has two modes
 	not | criteriaBuilder.not(criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("firstName"), "Bobby"))) or criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("firstName"), "Bobby")).not()
 	conjunction | Predicate where = criteriaBuilder.conjunction();if (name != null) {where =criteriaBuilder.and(where, criteriaBuilder.equal(employee.get("firstName"), name));} |
 	disjunction | Predicate where = criteriaBuilder.disjunction();if (name != null) {where = criteriaBuilder.or(where, criteriaBuilder.equal(employee.get("firstName"), name));} | 
+
+	Update App.java
+
+	```java
+	criteriaQuery.where(criteriaBuilder.equal(employee.get("id"), 1));
+	```
+
+	Parameters in Criteria Querie
+
+	Update App.java
+
+	```java
+	ParameterExpression<Integer> id = cb.parameter(Integer.class);
+	criteriaQuery.where(cb.equal(employee.get("id"), id));
+	TypedQuery<Employee> query = em.createQuery(criteriaQuery);
+		  query.setParameter(id, 1);
+	```
 
 2. the type-restricted mode:  type-restricted mode uses a set of JPA meta-model generated class to define the query-able attributes of a class
 
