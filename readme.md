@@ -2456,19 +2456,19 @@ The Criteria API has two modes
 	between | criteriaBuilder.between(employee.<String>get("firstName"), "A", "C")
 	isNull | criteriaBuilder.isNull(employee.get("endDate")) or employee.get("endDate").isNull()
 	in | criteriaBuilder.in(employee.get("firstName")).value("Bob").value("Fred").value("Joe")
-employee.get("firstName").in("Bob", "Fred", "Joe")
-employee.get("firstName").in(criteriaBuilder.parameter(List.class, "names")
+	employee.get("firstName").in("Bob", "Fred", "Joe")
+	employee.get("firstName").in(criteriaBuilder.parameter(List.class, "names")
 	and | criteriaBuilder.and(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("lastName"), "Smith"))
 	or | criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("lastName"), "Smith"))
 	not | criteriaBuilder.not(criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("firstName"), "Bobby"))) or criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("firstName"), "Bobby")).not()
 	conjunction | Predicate where = criteriaBuilder.conjunction();
-if (name != null) {
-    where = criteriaBuilder.and(where, criteriaBuilder.equal(employee.get("firstName"), name));
-}
+	if (name != null) {
+	    where = criteriaBuilder.and(where, criteriaBuilder.equal(employee.get("firstName"), name));
+	}
 	disjunction | Predicate where = criteriaBuilder.disjunction();
-if (name != null) {
-    where = criteriaBuilder.or(where, criteriaBuilder.equal(employee.get("firstName"), name));
-}
+	if (name != null) {
+	    where = criteriaBuilder.or(where, criteriaBuilder.equal(employee.get("firstName"), name));
+	}
 
 2. the type-restricted mode:  type-restricted mode uses a set of JPA meta-model generated class to define the query-able attributes of a class
 
