@@ -2208,6 +2208,7 @@ There are following types of JPQL
 
 	```java
 	Query query = em.createQuery("Select e.firstName, e.id FROM Employee e");
+	Object[] employeeObj = (Object[]) query.getSingleResult();
 	List<Object[]> result = query.getResultList();
 
 	for(Object obj: result){
@@ -2273,7 +2274,7 @@ There are following types of JPQL
 
 		```java
 		query.setParameter("date", new java.util.Date(), TemporalType.DATE);
-		``
+		```
 	2. Position parameter : Positional parameters are prefixed with a question mark (?)  or ?<position>
 
 		```java
@@ -2332,6 +2333,16 @@ for(Employee employee : empList)
 
 3. NativeQuery : 
 
+Sometimes you have a highly complex query that can not be transformed into JPQL. In that case we can use sql query directly by `EntityManager.createNativeQuery` Method
+
+```java
+Query query  = em.createNativeQuery("Select * FROM Employee",Employee.class);
+List<Employee> empList = query.getResultList();
+for(Employee employee : empList)
+	System.out.println(employee.getFirstName());
+```
+
+You can also used store procedure above way
 
 ### Scalar Function ###
 
@@ -2385,7 +2396,87 @@ MIN(e.salary)
 ```
 ### JPA Criteria API ###
 
-JPQL queries are defined as strings, similarly to SQL. JPA criteria queries, on the other hand, are defined by instantiation of Java objects that represent query elements.
+JPQL queries are defined as strings, similarly to SQL. JPA criteria queries, on the other hand, are defined by instantiation of Java objects that represent query elements.JPQL and criteria based queries are same in performance and efficiency.
+
+Advantage
+
+1. compilation time Type Safe rather than at runtime.so Errors can be detected during compile time
+
+### CriteriaBuilder ### 
+CriteriaBuilder is the main interface into to create CriteriaQuery. EntityManagerFactory.getCriteriaBuilder() or EntityManager.getCriteriaBuilder() is used to create  CriteriaBuilder . The Criteria API only supports select queries before 2.1 but currently supports delete and update query also(2.1 improvement)
+
+CriteriaBuilder defines API to create CriteriaQuery objects by following methods:
+
+1. createQuery() - Creates a CriteriaQuery.
+2. createQuery(Class) - Creates a CriteriaQuery using generics to avoid casting the result class.
+3. createTupleQuery() - Creates a CriteriaQuery that returns map like Tuple objects, instead of object arrays for multiselect queries
+4. createCriteriaDelete(Class) - Creates a CriteriaDelete to delete a batch of objects directly on the database (JPA 2.1).
+5. createCriteriaUpdate(Class) - Creates a CriteriaUpdate to update a batch of objects directly on the database (JPA 2.1).
+
+The Criteria API has two modes
+
+1. the non-typed mode : strings to reference attributes of a class
+	
+
+	here is the JPQL
+
+	```java
+	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee e",Employee.class);
+    List<Employee> empList = query.getResultList();
+	```
+
+	An equivalent query using JPA criteria API
+
+	```java
+	import javax.persistence.criteria.CriteriaBuilder;
+	import javax.persistence.criteria.CriteriaQuery;
+	import javax.persistence.criteria.Root;
+	CriteriaBuilder cb = em.getCriteriaBuilder();
+	CriteriaQuery<Employee> criteriaQuery = cb.createQuery(Employee.class);
+	Root<Employee> root = criteriaQuery.from(Employee.class);
+	criteriaQuery.select(root);
+
+	TypedQuery<Employee> query = em.createQuery(criteriaQuery);
+    List<Employee> empList = query.getResultList();
+    for(Employee employee : empList)
+  		System.out.println(employee.getFirstName());
+	```
+
+	### Where Clause ###
+	By default all instances of the class are selected. you can filter by where(Expression), where(Predicate...) 
+
+	Operation | Example
+	------------ | -------------
+	equal, notEqual | criteriaBuilder.equal(employee.get("firstName"), "Bob")
+	lessThan, lt | criteriaBuilder.lessThan(employee.get("salary"), 100000)
+	greaterThan, gt | criteriaBuilder.greaterThan(employee.get("salary"), criteriaBuilder.parameter(Integer.class, "sal"))
+	lessThanOrEqualTo, le | criteriaBuilder.lessThanOrEqualTo(employee.get("salary"), 100000)
+	greaterThanOrEqualTo, ge | criteriaBuilder.greaterThanOrEqualTo(employee.get("salary"), criteriaBuilder.parameter(Integer.class, "sal"))
+	like, notLike | criteriaBuilder.like(employee.get("firstName"), "A%") criteriaBuilder.notLike(employee.get("firstName"), "%._%", '.')
+	between | criteriaBuilder.between(employee.<String>get("firstName"), "A", "C")
+	isNull | criteriaBuilder.isNull(employee.get("endDate")) or employee.get("endDate").isNull()
+	in | criteriaBuilder.in(employee.get("firstName")).value("Bob").value("Fred").value("Joe")
+employee.get("firstName").in("Bob", "Fred", "Joe")
+employee.get("firstName").in(criteriaBuilder.parameter(List.class, "names")
+	and | criteriaBuilder.and(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("lastName"), "Smith"))
+	or | criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("lastName"), "Smith"))
+	not | criteriaBuilder.not(criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("firstName"), "Bobby"))) or criteriaBuilder.or(criteriaBuilder.equal(employee.get("firstName"), "Bob"), criteriaBuilder.equal(employee.get("firstName"), "Bobby")).not()
+	conjunction | Predicate where = criteriaBuilder.conjunction();
+if (name != null) {
+    where = criteriaBuilder.and(where, criteriaBuilder.equal(employee.get("firstName"), name));
+}
+	disjunction | Predicate where = criteriaBuilder.disjunction();
+if (name != null) {
+    where = criteriaBuilder.or(where, criteriaBuilder.equal(employee.get("firstName"), name));
+}
+
+2. the type-restricted mode:  type-restricted mode uses a set of JPA meta-model generated class to define the query-able attributes of a class
+
+There are tool  type safe and smart way to build queries but not standard by JPA
+
+1. Query Dsl :  [link!](http://www.querydsl.com)
+2. Torpedo Query : [link!](http://torpedoquery.org/#download)
+3. jooq Query : [link!](https://www.jooq.org/learn/)
  
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.

@@ -4,6 +4,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Date;
 import com.javaaround.model.ContactEmployee;
 import com.javaaround.model.Employee;
@@ -34,10 +37,15 @@ public class App
 
 	      //start transaction
 	      em.getTransaction( ).begin( );
-	      TypedQuery<EmployeeInfo> query  = em.createQuery("Select new  com.javaaround.model.EmployeeInfo(e.firstName, e.id) FROM Employee e",EmployeeInfo.class);
-	      List<EmployeeInfo> empInfoList = query.getResultList();
-	      for(EmployeeInfo employeeInfo : empInfoList)
-	  		System.out.println(employeeInfo.getFirstName());
+	      CriteriaBuilder cb = em.getCriteriaBuilder();
+		  CriteriaQuery<Employee> criteriaQuery = cb.createQuery(Employee.class);
+		  Root<Employee> root = criteriaQuery.from(Employee.class);
+		  criteriaQuery.select(root);
+
+		  TypedQuery<Employee> query = em.createQuery(criteriaQuery);
+	      List<Employee> empList = query.getResultList();
+	      for(Employee employee : empList)
+	  		System.out.println(employee.getFirstName());
 	      em.getTransaction( ).commit( );
 
 	      //close resource
