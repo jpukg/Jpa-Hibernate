@@ -52,18 +52,18 @@ import org.hibernate.annotations.Type;
 public class Employee { 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)  
-	private int id;
+	private Integer id;
 	@Basic(optional=false)  
 	private String firstName;
-	/*@ManyToMany(cascade=CascadeType.ALL)
+/*	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 		joinColumns=@JoinColumn(name="employee_id", referencedColumnName="ID"),
 		inverseJoinColumns=@JoinColumn(name="project_id", referencedColumnName="ID")
 	)
-    private List<Project> projects;*/
+    private List<Project> projects;
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="empdetails_id")
    
     private EmployeeDetails empDetails;
-	
+	*/
 }	

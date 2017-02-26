@@ -7,12 +7,15 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import java.util.Date;
 import com.javaaround.model.ContactEmployee;
 import com.javaaround.model.Employee;
 import com.javaaround.model.Department;
 import com.javaaround.model.EmployeeDetails;
 import com.javaaround.model.EmployeeInfo;
+import com.javaaround.metamodel.Employee_;
 import com.javaaround.model.Address;
 import com.javaaround.model.Project;
 import com.javaaround.util.Gender;
@@ -39,15 +42,21 @@ public class App
 	      //start transaction
 	      em.getTransaction( ).begin( );
 	      CriteriaBuilder cb = em.getCriteriaBuilder();
+	      Metamodel m = em.getMetamodel();
+
 		  CriteriaQuery criteriaQuery = cb.createQuery();
-		  Root employee = criteriaQuery.from(Employee.class);
-		  criteriaQuery.select(cb.construct(EmployeeInfo.class,employee.get("firstName"), employee.get("id")));
+		  EntityType<Employee> employee_ = m.entity(Employee.class);
+		  Root<Employee> employee = criteriaQuery.from(employee_);
+		  criteriaQuery.select(employee);
+		 /* Root<Employee> employee = criteriaQuery.from(Employee.class);
+		  EntityType<Employee> employee_ = employee.getModel();*/
+		  criteriaQuery.where(cb.equal(employee.get(Employee_.id), 1));
 
 		  Query query = em.createQuery(criteriaQuery);
-		  List<EmployeeInfo> result = query.getResultList();
+		  List<Employee> result = query.getResultList();
 		  
-	      for(EmployeeInfo employeeInfo : result)
-    		System.out.println(employeeInfo.getFirstName());
+	      for(Employee emp : result)
+    		System.out.println(emp.getFirstName());
 	      
 	      em.getTransaction( ).commit( );
 

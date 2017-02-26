@@ -38,12 +38,88 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.16.12</version>
+      <version>1.14.8</version>
     </dependency>
     <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.5</version>
     </dependency>
+   <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-jpamodelgen</artifactId>
+        <version>4.3.4.Final</version>
+    </dependency>
   </dependencies>
+  <build>
+     <plugins>
+       <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+                <encoding>UTF-8</encoding>
+                <!-- <compilerArgument>-proc:none</compilerArgument> -->
+                <annotationProcessors>
+                        <annotationProcessor>lombok.core.AnnotationProcessor</annotationProcessor>
+                        <annotationProcessor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</annotationProcessor>
+                </annotationProcessors>
+            </configuration>
+        </plugin>
+        <!-- <plugin>
+          <groupId>org.bsc.maven</groupId>
+          <artifactId>maven-processor-plugin</artifactId>
+          <version>2.0.5</version>
+          <executions>
+              <execution>
+                  <id>process</id>
+                  <goals>
+                      <goal>process</goal>
+                  </goals>
+                  <phase>generate-sources</phase>
+                  <configuration>
+                        <outputDirectory>${project.build.directory}/generated-sources/annotations</outputDirectory>
+                      <processors>
+                          <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor> 
+                          <processor>lombok.core.AnnotationProcessor</processor>
+                      </processors>
+                  </configuration>
+              </execution>
+          </executions>
+          <dependencies>
+              <dependency>
+                  <groupId>org.hibernate</groupId>
+                  <artifactId>hibernate-jpamodelgen</artifactId>
+                  <version>4.3.4.Final</version>
+              </dependency>
+              <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.14.8</version>
+              </dependency>
+          </dependencies>
+      </plugin>
+      
+       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>add jpa metamodel sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/annotations</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>  -->
+    </plugins> 
+  </build>
 </project>
