@@ -2648,15 +2648,29 @@ There are tool  type safe and smart way to build queries but not standard by JPA
 ### Scalar Function ###
 
 ```java
-TypedQuery<Employee> query = em.createQuery("Select UPPER(e.firstName) FROM Employee e WHERE e.salary > 100000");
-List<Employee> empList = query.getResultList();
-for(Employee employee : empList)
-    System.out.println(employee.getFirstName());
+TypedQuery<String> query = em.createQuery("Select UPPER(e.firstName) FROM Employee e WHERE e.salary > 100000",String.class);
+List<String> empList = query.getResultList();
 
-//
+
+// Using criteria
+/*Metamodel m = em.getMetamodel();
+CriteriaQuery criteriaQuery = cb.createQuery();
+EntityType<Employee> employee_ = m.entity(Employee.class);
+Root<Employee> employee = criteriaQuery.from(employee_);
+criteriaQuery.select(cb.upper(employee.get(Employee_.firstName))); 
+Query query = em.createQuery(criteriaQuery);
+List<String> result = query.getResultList();*/ 
+
+for(String fname : result)
+    System.out.println(fname);
+
 ```
 
-	2. Lower case
+Similarly
+
+```java
+
+//Lower case
 LOWER(e.firstName)
 
 //TRIM

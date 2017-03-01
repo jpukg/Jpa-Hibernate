@@ -47,16 +47,16 @@ public class App
 		  CriteriaQuery criteriaQuery = cb.createQuery();
 		  EntityType<Employee> employee_ = m.entity(Employee.class);
 		  Root<Employee> employee = criteriaQuery.from(employee_);
-		  criteriaQuery.select(employee);
+		  criteriaQuery.select(cb.upper(employee.get(Employee_.firstName)));
 		 /* Root<Employee> employee = criteriaQuery.from(Employee.class);
 		  EntityType<Employee> employee_ = employee.getModel();*/
-		  criteriaQuery.where(cb.equal(employee.<Integer>get(Employee_.id), 1));
+		  criteriaQuery.where(cb.equal(employee.get(Employee_.id), 1));
 
 		  Query query = em.createQuery(criteriaQuery);
-		  List<Employee> result = query.getResultList();
+		  List<String> result = query.getResultList();
 		  
-	      for(Employee emp : result)
-    		System.out.println(emp.getFirstName());
+	      for(String fname : result)
+    		System.out.println(fname);
 	      
 	      em.getTransaction( ).commit( );
 
