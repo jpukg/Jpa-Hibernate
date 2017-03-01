@@ -2730,8 +2730,10 @@ System.out.println(emp.getFirstName());
 
 em.getTransaction( ).commit( );
 ```
+
 Similarly
 
+```java
 //countDistinct
 countDistinct(e.salary) 
 //MIN
