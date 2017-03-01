@@ -15,7 +15,7 @@ import com.javaaround.model.Employee;
 import com.javaaround.model.Department;
 import com.javaaround.model.EmployeeDetails;
 import com.javaaround.model.EmployeeInfo;
-import com.javaaround.metamodel.Employee_;
+import com.javaaround.model.Employee_;
 import com.javaaround.model.Address;
 import com.javaaround.model.Project;
 import com.javaaround.util.Gender;
@@ -50,7 +50,7 @@ public class App
 		  criteriaQuery.select(employee);
 		 /* Root<Employee> employee = criteriaQuery.from(Employee.class);
 		  EntityType<Employee> employee_ = employee.getModel();*/
-		  criteriaQuery.where(cb.equal(employee.get(Employee_.id), 1));
+		  criteriaQuery.where(cb.equal(employee.<Integer>get(Employee_.id), 1));
 
 		  Query query = em.createQuery(criteriaQuery);
 		  List<Employee> result = query.getResultList();

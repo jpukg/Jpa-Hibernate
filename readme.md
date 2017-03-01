@@ -263,7 +263,7 @@ public void afterUpdate(){
 Run App
 
 ### Entity Listener ###
-Mixing lifecycle event(cross-cutting event) code into your persistent classes is not recommended because it is not usable. JPA allows for use to separate another class and include it by `@EntityListeners` annotation.
+Mixing lifecycle event(cross-cutting event) code into your persistent classes is not recommended because it is not reusable then. JPA allows for use to separate another class and include it by `@EntityListeners` annotation.
 
 
 create EmployeeListener.java
@@ -2259,7 +2259,7 @@ There are following types of JPQL
 	```
 	Above way input param have some drawback
 
-	1. translating a JPQL query to SQL every time when is invoked hence the query will not be cached.then you will have performance problems .
+	1. translating a JPQL query  to SQL every time when is invoked hence the query will not be cached.then you will have performance problems .Different literal values lead to different query strings and each query string requires its own query compilation, which is very inefficient
 	2. Since you are using simple String concatenation, and since Strings are immutable, the JVM will generate many String objects, most of which will be discarded in the end and will be lingering in your memory until the time the next garbage collection happens. This again may have affect on the performance of your application.
 	3. security problem.a hacker can easily pass any value it to alter sql
 
@@ -2288,6 +2288,7 @@ There are following types of JPQL
 		```java
 		TypedQuery<Employee> query = em.createQuery("Select e FROM Employee e WHERE e.salary > ?2");
 		query.setParameter(2, 100000);
+
 		```
 	
 	
@@ -2308,98 +2309,66 @@ There are following types of JPQL
 	Query query = em.createQuery("DELETE FROM Employee e WHERE e.id=1");
 	int rowCount = query.executeUpdate();
 	```
+
+	### Pasignation ###
+
+	if you lot of records then server memory consumes lot,then you can use pagsignation feature jpa
+
+	```java
+	TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee e",Employee.class);
+	int pageNum = 1; //first page
+	int pageSize = 10; //10 recore each page
+	List<Employee> empList = query
+				.setFirstResult(pageIx * pageSize)
+           		.setMaxResults(pageSize)
+           		.getResultList();
+
+	```
+
 	
-2. Named Query : it is used to create static queries so tha jpa provider gives an opportunity to preprocess the query and can lead to faster result.This types of query gives an unique name and used again and again
+2. Named Query : 
 
-The name element of `@NamedQuery` specifies the name of the query that will be used with the `EntityManager.createNamedQuery` method.
+	it is used to create static queries so tha jpa provider gives an opportunity to preprocess the query and can lead to faster result.This types of query gives an unique name and used again and again
 
-Update Employee.java
+	The name element of `@NamedQuery` specifies the name of the query that will be used with the `EntityManager.createNamedQuery` method.
 
-```java
-@NamedQueries({
-	@NamedQuery(name="findAllEmployees",query="SELECT e FROM Employee e")
-})
-@Entity 
-@Data 
-public class Employee { 
-```
+	Update Employee.java
 
-Update App.java
+	```java
+	@NamedQueries({
+		@NamedQuery(name="findAllEmployees",query="SELECT e FROM Employee e")
+	})
+	@Entity 
+	@Data 
+	public class Employee { 
+	```
 
-```java
-TypedQuery<Employee> query = em.createNamedQuery("findAllEmployees",Employee.class);
-List<Employee> empList = query.getResultList();
-for(Employee employee : empList)
-	System.out.println(employee.getFirstName());
-```
+	Update App.java
+
+	```java
+	TypedQuery<Employee> query = em.createNamedQuery("findAllEmployees",Employee.class);
+	List<Employee> empList = query.getResultList();
+	for(Employee employee : empList)
+		System.out.println(employee.getFirstName());
+	```
 
 3. NativeQuery : 
 
-Sometimes you have a highly complex query that can not be transformed into JPQL. In that case we can use sql query directly by `EntityManager.createNativeQuery` Method
+	Sometimes you have a highly complex query that can not be transformed into JPQL. In that case we can use sql query directly by `EntityManager.createNativeQuery` Method
 
-```java
-Query query  = em.createNativeQuery("Select * FROM Employee",Employee.class);
-List<Employee> empList = query.getResultList();
-for(Employee employee : empList)
-	System.out.println(employee.getFirstName());
-```
+	```java
+	Query query  = em.createNativeQuery("Select * FROM Employee",Employee.class);
+	List<Employee> empList = query.getResultList();
+	for(Employee employee : empList)
+		System.out.println(employee.getFirstName());
+	```
 
-You can also used store procedure above way
-
-### Scalar Function ###
-
-```java
-TypedQuery<Employee> query = em.createQuery("Select UPPER(e.firstName) FROM Employee e WHERE e.salary > 100000");
-
-//lower
-LOWER(e.firstName)
-
-//TRIM
-TRIM(e.firstName)
-
-//TRIM
-TRIM(e.firstName)
-
-//LENGTH
-LENGTH(e.firstName,0,2)
+	You can also used store procedure above way
 
 
-//NULLIF
-NULLIF(e.salary, 0)
-
-//SQRT
-SQRT(e.id)
-
-//MOD
-MOD(e.id/2)
-
-//ABS
-ABS(e.id)
-
-//CONCAT
-CONCAT(e.firstName, ' ', e.lastName)
-
-//date,time,timestamp
-
-TypedQuery<Employee> query = em.createQuery("Select 	
-CURRENT_DATE,	
-CURRENT_TIME,CURRENT_TIMESTAMP FROM Employee e WHERE e.salary > 100000");
-
-```
-
-### Aggregate Function ###
-
-```java
-TypedQuery<Employee> query = em.createQuery("Select MAX(e.salary), COUNT(e)  
-FROM Employee e WHERE e.salary > 100000");
-
-//MIN
-MIN(e.salary) 
-
-```
 ### JPA Criteria API ###
 
-JPQL queries are defined as strings, similarly to SQL. JPA criteria queries, on the other hand, are defined by instantiation of Java objects that represent query elements.JPQL and criteria based queries are same in performance and efficiency.
+JPQL queries are defined as strings, similarly to SQL. JPA criteria queries, on the other hand, are defined by instantiation of Java objects that represent query elements.JPQL and criteria based queries are same in performance and efficiency. but following biggest advantage
 
 Advantage
 
@@ -2561,7 +2530,7 @@ The Criteria API has two modes
 	```
 
 2. the type-restricted mode:  
-	every attributes of a class are reference to respective type field that give compile time access  by metamodel class.JPA standard metamodel class name entityname_.java(e.g employee_.java)  that are to be generated by the JPA provider automatically
+	every attributes of a class are reference to respective type field that give compile time access  by metamodel class.JPA standard metamodel class name entityname_.java(e.g employee_.java)  that are to be generated by the JPA provider automatically  in a same package that entity exits
 
 	Add Hibernate Annotation Processsor of maven-compiler plugin && dependency at pom.xml 
 
@@ -2592,7 +2561,42 @@ The Criteria API has two modes
 
 	Run App
 
-	Default metamodel class generate at target/generate-sources/annotations directory
+	Default metamodel class generate at `target/generate-sources/annotations` directory.if you need another location or same package
+
+	```xml
+	<plugin>
+    <groupId>org.bsc.maven</groupId>
+    <artifactId>maven-processor-plugin</artifactId>
+    <version>2.0.5</version>
+    <executions>
+        <execution>
+            <id>process</id>
+            <goals>
+                <goal>process</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+                <processors>
+                    <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+                </processors>
+                <outputDirectory>
+                	<!-- default ${project.build.directory}/generated-sources/apt-->
+                	${project.build.directory}/generated-sources/metamodel
+                	<!-- if need with source 
+                	src/main/java -->
+                </outputDirectory>
+            </configuration>
+        </execution>
+    </executions>
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>WORKING</version>
+        </dependency>
+    </dependencies>
+</plugin>
+	```
 
 	Generated Employee_.java looks like 
 
@@ -2640,7 +2644,69 @@ There are tool  type safe and smart way to build queries but not standard by JPA
 1. Query Dsl :  [link!](http://www.querydsl.com)
 2. Torpedo Query : [link!](http://torpedoquery.org/#download)
 3. jooq Query : [link!](https://www.jooq.org/learn/)
- 
+
+### Scalar Function ###
+
+```java
+TypedQuery<Employee> query = em.createQuery("Select UPPER(e.firstName) FROM Employee e WHERE e.salary > 100000");
+List<Employee> empList = query.getResultList();
+for(Employee employee : empList)
+    System.out.println(employee.getFirstName());
+
+//
+```
+
+	2. Lower case
+LOWER(e.firstName)
+
+//TRIM
+TRIM(e.firstName)
+
+//TRIM
+TRIM(e.firstName)
+
+//LENGTH
+LENGTH(e.firstName,0,2)
+
+
+//NULLIF
+NULLIF(e.salary, 0)
+
+//SQRT
+SQRT(e.id)
+
+//MOD
+MOD(e.id/2)
+
+//ABS
+ABS(e.id)
+
+//CONCAT
+CONCAT(e.firstName, ' ', e.lastName)
+
+//date,time,timestamp
+
+TypedQuery<Employee> query = em.createQuery("Select 	
+CURRENT_DATE,	
+CURRENT_TIME,CURRENT_TIMESTAMP FROM Employee e WHERE e.salary > 100000");
+
+```
+
+### Aggregate Function ###
+
+```java
+TypedQuery<Employee> query = em.createQuery("Select MAX(e.salary), COUNT(e)  
+FROM Employee e WHERE e.salary > 100000");
+
+//MIN
+MIN(e.salary) 
+//sum
+SUM(e.salary) 
+
+//AVG
+AVG(e.salary) 
+```
+
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.
 There are two types of EntityManager
