@@ -2659,8 +2659,8 @@ CriteriaQuery criteriaQuery = cb.createQuery();
 EntityType<Employee> employee_ = m.entity(Employee.class);
 Root<Employee> employee = criteriaQuery.from(employee_);
 criteriaQuery.select(cb.upper(employee.get(Employee_.firstName))); 
-Query query = em.createQuery(criteriaQuery);
-List<String> result = query.getResultList();*/ 
+Query query = em.createQuery(criteriaQuery);*/ 
+List<String> result = query.getResultList();
 
 for(String fname : result)
     System.out.println(fname);
@@ -2710,13 +2710,42 @@ CURRENT_TIME,CURRENT_TIMESTAMP FROM Employee e WHERE e.salary > 100000");
 ### Aggregate Function ###
 
 ```java
-TypedQuery<Employee> query = em.createQuery("Select MAX(e.salary), COUNT(e)  
+TypedQuery<Employee> query = em.createQuery("Select COUNT(e)  
 FROM Employee e WHERE e.salary > 100000");
 
+// Using criteria
+/*CriteriaBuilder cb = em.getCriteriaBuilder();
+Metamodel m = em.getMetamodel();
+
+CriteriaQuery criteriaQuery = cb.createQuery();
+EntityType<Employee> employee_ = m.entity(Employee.class);
+Root<Employee> employee = criteriaQuery.from(employee_);
+criteriaQuery.select(cb.count(employee));
+Query query = em.createQuery(criteriaQuery);*/
+
+List<Employee> result = query.getResultList();
+
+for(Employee emp : result)
+System.out.println(emp.getFirstName());
+
+em.getTransaction( ).commit( );
+```
+Similarly
+
+//countDistinct
+countDistinct(e.salary) 
 //MIN
+MIN(e.salary) 
+//MAX
 MIN(e.salary) 
 //sum
 SUM(e.salary) 
+
+//sumAsLong
+sumAsLong(e.salary) 
+
+//sumAsLong
+sumAsDouble(e.salary) 
 
 //AVG
 AVG(e.salary) 
