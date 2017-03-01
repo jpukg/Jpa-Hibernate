@@ -2648,7 +2648,8 @@ There are tool  type safe and smart way to build queries but not standard by JPA
 ### Scalar Function ###
 
 ```java
-TypedQuery<String> query = em.createQuery("Select UPPER(e.firstName) FROM Employee e WHERE e.salary > 100000",String.class);
+TypedQuery<String> query = em.createQuery("Select UPPER(e.firstName) FROM 
+Employee e WHERE e.salary > 100000",String.class);
 List<String> empList = query.getResultList();
 
 
