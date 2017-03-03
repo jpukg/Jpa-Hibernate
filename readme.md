@@ -2816,6 +2816,17 @@ AVG(e.salary)
 	Root employee = criteriaQuery.from(Employee.class);
 	Join empDetails = employee.join("empDetails",JoinType.LEFT);
 	```		
+### LIKE Expressions ###
+
+_  represents any single character <br>
+% represents any zero or more character .
+ESCAPE clause specify which is escape charater
+
+Expressions | True | False
+------------ | ------------- | -------------
+address.phone LIKE 'l_se' | '123' or '12993' | '1234'
+address.city LIKE '12%3' | 'lose' | 'loose'
+address.code LIKE '\_%' ESCAPE '\' | '_foo' | 'bar'
 
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.
