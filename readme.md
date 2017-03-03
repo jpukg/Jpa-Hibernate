@@ -2818,9 +2818,9 @@ AVG(e.salary)
 	```		
 ### LIKE Expressions ###
 
-_  represents any single character <br>
-% represents any zero or more character .
-ESCAPE clause specify which is escape charater
+`_`  represents any single character <br>
+`%` represents any zero or more character .<br>
+`ESCAPE` clause specify which is escape charater
 
 Expressions | True | False
 ------------ | ------------- | -------------
