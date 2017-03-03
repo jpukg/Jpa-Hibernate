@@ -2040,7 +2040,7 @@ public class EmployeeDetails {
 
 shared primary key
 
-In this technique, jpa will ensure that it will use a common primary key value in both the tables by @PrimaryKeyJoinColumn annotation
+In this technique, jpa will ensure that it will use primary key value in both the tables by @PrimaryKeyJoinColumn annotation
 
 Update Employee.java
 
@@ -2060,6 +2060,7 @@ Update EmployeeDetails.java
 private Employee emp;
 
 ```
+foreign key : property name(empDetails) at employee side _id
 
 ## Access Type ###
 
@@ -2752,6 +2753,69 @@ sumAsDouble(e.salary)
 //AVG
 AVG(e.salary) 
 ```
+
+### Join ###
+
+1. Inner Join : The JOIN clause allows any of the object's relationships to be joined into the query so they can be used in the WHERE clause.inner is optional
+
+
+```java
+Query query = em.createQuery("Select e.firstName, d.city FROM Employee e join  e.empDetails d");
+/* Using criteria
+CriteriaBuilder cb = em.getCriteriaBuilder();
+CriteriaQuery criteriaQuery = cb.createQuery();
+Root employee = criteriaQuery.from(Employee.class);
+Join empDetails = employee.join("empDetails");
+criteriaQuery.multiselect(employee.get("firstName"), empDetails.get("city"));
+
+Query query = em.createQuery(criteriaQuery);
+*/
+Object[] employeeObj = (Object[]) query.getSingleResult();
+List<Object[]> result = query.getResultList();
+
+for(Object obj: result){
+   Object[] myArray = (Object[]) obj;
+   System.out.println("City=" + myArray[0] + "name=" + myArray[1]);
+}
+```
+
+2. Join Fetch : 
+
+```java
+TypedQuery<Country> query =
+      em.createQuery("SELECT c FROM Country c", Country.class);
+List<Country> results = query.getResultList();
+for (Country c : results) {
+  System.out.println(c.getName() + " => " + c.getCapital().getName());
+}
+```
+Every time capical object query at for loop.it will hampers perfromance. but fetch help us.
+The fetch operation can be used on a From object to fetch the related objects in a single query. it eliminates the need for retrieving the associated objects separately and ensures that the relationships have been fetched if they were LAZY
+
+```java
+TypedQuery<Employee> query = em.createQuery("Select e FROM Employee e join FETCH  e.empDetails ");
+
+//
+Root employee = criteriaQuery.from(Employee.class);
+Fetch empDetails = employee.fetch("empDetails");
+criteriaQuery.select(employee);
+```
+
+The following query could be even more efficient if you need single value association .if you need collection value association then it need to use join
+
+```java
+Queryquery = em.createQuery("Select e.firstName,e.empDetails.city FROM Employee e");
+```
+
+3. Left outer join : outter is optional
+
+```java
+Query query = em.createQuery("Select e.firstName, d.city FROM Employee e left join  e.empDetails d");
+
+//
+Root employee = criteriaQuery.from(Employee.class);
+Join empDetails = employee.join("empDetails",JoinType.LEFT);
+```		
 
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.

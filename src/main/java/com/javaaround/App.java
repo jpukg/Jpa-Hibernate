@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Join;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import java.util.Date;
@@ -42,21 +43,20 @@ public class App
 	      //start transaction
 	      em.getTransaction( ).begin( );
 	      CriteriaBuilder cb = em.getCriteriaBuilder();
-	      Metamodel m = em.getMetamodel();
 
 		  CriteriaQuery criteriaQuery = cb.createQuery();
-		  EntityType<Employee> employee_ = m.entity(Employee.class);
-		  Root<Employee> employee = criteriaQuery.from(employee_);
-		  criteriaQuery.select(cb.count(employee));
-		 /* Root<Employee> employee = criteriaQuery.from(Employee.class);
-		  EntityType<Employee> employee_ = employee.getModel();*/
-		  criteriaQuery.where(cb.equal(employee.get(Employee_.id), 1));
+		  Root employee = criteriaQuery.from(Employee.class);
+		  Join empDetails = employee.join("empDetails");
+		  criteriaQuery.multiselect(employee.get("firstName"), empDetails.get("city"));
 
-		  Query query = em.createQuery(criteriaQuery);
-		  List<Employee> result = query.getResultList();
-		  
-	      for(Employee emp : result)
-    		System.out.println(emp.getFirstName());
+    	  Query query = em.createQuery(criteriaQuery);
+		  Object[] employeeObj = (Object[]) query.getSingleResult();
+		  List<Object[]> result = query.getResultList();
+
+		  for(Object obj: result){
+			   Object[] myArray = (Object[]) obj;
+			   System.out.println("id=" + myArray[0] + "name=" + myArray[1]);
+		  }
 	      
 	      em.getTransaction( ).commit( );
 

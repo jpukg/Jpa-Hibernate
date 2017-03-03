@@ -25,8 +25,8 @@ public class EmployeeDetails {
 	private String postcode;
 	private String fatherName;
 
-	/*@OneToOne(mappedBy="empDetails",cascade=CascadeType.ALL)
+	@OneToOne(mappedBy="empDetails",cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn
     private Employee emp;
-*/
+
 }	
