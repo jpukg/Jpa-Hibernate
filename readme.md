@@ -2829,20 +2829,50 @@ address.phone LIKE 'l_se' | '123' or '12993' | '1234'
 address.city LIKE '12%3' | 'lose' | 'loose'
 address.code LIKE '\_%' ESCAPE '\' | '_foo' | 'bar'
 
+### Flush Mode ###
+Changes made to a database using an EntityManager em can be visible to anyone who uses em, even before committing the transaction
+JPA is represented by the FlushModeType enum, which has two values:
+
+1. AUTO - changes are flushed before query execution and on commit/flush.
+2. COMMIT - changes are flushed only on explicit commit/flush.
+
+```java
+// Enable query time flush at the EntityManager level:
+em.setFlushMode(FlushModeType.AUTO);
+
+// Enable query time flush at the level of a specific query:
+query.setFlushMode(FlushModeType.AUTO);
+```
 ### Locking ###
 Entity data is concurrently accessed if the data in a data source is accessed at the same time by multiple applications then need to lock  to ensure that the underlying data’s integrity is preserved.
 
-Most persistence providers will delay database writes until the end of the transaction, except when the application explicitly calls for a flush (that is, the application calls the EntityManager.flush() method or executes queries with the flush mode set to AUTO(em.setFlushMode(FlushModeType.AUTO) or query.setFlushMode(FlushModeType.AUTO)).
+Most persistence providers will delay database writes until the end of the transaction, except when the application explicitly calls for a flush (that is, the application calls the EntityManager.flush() method or executes queries with the flush mode set to AUTO.
 
 There are two types of Locking
 
 1. Optimistic Locking :
 
-By default, persistence providers use optimistic locking, where, before committing changes to the data, the persistence provider checks that no other transaction has modified or deleted the data since the data was read. This is accomplished by a version column in the database table, with a corresponding version attribute(should be annotated with @Version)  in the entity class. When a row is modified, the version value is incremented. The original transaction checks the version attribute, and if the data has been modified by another transaction, a javax.persistence.OptimisticLockException will be thrown, and the original transaction will be rolled back. When the application specifies optimistic lock modes, the persistence provider verifies that a particular entity has not changed since it was read from the database even if the entity data was not modified
+	By default, persistence providers use optimistic locking, where, before committing changes to the data, the persistence provider checks that no other transaction has modified or deleted the data since the data was read. This is accomplished by a version column in the database table, with a corresponding version attribute(should be annotated with @Version)  in the entity class. When a row is modified, the version value is incremented. The original transaction checks the version attribute, and if the data has been modified by another transaction, a javax.persistence.OptimisticLockException will be thrown, and the original transaction will be rolled back(can't update).
 
-![Image of Nested](images/version.png) 
+	![Image of Nested](images/version.png) 
 
+	Update Employee.java
 
+	```java
+	@Version
+    @Column(columnDefinition = "integer DEFAULT 0", nullable = false)
+    protected long version;
+	```
+
+	App.java
+
+	```java
+    Employee persistedEmployee = em.find(Employee.class,1,LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+	System.out.print("Employee name = " + persistedEmployee.getFirstName());
+	```
+
+	Result : version field increment 1
+	
 2. Pessimistic Locking :
 
 ### Bean validation ###

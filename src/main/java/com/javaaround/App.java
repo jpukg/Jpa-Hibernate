@@ -3,6 +3,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.persistence.LockModeType;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -42,14 +43,14 @@ public class App
 
 	      //start transaction
 	      em.getTransaction( ).begin( );
-	      CriteriaBuilder cb = em.getCriteriaBuilder();
+	      /*CriteriaBuilder cb = em.getCriteriaBuilder();
 
 		  CriteriaQuery criteriaQuery = cb.createQuery();
 		  Root employee = criteriaQuery.from(Employee.class);
 		  Join empDetails = employee.join("empDetails");
 		  criteriaQuery.multiselect(employee.get("firstName"), empDetails.get("city"));
 
-    	  Query query = em.createQuery(criteriaQuery);
+    	  Query query = em.createQuery("Select e.firstName, d.city FROM Employee e join  e.empDetails d");
 		  Object[] employeeObj = (Object[]) query.getSingleResult();
 		  List<Object[]> result = query.getResultList();
 
@@ -57,7 +58,10 @@ public class App
 			   Object[] myArray = (Object[]) obj;
 			   System.out.println("id=" + myArray[0] + "name=" + myArray[1]);
 		  }
-	      
+	      */
+	      Employee persistedEmployee = em.find(Employee.class,1,LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+			System.out.print("Employee name = " + persistedEmployee.getFirstName());
+
 	      em.getTransaction( ).commit( );
 
 	      //close resource

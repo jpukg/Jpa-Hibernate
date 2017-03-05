@@ -38,6 +38,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.*;  
 import org.hibernate.annotations.CollectionId;
@@ -59,5 +60,9 @@ public class Employee {
     @OneToOne(cascade=CascadeType.ALL)
     //@JoinColumn(name="empdetails_id")
     private EmployeeDetails empDetails;
+
+    @Version
+    @Column(columnDefinition = "integer DEFAULT 0", nullable = false)
+    protected int version;
 	
 }	
