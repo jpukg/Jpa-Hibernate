@@ -972,7 +972,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		serializable	| any Java class that implements java.io.Serializable	| VARBINARY (or BLOB)
 		clob	| java.sql.Clob	| CLOB
 		blob	| java.sql.Blob	| BLOB
-		
+
 	### Automatic types conversion ###
 
 	hibernate attempts to determine the correct conversion and mapping type autonomously if the @Type annotation is not specified in the mapping, by using Java reflection to determine the Java type of the declared property and using a default mapping type for that Java type.
@@ -3896,6 +3896,21 @@ asadmin deploy "F:\java_tutorial\java\JpaJavaWeb\target\JpaJavaWeb.war"
 Browse : 
  
 http://localhost:8181/JpaJavaWeb/employee
+
+### Hibernate specific fethure ###
+
+1. Dialect : `hibernate.dialect` property tells Hibernate to generate the appropriate SQL statements for the chosen database whenever necessary .the property has not been standardized yet JPA
+
+RDBMS | SQL Dialects
+---------- | --------------
+Oracle (any version) | org.hibernate.dialect.OracleDialect
+Oracle9i | 	org.hibernate.dialect.Oracle9iDialect
+Oracle10g | org.hibernate.dialect.Oracle10gDialect
+MySQL | org.hibernate.dialect.MySQLDialect
+MySQL with InnoDB | org.hibernate.dialect.MySQLInnoDBDialect
+MySQL with MyISAM | org.hibernate.dialect.MySQLMyISAMDialect
+Microsoft SQL Server | org.hibernate.dialect.SQLServerDialect
+PostgreSQL | org.hibernate.dialect.PostgreSQLDialect
 
 
 
