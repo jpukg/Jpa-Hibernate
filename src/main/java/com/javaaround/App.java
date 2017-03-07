@@ -60,7 +60,11 @@ public class App
 		  }
 	      */
 	      Employee persistedEmployee = em.find(Employee.class,1,LockModeType.PESSIMISTIC_FORCE_INCREMENT);
-			System.out.print("Employee name = " + persistedEmployee.getFirstName());
+	      /*
+		  // using lock method
+		  	
+	      */
+		  System.out.print("Employee name = " + persistedEmployee.getFirstName());
 
 	      em.getTransaction( ).commit( );
 

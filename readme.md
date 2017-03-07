@@ -2864,7 +2864,23 @@ There are two types of Locking
     protected long version;
 	```
 
-	A lock can be acquired using the EntityManager.lock() API, or passing a `LockModeType` to an EntityManager find() or refresh() operation, or setting the lockMode of a Query or NamedQuery
+	A lock can be acquired using the 
+	1. EntityManager.lock() API
+	2. passing a `LockModeType` to an EntityManager find() or refresh() operation, 
+	3. setting the lockMode of a Query or NamedQuery
+
+		```java
+		Query q = em.createQuery(...);
+		q.setLockMode(LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+		```
+
+		At NamedQuery
+
+		```java
+		@NamedQuery(name="lockPersonQuery",
+		query="SELECT p FROM Person p WHERE p.name LIKE :name",
+		lockMode=PESSIMISTIC_READ)
+		```
 
 	### LockModeType Element ###
 
@@ -2878,6 +2894,10 @@ There are two types of Locking
 
 	```java
     Employee persistedEmployee = em.find(Employee.class,1,LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+    /*
+	  // using lock method.equivalent above
+	  Employee persistedEmployee = em.lock(Employee,LockModeType.PESSIMISTIC_FORCE_INCREMENT);	
+      */
 	System.out.print("Employee name = " + persistedEmployee.getFirstName());
 	```
 
