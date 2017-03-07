@@ -920,6 +920,62 @@ Bedefault class name is used to table name . you can give your custom name by @T
 	private String firstName;
 	```
 
+	### Hibernate Mapping Type ###
+	Hibernate Mapping Type are not Java data types; they are not SQL database types either.These types are called Hibernate mapping types, which can translate from Java to SQL data types and vice versa.It is define by `org.hibernate.annotations.Type` annotation
+
+	```java
+	@Type(type="yes_no")
+	private boolean isActive; 
+	```
+
+	1. Primitive types
+
+		Hibernate Mapping type | Java type | SQL Type
+		-------------|------------ | ------------
+		integer	| int or java.lang.Integer	| INTEGER
+		long	| long or java.lang.Long	| BIGINT
+		short	| short or java.lang.Short	| SMALLINT
+		float	| float or java.lang.Float	| FLOAT
+		double	| double or java.lang.Double	| DOUBLE
+		big_decimal	| java.math.BigDecimal	| NUMERIC
+		character	| java.lang.String	| CHAR(1)
+		string	| java.lang.String	| VARCHAR
+		byte	| byte or java.lang.Byte	| TINYINT
+		boolean	| boolean or java.lang.Boolean	| BIT
+		yes/no	| boolean or java.lang.Boolean	| CHAR(1) ('Y' or 'N')
+		true/false	| boolean or java.lang.Boolean	| CHAR(1) ('T' or 'F')
+		### Date&Time types ###
+		Mapping type | Java type | SQL Type
+		-------------|------------ | ------------
+		date	| java.util.Date or java.sql.Date	| DATE
+		time	| java.util.Date or java.sql.Time	| TIME
+		timestamp	| java.util.Date or java.sql.Timestamp	| TIMESTAMP
+		calendar	| java.util.Calendar	| TIMESTAMP
+		calendar_date	| java.util.Calendar	| DATE
+
+	2. Date&Time types
+		Hibernate Mapping type | Java type | SQL Type
+		-------------|------------ | ------------
+		date	| java.util.Date or java.sql.Date	| DATE
+		time	| java.util.Date or java.sql.Time	| TIME
+		timestamp	| java.util.Date or java.sql.Timestamp	| TIMESTAMP
+		calendar	| java.util.Calendar	| TIMESTAMP
+		calendar_date	| java.util.Calendar	| DATE	
+
+	3. LOB Types
+
+		Hibernate Mapping type | Java type | SQL Type
+		-------------|------------ | ------------
+		binary	| byte[]	| VARBINARY (or BLOB)
+		text	| java.lang.String	| CLOB
+		serializable	| any Java class that implements java.io.Serializable	| VARBINARY (or BLOB)
+		clob	| java.sql.Clob	| CLOB
+		blob	| java.sql.Blob	| BLOB
+	### Automatic types conversion ###
+
+	hibernate attempts to determine the correct conversion and mapping type autonomously if the @Type annotation is not specified in the mapping, by using Java reflection to determine the Java type of the declared property and using a default mapping type for that Java type.
+
+	In some cases this automatic detection might not chose the default you expect or need, as seen with the date property. Hibernate cannot know if the property, which is of type java.util.Date, should map to a SQL DATE, TIME, or TIMESTAMP datatype. Full date and time information is preserved by mapping the property to the timestamp converter, which identifies the converter class org.hibernate.type.TimestampType
 
 	### Date Mapping ###
 	Java 1.0, Java only had a java.util.Date type, which was both a date, time and milliseconds. 
