@@ -2905,6 +2905,18 @@ There are two types of Locking
 	
 2. Pessimistic Locking :
 
+	In case of pessimistic locking , the persistence provider makes a transaction which obtains a lock on the data it is handling till the end of the transaction.So other transactions cannot modify the data till the lock released
+
+	To lock entities pessimistically the following lock mode is used
+
+
+	| Element        | Description   |
+	| ------------- |:-------------:| 
+	| PESSIMISTIC_READ     | Immediately obtain a long-term read lock on the data to prevent the data from being modified or deleted. Other transactions may read the data while the lock is maintained, but may not modify or delete the data.The persistence provider is permitted to obtain a database write lock when a read lock was requested, but not vice versa. | 
+	| PESSIMISTIC_WRITE    | Immediately obtain a long-term write lock on the data to prevent the data from being read, modified, or deleted. | 
+	| PESSIMISTIC_FORCE_INCREMENT     | 	Immediately obtain a long-term lock on the data to prevent the data from being modified or deleted, and increment the version attribute of versioned entities. | 
+
+
 ### Bean validation ###
 ### Second level cache ###
 
