@@ -2,6 +2,21 @@
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
  http://java.sun.com/xml/ns/persistence/orm_1_0.xsd" version="1.0">
+  <description>My First JPA XML Application</description>
+  <package>com.javaaround.model</package> 
+  <entity class="com.javaaround.model.Employee" name="Employee">        
+        <table name="employee"/>
+        <attributes>
+            <id name="id">
+                <!-- <generated-value strategy="IDENTITY"/> -->
+            </id>
+            <basic name="firstName">
+                <column name="first_name" length="100"/>
+            </basic>
+            <basic name="salary">
+            </basic>
+        </attributes>
+  </entity>	
   <persistence-unit-metadata>
     <persistence-unit-defaults>
       <entity-listeners>

@@ -103,6 +103,38 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 		}  
 	}	
 	```	
+2. Create mapping file at main/resources/META-INF/persistence.xml file
+
+	- `<entity>` = define your class.  <br>
+	- `<table>`= table your db table.<br>
+	- `<generated-value>`=discuss later<br>
+	- `<attributes>` = specifies the property name of the Persistent class<br>
+	- `<id>`= It specifies the primary key attribute in the class.<br>
+	- `<basic>`= used for basic attribute mapping.<br>
+	- `column` attribute specify the column name of db. if not specify it uses the property name as the column name
+
+	```xml
+	<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
+	 http://java.sun.com/xml/ns/persistence/orm_1_0.xsd" version="1.0">
+	  <description>My First JPA XML Application</description>
+	  <package>com.javaaround.model</package> 
+	  <entity class="com.javaaround.model.Employee" name="Employee">        
+	        <table name="employee"/>
+	        <attributes>
+	            <id name="id">
+	                <!-- <generated-value strategy="IDENTITY"/> -->
+	            </id>
+	            <basic name="firstName">
+	                <column name="first_name" length="100"/>
+	            </basic>
+	            <basic name="salary">
+	            </basic>
+	        </attributes>
+	  </entity>
+	</entity-mappings>
+	```	
 2. Confiqure App(create main/resources/META-INF/persistence.xml file)
 	```java
 	<?xml version="1.0" encoding="UTF-8" ?>
@@ -172,6 +204,48 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 	emf.close( );
 
 	```	
+
+Run app by following command
+
+`mvn clean package`	
+
+### JPA Annotation ###
+
+It is recommended to use annotation in JPA because you don't need to create mapping (orm.xml) file
+
+Above example using Annotation
+
+1. Update Employee.java
+
+	```java
+	package com.javaaround.model;
+	
+	public class Employee { 
+		 
+		private int id;  
+		private String firstName
+		private Double salary;  
+		  
+		public int getId() {  
+		    return id;  
+		}  
+		public void setId(int id) {  
+		    this.id = id;  
+		}  
+		public String getFirstName() {  
+		    return firstName;  
+		}  
+		public void setFirstName(String firstName) {  
+		    this.firstName = firstName;  
+		}  
+		public Double getSalary() {  
+		    return salary;  
+		}  
+		public void setSalary(Double salary) {  
+		    this.salary = salary;  
+		}  
+	}	
+	```
 
 Run app by following command
 
@@ -2844,7 +2918,7 @@ em.setFlushMode(FlushModeType.AUTO);
 query.setFlushMode(FlushModeType.AUTO);
 ```
 ### Locking ###
-Entity data is concurrently accessed if the data in a data source is accessed at the same time by multiple applications then need to lock  to ensure that the underlying data’s integrity is preserved.
+if the data in a data source is accessed at the same time(concurrently) by multiple applications then need to lock  to ensure that the underlying data’s integrity is preserved.
 
 Most persistence providers will delay database writes until the end of the transaction, except when the application explicitly calls for a flush (that is, the application calls the EntityManager.flush() method or executes queries with the flush mode set to AUTO.
 
