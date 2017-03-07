@@ -3899,7 +3899,7 @@ http://localhost:8181/JpaJavaWeb/employee
 
 ### Hibernate specific fethure ###
 
-1. Dialect : `hibernate.dialect` property tells Hibernate to generate the appropriate SQL statements for the chosen database whenever necessary .the property has not been standardized yet JPA
+1. Dialect : `hibernate.dialect` property tells Hibernate to generate the appropriate SQL statements for the chosen database whenever necessary .hibernate recommended always set the hibernate.dialect property. the property has not been standardized yet JPA 
 
 RDBMS | SQL Dialects
 ---------- | --------------
