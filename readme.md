@@ -954,6 +954,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		calendar_date	| java.util.Calendar	| DATE
 
 	2. Date&Time types
+
 		Hibernate Mapping type | Java type | SQL Type
 		-------------|------------ | ------------
 		date	| java.util.Date or java.sql.Date	| DATE
@@ -971,6 +972,7 @@ Bedefault class name is used to table name . you can give your custom name by @T
 		serializable	| any Java class that implements java.io.Serializable	| VARBINARY (or BLOB)
 		clob	| java.sql.Clob	| CLOB
 		blob	| java.sql.Blob	| BLOB
+		
 	### Automatic types conversion ###
 
 	hibernate attempts to determine the correct conversion and mapping type autonomously if the @Type annotation is not specified in the mapping, by using Java reflection to determine the Java type of the declared property and using a default mapping type for that Java type.
