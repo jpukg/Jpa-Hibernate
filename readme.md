@@ -2864,6 +2864,16 @@ There are two types of Locking
     protected long version;
 	```
 
+	A lock can be acquired using the EntityManager.lock() API, or passing a `LockModeType` to an EntityManager find() or refresh() operation, or setting the lockMode of a Query or NamedQuery
+
+	### LockModeType Element ###
+
+	| Element        | Description   |
+	| ------------- |:-------------:| 
+	| none     | No lock is acquired, this is the default to any find, refresh or query operation | 
+	| OPTIMISTIC(was READ in JPA 1.0)     | The Entity will have its optimistic lock version checked on commit, to ensure no other transaction updated the object. | 
+	| OPTIMISTIC_FORCE_INCREMENT (was WRITE in JPA 1.0)     | The Entity will have its optimistic lock version incremented on commit, to ensure no other transaction updated (or READ locked) the object | 
+
 	App.java
 
 	```java
