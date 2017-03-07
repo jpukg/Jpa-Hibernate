@@ -2884,7 +2884,7 @@ There are two types of Locking
 
 	### LockModeType Element ###
 
-	| Element        | Description   |
+	| LockModeType        | Description   |
 	| ------------- |:-------------:| 
 	| none     | No lock is acquired, this is the default to any find, refresh or query operation | 
 	| OPTIMISTIC(was READ in JPA 1.0)     | The Entity will have its optimistic lock version checked on commit, to ensure no other transaction updated the object. | 
@@ -2910,12 +2910,69 @@ There are two types of Locking
 	To lock entities pessimistically the following lock mode is used
 
 
-	| Element        | Description   |
+	| LockModeType        | Description   |
 	| ------------- |:-------------:| 
 	| PESSIMISTIC_READ     | Immediately obtain a long-term read lock on the data to prevent the data from being modified or deleted. Other transactions may read the data while the lock is maintained, but may not modify or delete the data.The persistence provider is permitted to obtain a database write lock when a read lock was requested, but not vice versa. | 
 	| PESSIMISTIC_WRITE    | Immediately obtain a long-term write lock on the data to prevent the data from being read, modified, or deleted. | 
 	| PESSIMISTIC_FORCE_INCREMENT     | 	Immediately obtain a long-term lock on the data to prevent the data from being modified or deleted, and increment the version attribute of versioned entities. | 
 
+	JPA 2.0 also adds two new standard query hints
+	1. javax.persistence.lock.timeout : Number of milliseconds to wait on the lock before giving up and throwing a PessimisticLockException
+		
+
+	2. javax.persistence.lock.scope : The valid scopes are defined in `PessimisticLockScope` Enum
+
+	| PessimisticLockScope        | Description   |
+	| ------------- |:-------------:| 
+	| NORMAL      | This value defines the default behavior for pessimistic locking | 
+	| EXTENDED      |  EXTENDED will also lock the object's owned join tables and element collection tables | 
+
+	Usage : 
+
+	1. using persistence.xml or em or emf
+
+		```xml
+		<properties>
+	       <property name="javax.persistence.lock.timeout" value="1000"/>
+	    </properties>
+		```
+
+		```java
+		Map<String,Object> properties = new HashMap();
+		properties.put("javax.persistence.lock.timeout", 2000);
+		EntityManagerFactory emf =
+        Persistence.createEntityManagerFactory("pu", properties);
+		```
+
+		```jav
+		Map<String,Object> properties = new HashMap();
+        properties.put("javax.persistence.lock.timeout", 3000);
+        EntityManager em = emf.createEntityManager(properties);
+
+        /* equivalen above
+        em.setProperty("javax.persistence.lock.timeout", 4000);
+        */
+		```
+	2. At Query
+
+		```java
+		query.setHint("javax.persistence.query.timeout", 8000);
+		```
+	3. At NamedQuery	
+
+		```java
+		@NamedQuery(name="Country.findAll", query="SELECT c FROM Country c",
+        hints={@QueryHint(name="javax.persistence.query.timeout", value="7000")})
+		```
+	3. At Query operation(find,refresh,lock)	
+	
+		```java
+		Map<String,Object> properties = new HashMap();
+  		properties.put("javax.persistence.lock.timeout", 2000);
+ 
+  		Employee employee = em.find(
+     	Employee.class, 1, LockModeType.PESSIMISTIC_WRITE, properties);
+		```	
 
 ### Bean validation ###
 ### Second level cache ###
