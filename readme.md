@@ -50,7 +50,7 @@ JPA specification current version 2.1 (JSR No 338)
 	`mvn clean package`
 
 ### Steps To create Jpa Desktop App ###
-Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.1. also mysql Dependency at pom.xml
+Add Jpa 2.1.1 , hibernate-entitymanager 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.1. also mysql Dependency at pom.xml
 ```xml
 <dependency>
   <groupId>org.eclipse.persistence</groupId>
@@ -98,7 +98,7 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 		}  
 	}	
 	```	
-2. Create mapping file at main/resources/META-INF/persistence.xml file
+2. Create mapping file(orm.xml) at main/resources/META-INF/
 
 	- `<entity>` = define your class.  <br>
 	- `<table>`= table your db table.<br>
@@ -131,7 +131,7 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 	</entity-mappings>
 	```	
 2. Confiqure App(create main/resources/META-INF/persistence.xml file)
-	```java
+	```xml
 	<?xml version="1.0" encoding="UTF-8" ?>
 	<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
 	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
@@ -248,6 +248,185 @@ Above example using Annotation
 Run app by following command
 
 `mvn clean package`	
+
+Hibernate allow to work orm solution without above JPA guideline
+
+1. remove entity-manager && hibernate-core at pom.xml
+
+```xml
+<!--  <dependency>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-entitymanager</artifactId>
+  <version>4.3.9.Final</version>
+</dependency> -->
+<dependency>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-core</artifactId>
+  <version>4.3.9.Final</version>
+</dependency>
+```
+
+2. Create Entity class(Employee.java)
+
+	```java
+	package com.javaaround.model;
+
+	public class Employee { 
+		private int id;  
+		private String firstName
+		private Double salary;  
+		  
+		public int getId() {  
+		    return id;  
+		}  
+		public void setId(int id) {  
+		    this.id = id;  
+		}  
+		public String getFirstName() {  
+		    return firstName;  
+		}  
+		public void setFirstName(String firstName) {  
+		    this.firstName = firstName;  
+		}  
+		public Double getSalary() {  
+		    return salary;  
+		}  
+		public void setSalary(Double salary) {  
+		    this.salary = salary;  
+		}  
+	}	
+	```	
+2. Create mapping file(employee.hbm.xml) at main/resources/
+
+	- `<class>` = define your class. table your db table <br>
+	- `<id>`= It specifies the primary key attribute in the class.<br>
+	- `<generator>`=discuss later<br>
+	- `<property>` = specifies the property name of the Persistent class<br>
+	- `column` attribute specify the column name of db. if not specify it uses the property name as the column name
+	- `type` attribute specify hibernate mapping type. discuss later
+
+	```xml
+	<?xml version='1.0' encoding='UTF-8'?>  
+	<!DOCTYPE hibernate-mapping PUBLIC  
+	 "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+	 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+	  
+	 <hibernate-mapping>  
+	  <class name="com.javaaround.model.Employee" table="employee">  
+	    <id name="id">  
+	     	<generator class="assigned"></generator>  
+	    </id>  
+	            
+	    <property name="firstName"></property>  
+	    <property name="salary"></property>  
+	            
+	  </class>  
+	 </hibernate-mapping>  
+	```	
+2. Confiqure App(create main/resources/hibernate.cfg.xml file)
+	```xml
+	<?xml version='1.0' encoding='UTF-8'?>  
+	<!DOCTYPE hibernate-configuration PUBLIC  
+	          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+	          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+	  
+	<hibernate-configuration>  
+	  
+	    <session-factory>  
+	        <property name="hbm2ddl.auto">update</property>  
+	        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>  
+	        <property name="connection.url">jdbc:mysql://localhost:3306/test</property>  
+	        <property name="connection.username">root</property>  
+	        <property name="connection.password"></property>  
+	        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
+	        <mapping class="com.javaaround.model.Employee"/>  
+	    </session-factory>  
+	  
+	</hibernate-configuration>  
+
+	```	
+
+3. Use `EntityManager` (JPA Api) to perform crud(create,read,update,delete);
+
+	Update App.java
+	
+	```java
+	import org.hibernate.SessionFactory;
+	import org.hibernate.cfg.Configuration;
+	//creating SessionFactory(similar EntityManagerFactory) object
+
+	
+	SessionFactory factory=new Configuration().configure().buildSessionFactory();
+
+	/*
+	default hibernate.cfg.xml file load . if you have another name(hibernate-config.xml) then
+	SessionFactory factory=new Configuration().configure("hibernate-config.xml").buildSessionFactory();
+	*/
+	
+	//creating session(similar EntityManager) object  
+	Session session=factory.openSession();  
+
+	//creating transaction object  
+	Transaction t=session.beginTransaction();  
+
+	Employee e1=new Employee();  
+	e1.setId(115);  
+	e1.setFirstName("shamim");  
+	e1.setSalary(40000.00);  
+
+	session.persist(e1);//persisting the object  
+
+	t.commit();//transaction is commited  
+	session.close();  
+
+	System.out.println("successfully saved"); 
+
+	```	
+
+Run app by following command
+
+`mvn clean package`	
+
+### Using Annotation ###
+
+1. Update Employee.java
+	```java
+	import javax.persistence.Entity;  
+	import javax.persistence.Id;  
+	import javax.persistence.Table;
+
+	@Entity  
+	@Table(name= "employee3")  
+	public class Employee { 
+	@Id   
+	private int id;  
+	```
+2. In hibernate.cfg.xml, replace `<mapping resource="employee.hbm.xml"/>` by `<mapping class="com.javaaround.model.Employee"/>  `
+3. Update App.java
+
+	```java
+	import org.hibernate.*;  
+	import org.hibernate.cfg.*; 
+	//creating SessionFactory(similar EntityManagerFactory) object
+	/*
+	SessionFactory factory=new Configuration().configure().buildSessionFactory();
+
+	/*
+	default hibernate.cfg.xml file load . if you have another name(hibernate-config.xml) then
+	SessionFactory factory=new Configuration().configure("hibernate-config.xml").buildSessionFactory();
+	*/
+	
+	//creating session(similar EntityManager) object  
+	Session session=factory.openSession();  */
+
+ 	Session session=new AnnotationConfiguration()  
+ 	.configure().buildSessionFactory().openSession();
+	```
+
+4. Run app by following command
+
+	`mvn clean package`
+
 
 ### JPA Entity Life Cycle ###
 
