@@ -251,7 +251,7 @@ Run app by following command
 
 Hibernate allow to work orm solution without above JPA guideline
 
-1. remove entity-manager && hibernate-core at pom.xml
+1. remove entity-manager && add hibernate-core at pom.xml
 
 ```xml
 <!--  <dependency>
@@ -346,7 +346,7 @@ Hibernate allow to work orm solution without above JPA guideline
 
 	```	
 
-3. Use `EntityManager` (JPA Api) to perform crud(create,read,update,delete);
+3. Use `Session` (Hibernate Api) to perform crud(create,read,update,delete);
 
 	Update App.java
 	
