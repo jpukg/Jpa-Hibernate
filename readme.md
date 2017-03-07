@@ -3899,18 +3899,20 @@ http://localhost:8181/JpaJavaWeb/employee
 
 ### Hibernate specific fethure ###
 
-1. Dialect : `hibernate.dialect` property tells Hibernate to generate the appropriate SQL statements for the chosen database whenever necessary .hibernate recommended always set the hibernate.dialect property. the property has not been standardized yet JPA 
+1. Dialect : 
 
-RDBMS | SQL Dialects
----------- | --------------
-Oracle (any version) | org.hibernate.dialect.OracleDialect
-Oracle9i | 	org.hibernate.dialect.Oracle9iDialect
-Oracle10g | org.hibernate.dialect.Oracle10gDialect
-MySQL | org.hibernate.dialect.MySQLDialect
-MySQL with InnoDB | org.hibernate.dialect.MySQLInnoDBDialect
-MySQL with MyISAM | org.hibernate.dialect.MySQLMyISAMDialect
-Microsoft SQL Server | org.hibernate.dialect.SQLServerDialect
-PostgreSQL | org.hibernate.dialect.PostgreSQLDialect
+	`hibernate.dialect` property tells Hibernate to generate the appropriate SQL statements for the chosen database whenever necessary .hibernate recommended always set the hibernate.dialect property. the property has not been standardized yet JPA 
+
+	RDBMS | SQL Dialects
+	---------- | --------------
+	Oracle (any version) | org.hibernate.dialect.OracleDialect
+	Oracle9i | 	org.hibernate.dialect.Oracle9iDialect
+	Oracle10g | org.hibernate.dialect.Oracle10gDialect
+	MySQL | org.hibernate.dialect.MySQLDialect
+	MySQL with InnoDB | org.hibernate.dialect.MySQLInnoDBDialect
+	MySQL with MyISAM | org.hibernate.dialect.MySQLMyISAMDialect
+	Microsoft SQL Server | org.hibernate.dialect.SQLServerDialect
+	PostgreSQL | org.hibernate.dialect.PostgreSQLDialect
 
 
 
