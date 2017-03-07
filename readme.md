@@ -72,13 +72,8 @@ Add Jpa 2.1.1 , Hibernate 4.3.9.Final since Hibernate 4.3+ now implements JPA 2.
 
 	```java
 	package com.javaaround.model;
-	import javax.persistence.Entity;  
-	import javax.persistence.Id;  
 
-
-	@Entity 
 	public class Employee { 
-		@Id   
 		private int id;  
 		private String firstName
 		private Double salary;  
@@ -218,11 +213,14 @@ Above example using Annotation
 1. Update Employee.java
 
 	```java
-	package com.javaaround.model;
-	
+	import javax.persistence.Entity;  
+	import javax.persistence.Id;  
+
+
+	@Entity 
 	public class Employee { 
-		 
-		private int id;  
+		@Id   
+		private int id; 
 		private String firstName
 		private Double salary;  
 		  
