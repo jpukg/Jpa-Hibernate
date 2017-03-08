@@ -3304,6 +3304,16 @@ There are two types of Cache
 
 2. Second Level cache : 
 	Second Level cache exist accross multiple entity manager(persistence context)
+	disadvantages of L2 caching are
+	1. memory consumption for large amount of objects
+	2. Concurrency for write (optimistic lock exception, or pessimistic lock)
+
+	You should configure L2 caching for entities that are:
+
+	1. read frequently
+	2. modified infrequently
+	3. Not critical if stale(out of synch)
+
 
 ### Bean validation ###
 
