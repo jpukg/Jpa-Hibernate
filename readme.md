@@ -3398,6 +3398,7 @@ There are two types of Cache
 		<property name="javax.persistence.sharedCache.mode" value="ALL"/>
 		```
 	2. Programmatically
+
 		```java
 		Map<String,Object> properties = new HashMap();
 		properties.put("javax.persistence.sharedCache.mode", "ALL");
@@ -3438,7 +3439,8 @@ There are two types of Cache
 
 		Note :  The cache retrieve mode is ignored when calling the EntityManager.refresh method, as calls to refresh always result in data being read from the database, not the cache.
 
-	2. On Store 
+	2. On Store(Commit) :
+
 		new and modified entity objects are added to the shared cache.
 
 		You can change the above behaviour by `CacheStoreMode` Enum
@@ -3467,30 +3469,30 @@ There are two types of Cache
 		Employee employee = em1.find(Employee.class,1,props);
 		```
 	### Cache Interface ###
-	The shared cache is represented by the `javax.persistence.Cache` interface. A Cache instance can be obtained by using the EntityManagerFactory's getCache method:
+		The shared cache is represented by the `javax.persistence.Cache` interface. A Cache instance can be obtained by using the EntityManagerFactory's getCache method:
 
-	```java
-	Cache cache = emf.getCache();
-	```	
+		```java
+		Cache cache = emf.getCache();
+		```	
 
-	The Cache object enables checking if a specified entity object is cached:
+		The Cache object enables checking if a specified entity object is cached:
 
-	```java
-	boolean isCached = cache.contains(MyEntity.class, Long.valueOf(id));
-	```
+		```java
+		boolean isCached = cache.contains(MyEntity.class, Long.valueOf(id));
+		```
 
-	Cached entity objects can be removed from the cache by one of the evict methods:
+		Cached entity objects can be removed from the cache by one of the evict methods:
 
-	```java
-	// Remove a specific entity object from the shared cache:
-	cache.evict(MyEntity.class, Long.valueOf(id));
-	 
-	// Remove all the instances of a specific class from the cache:
-	cache.evict(MyEntity.class);
-	 
-	// Clear the shared cache by removing all the cached entity objects:
-	cache.evictAll();
-	```
+		```java
+		// Remove a specific entity object from the shared cache:
+		cache.evict(MyEntity.class, Long.valueOf(id));
+		 
+		// Remove all the instances of a specific class from the cache:
+		cache.evict(MyEntity.class);
+		 
+		// Clear the shared cache by removing all the cached entity objects:
+		cache.evictAll();
+		```
 
 ### Bean validation ###
 
