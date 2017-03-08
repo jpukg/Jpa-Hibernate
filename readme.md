@@ -3289,21 +3289,21 @@ Caching is a facility provided by JPA which help users to get fast running web a
 There are two types of Cache
 
 1. First Level cache : 
-First Level cache exist only one entity manager(persistence context).This is called first level cache.Fist level cache in jpa is enabled by default and you can not disable it even forcefully.
+	First Level cache exist only one entity manager(persistence context).This is called first level cache.Fist level cache in jpa is enabled by default and you can not disable it even forcefully.
 
-Update App.java
+	Update App.java
 
-```java
-Employee emp1 = em.find(Employee.class,1);
-Employee emp2 = em.find(Employee.class,1);
-assert (emp1 == emp2);
-```
+	```java
+	Employee emp1 = em.find(Employee.class,1);
+	Employee emp2 = em.find(Employee.class,1);
+	assert (emp1 == emp2);
+	```
 
-Result : there is no assert exception means emp1 and emp2 are same object
-also see show query at log there is only one `select statement`
+	Result : there is no assert exception means emp1 and emp2 are same object
+	also see show query at log there is only one `select statement`
 
-1. Second Level cache : 
-Second Level cache exist accross multiple entity manager(persistence context)
+2. Second Level cache : 
+	Second Level cache exist accross multiple entity manager(persistence context)
 
 ### Bean validation ###
 
@@ -3338,7 +3338,7 @@ There are two types of EntityManager
 
 2. Container-Managed Entity Manager : 
 
-	When The Java EE container(glassfish,tomee,weblogic) manages the lifecycle of  entity managers like ransaction begin,ends,em close then it is called Container-Managed Entity Manager
+	When The Java EE container(glassfish,tomee,weblogic) manages the lifecycle of  entity managers like em create,transaction begin,ends,em close then it is called Container-Managed Entity Manager
 
 	Container manager entity manger is created by @PersistenceContext annotation
 
