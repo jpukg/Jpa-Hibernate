@@ -3372,7 +3372,71 @@ There are two types of Cache
 	```
 
 	Result : see at console there is only one `select statement` that means only one db call although emf close
-	
+
+	### Controlling Whether Entities May Be Cached ###
+
+	 cache is enabled for all the entity classes. that is marks @Cacheable
+	 You can override by setting cache mode
+
+	| Cache Mode Setting        | Description   |
+	| ------------- |:-------------:| 
+	| ALL      | cache is enabled for all the entity classes.it is default | 
+	| NONE      | No data is cached in the persistence unit | 
+	| ENABLE_SELECTIVE      |  Enable caching for entities that have been explicitly set with the @Cacheable or @Cacheable(true) annotation. | 
+	| DISABLE_SELECTIVE      |  Enable caching for entities that have been explicitly set with the @Cacheable(false) annotation. | 
+	| UNSPECIFIED      |  The persistence provider’s default caching behavior(may be all,ENABLE_SELECTIVE,DISABLE_SELECTIVE) will be used. e.g  ObjectDB(JPA provider) the UNSPECIFIED value is equivalent to ALL| 
+
+	How to setting
+
+	1. setting at persistence.xml
+		```xml
+		<shared-cache-mode>ALL</shared-cache-mode>
+		```
+		or
+
+		```xml
+		<property name="javax.persistence.sharedCache.mode" value="ALL"/>
+		```
+	2. Programmatically
+		```java
+		Map<String,Object> properties = new HashMap();
+		properties.put("javax.persistence.sharedCache.mode", "ALL");
+		EntityManagerFactory emf =
+		Persistence.createEntityManagerFactory("pu", properties);
+		```	
+
+	when cache is enabled then it provides the following functionality automatically:
+
+	1. On Retrival : 
+		if any object retrive then it checks the entity object is available in the shared cache it is use . if not exits then it is retrieved from the database and added to the shared cache.
+
+		You can change the above behaviour by `CacheRetrieveMode` Enum
+		1. CacheRetrieveMode.USE - cache is used(default).	
+		2. CacheRetrieveMode.BYPASS - cache is not used.
+
+		How to setting
+		1. At em
+
+		```java
+		em.setProperty(
+      	"javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+		```	
+
+		2. Before executing a query:
+
+		```java
+		
+  		query.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+		```
+		2. Find method
+
+		```java
+		Map<String, Object> props = new HashMap<String, Object>();
+		props.put("javax.persistence.cache.retrieveMode", "BYPASS");
+		Employee employee = em1.find(Employee.class,1,props);
+		```
+
+		Note :  The cache retrieve mode is ignored when calling the EntityManager.refresh method, as calls to refresh always result in data being read from the database, not the cache.
 
 ### Bean validation ###
 
