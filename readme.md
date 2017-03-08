@@ -253,18 +253,18 @@ Hibernate allow to work orm solution without above JPA guideline
 
 1. remove entity-manager && add hibernate-core at pom.xml
 
-```xml
-<!--  <dependency>
-  <groupId>org.hibernate</groupId>
-  <artifactId>hibernate-entitymanager</artifactId>
-  <version>4.3.9.Final</version>
-</dependency> -->
-<dependency>
-  <groupId>org.hibernate</groupId>
-  <artifactId>hibernate-core</artifactId>
-  <version>4.3.9.Final</version>
-</dependency>
-```
+	```xml
+	<!--  <dependency>
+	  <groupId>org.hibernate</groupId>
+	  <artifactId>hibernate-entitymanager</artifactId>
+	  <version>4.3.9.Final</version>
+	</dependency> -->
+	<dependency>
+	  <groupId>org.hibernate</groupId>
+	  <artifactId>hibernate-core</artifactId>
+	  <version>4.3.9.Final</version>
+	</dependency>
+	```
 
 2. Create Entity class(Employee.java)
 

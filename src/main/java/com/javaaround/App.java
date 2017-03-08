@@ -40,31 +40,21 @@ public class App
 	      EntityManagerFactory emf = Persistence.createEntityManagerFactory( "hibernatePU" );
 	  
 	      EntityManager em = emf.createEntityManager();
-
-	      //start transaction
 	      em.getTransaction( ).begin( );
-	      /*CriteriaBuilder cb = em.getCriteriaBuilder();
-
-		  CriteriaQuery criteriaQuery = cb.createQuery();
-		  Root employee = criteriaQuery.from(Employee.class);
-		  Join empDetails = employee.join("empDetails");
-		  criteriaQuery.multiselect(employee.get("firstName"), empDetails.get("city"));
-
-    	  Query query = em.createQuery("Select e.firstName, d.city FROM Employee e join  e.empDetails d");
-		  Object[] employeeObj = (Object[]) query.getSingleResult();
-		  List<Object[]> result = query.getResultList();
-
-		  for(Object obj: result){
-			   Object[] myArray = (Object[]) obj;
-			   System.out.println("id=" + myArray[0] + "name=" + myArray[1]);
-		  }
-	      */
+	      
 	      Employee emp1 = em.find(Employee.class,1);
 	      Employee emp2 = em.find(Employee.class,1);
 	      assert (emp1 == emp2);
 	     
-
 	      em.getTransaction( ).commit( );
+
+	      EntityManager em1 = emf.createEntityManager();
+	      em1.getTransaction( ).begin( );
+	      
+	      Employee emp3 = em1.find(Employee.class,1);
+	      assert (emp1 == emp3);
+	     
+	      em1.getTransaction( ).commit( );
 
 	      //close resource
 	      em.close( );
