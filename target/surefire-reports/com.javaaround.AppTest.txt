@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.javaaround.AppTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 4.227 sec <<< FAILURE!
-AppTest(com.javaaround.AppTest)  Time elapsed: 4.186 sec  <<< FAILURE!
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.807 sec <<< FAILURE!
+AppTest(com.javaaround.AppTest)  Time elapsed: 2.761 sec  <<< FAILURE!
 java.lang.AssertionError
 	at com.javaaround.App.main(App.java:55)
 	at com.javaaround.AppTest.AppTest(AppTest.java:11)

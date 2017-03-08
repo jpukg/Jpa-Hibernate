@@ -43,21 +43,22 @@ public class App
 	      em.getTransaction( ).begin( );
 	      
 	      Employee emp1 = em.find(Employee.class,1);
-	      Employee emp2 = em.find(Employee.class,1);
-	      assert (emp1 == emp2);
 	     
 	      em.getTransaction( ).commit( );
-
-	      EntityManager em1 = emf.createEntityManager();
+	      em.close( );
+	      emf.close( );
+	       EntityManagerFactory emf1 = Persistence.createEntityManagerFactory( "hibernatePU" );
+	      EntityManager em1 = emf1.createEntityManager();
 	      em1.getTransaction( ).begin( );
 	      
-	      Employee emp3 = em1.find(Employee.class,1);
-	      assert (emp1 == emp3);
+	      Employee emp2 = em1.find(Employee.class,1);
+	      
 	     
 	      em1.getTransaction( ).commit( );
 
 	      //close resource
-	      em.close( );
-	      emf.close( );
+	      em1.close( );
+	      emf1.close( );
+	      
     }
 }

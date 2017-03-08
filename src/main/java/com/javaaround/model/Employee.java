@@ -46,12 +46,13 @@ import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-@NamedQueries({
+/*@NamedQueries({
 	@NamedQuery(name="findAllEmployees",query="SELECT e FROM Employee e")
-})
+})*/
+@Cacheable
 @Entity 
 @Data
-//@Cacheable(true)
+
 public class Employee { 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)  

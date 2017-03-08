@@ -376,6 +376,14 @@ Hibernate allow to work orm solution without above JPA guideline
 
 	session.persist(e1);//persisting the object  
 
+	//get(always from db) or load(from proxy (cache))
+	/*
+	Employee persistedEmployee = em.load(Employee.class,115)
+	*/
+
+	Employee persistedEmployee = em.get(Employee.class,115)
+	System.out.print("Employee name = " + persistedEmployee.getFirstName());
+
 	t.commit();//transaction is commited  
 	session.close();  
 
@@ -3300,9 +3308,19 @@ There are two types of Cache
 	```
 
 	Result : there is no assert exception means emp1 and emp2 are same object
-	also see show query at log there is only one `select statement`
+	also see at console there is only one `select statement` that means only one db call
 
-2. Second Level cache : 
+	In JPA object identity is maintained within a transaction, and (normally) within the same EntityManager. The exception is in a JEE managed EntityManager, object identity is only maintained inside of a transaction.
+
+	L1 cache is maintain by object identity no matter how the object is accessed:
+
+	```java
+	Employee employee1 = entityManager.find(Employee.class, 123);
+	Employee employee2 = employee1.getManagedEmployees().get(0).getManager();
+	assert (employee1 == employee2);
+	```
+
+2. Second Level cache(Shared-cache) : 
 	Second Level cache exist accross multiple entity manager(persistence context)
 	disadvantages of L2 caching are
 	1. memory consumption for large amount of objects
@@ -3314,6 +3332,47 @@ There are two types of Cache
 	2. modified infrequently
 	3. Not critical if stale(out of synch)
 
+	To specify that an entity will be L2 Cache, We need to use  `@Cacheable` or `@Cacheable(true)` annotation
+	To specify that an entity will not be L2 Cache We need to use `@Cacheable(false)` anntoation
+
+	Update Employee.java
+
+	```java
+	@Cacheable
+	public class Employee { 
+	```
+
+	Update App.java
+
+	```java
+	//Persistence.generateSchema("hibernatePU", null);
+    	  	
+      EntityManagerFactory emf = Persistence.createEntityManagerFactory( "hibernatePU" );
+  
+      EntityManager em = emf.createEntityManager();
+      em.getTransaction( ).begin( );
+      
+      Employee emp1 = em.find(Employee.class,1);
+     
+      em.getTransaction( ).commit( );
+      em.close( );
+      emf.close( );
+       EntityManagerFactory emf1 = Persistence.createEntityManagerFactory( "hibernatePU" );
+      EntityManager em1 = emf1.createEntityManager();
+      em1.getTransaction( ).begin( );
+      
+      Employee emp2 = em1.find(Employee.class,1);
+      
+     
+      em1.getTransaction( ).commit( );
+
+      //close resource
+      em1.close( );
+      emf1.close( );
+	```
+
+	Result : see at console there is only one `select statement` that means only one db call although emf close
+	
 
 ### Bean validation ###
 

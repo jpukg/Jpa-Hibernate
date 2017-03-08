@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="1" name="com.javaaround.AppTest" time="4.186" errors="0" skipped="0">
+<testsuite tests="1" failures="1" name="com.javaaround.AppTest" time="2.761" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_73\jre\bin"/>
@@ -62,7 +62,7 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.javaaround.AppTest" name="AppTest" time="4.186">
+  <testcase classname="com.javaaround.AppTest" name="AppTest" time="2.761">
     <failure type="java.lang.AssertionError">java.lang.AssertionError
 	at com.javaaround.App.main(App.java:55)
 	at com.javaaround.AppTest.AppTest(AppTest.java:11)
@@ -98,39 +98,67 @@
     <system-out>Hibernate: select employee0_.id as id1_1_0_, employee0_.firstName as firstName2_1_0_ from Employee employee0_ where employee0_.id=?
 Hibernate: select employee0_.id as id1_1_0_, employee0_.firstName as firstName2_1_0_ from Employee employee0_ where employee0_.id=?
 </system-out>
-    <system-err>Mar 08, 2017 5:36:24 PM org.hibernate.ejb.HibernatePersistence logDeprecation
+    <system-err>Mar 08, 2017 10:51:59 PM org.hibernate.ejb.HibernatePersistence logDeprecation
 WARN: HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
-Mar 08, 2017 5:36:24 PM org.hibernate.ejb.HibernatePersistence logDeprecation
+Mar 08, 2017 10:51:59 PM org.hibernate.ejb.HibernatePersistence logDeprecation
 WARN: HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
-Mar 08, 2017 5:36:24 PM org.hibernate.ejb.HibernatePersistence logDeprecation
+Mar 08, 2017 10:51:59 PM org.hibernate.ejb.HibernatePersistence logDeprecation
 WARN: HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
-Mar 08, 2017 5:36:25 PM org.hibernate.jpa.internal.util.LogHelper logPersistenceUnitInformation
+Mar 08, 2017 10:51:59 PM org.hibernate.jpa.internal.util.LogHelper logPersistenceUnitInformation
 INFO: HHH000204: Processing PersistenceUnitInfo [
 	name: hibernatePU
 	...]
-Mar 08, 2017 5:36:25 PM org.hibernate.Version logVersion
+Mar 08, 2017 10:52:00 PM org.hibernate.Version logVersion
 INFO: HHH000412: Hibernate Core {4.3.9.Final}
-Mar 08, 2017 5:36:25 PM org.hibernate.cfg.Environment &lt;clinit&gt;
+Mar 08, 2017 10:52:00 PM org.hibernate.cfg.Environment &lt;clinit&gt;
 INFO: HHH000206: hibernate.properties not found
-Mar 08, 2017 5:36:25 PM org.hibernate.cfg.Environment buildBytecodeProvider
+Mar 08, 2017 10:52:00 PM org.hibernate.cfg.Environment buildBytecodeProvider
 INFO: HHH000021: Bytecode provider name : javassist
-Mar 08, 2017 5:36:25 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager &lt;clinit&gt;
+Mar 08, 2017 10:52:00 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager &lt;clinit&gt;
 INFO: HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
-Mar 08, 2017 5:36:25 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+Mar 08, 2017 10:52:00 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
 WARN: HHH000402: Using Hibernate built-in connection pool (not for production use!)
-Mar 08, 2017 5:36:26 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+Mar 08, 2017 10:52:00 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
 INFO: HHH000401: using driver [oracle.jdbc.driver.OracleDriver] at URL [jdbc:oracle:thin:@localhost:1521/XE]
-Mar 08, 2017 5:36:26 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+Mar 08, 2017 10:52:00 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
 INFO: HHH000046: Connection properties: {user=root, password=****}
-Mar 08, 2017 5:36:26 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+Mar 08, 2017 10:52:00 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
 INFO: HHH000006: Autocommit mode: false
-Mar 08, 2017 5:36:26 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+Mar 08, 2017 10:52:00 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
 INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
-Mar 08, 2017 5:36:27 PM org.hibernate.dialect.Dialect &lt;init&gt;
+Mar 08, 2017 10:52:01 PM org.hibernate.dialect.Dialect &lt;init&gt;
 INFO: HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
-Mar 08, 2017 5:36:28 PM org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory &lt;init&gt;
+Mar 08, 2017 10:52:01 PM org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory &lt;init&gt;
 INFO: HHH000397: Using ASTQueryTranslatorFactory
-Mar 08, 2017 5:36:28 PM org.hibernate.dialect.Dialect &lt;init&gt;
+Mar 08, 2017 10:52:01 PM org.hibernate.dialect.Dialect &lt;init&gt;
+INFO: HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
+Mar 08, 2017 10:52:02 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl stop
+INFO: HHH000030: Cleaning up connection pool [jdbc:oracle:thin:@localhost:1521/XE]
+Mar 08, 2017 10:52:02 PM org.hibernate.ejb.HibernatePersistence logDeprecation
+WARN: HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+Mar 08, 2017 10:52:02 PM org.hibernate.ejb.HibernatePersistence logDeprecation
+WARN: HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+Mar 08, 2017 10:52:02 PM org.hibernate.ejb.HibernatePersistence logDeprecation
+WARN: HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+Mar 08, 2017 10:52:02 PM org.hibernate.jpa.internal.util.LogHelper logPersistenceUnitInformation
+INFO: HHH000204: Processing PersistenceUnitInfo [
+	name: hibernatePU
+	...]
+Mar 08, 2017 10:52:02 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH000402: Using Hibernate built-in connection pool (not for production use!)
+Mar 08, 2017 10:52:02 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH000401: using driver [oracle.jdbc.driver.OracleDriver] at URL [jdbc:oracle:thin:@localhost:1521/XE]
+Mar 08, 2017 10:52:02 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH000046: Connection properties: {user=root, password=****}
+Mar 08, 2017 10:52:02 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH000006: Autocommit mode: false
+Mar 08, 2017 10:52:02 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Mar 08, 2017 10:52:02 PM org.hibernate.dialect.Dialect &lt;init&gt;
+INFO: HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
+Mar 08, 2017 10:52:02 PM org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory &lt;init&gt;
+INFO: HHH000397: Using ASTQueryTranslatorFactory
+Mar 08, 2017 10:52:02 PM org.hibernate.dialect.Dialect &lt;init&gt;
 INFO: HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
 </system-err>
   </testcase>

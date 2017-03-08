@@ -25,6 +25,7 @@
           <!-- flag for sql show or not at console -->
           <property name="hibernate.show_sql" value="true" /> 
           <property name="javax.persistence.schema-generation.database.action" value="none"/> 
+         <!--  <property name="javax.persistence.sharedCache.mode" value="ALL"/> -->
           <!--  <property name="javax.persistence.sql-load-script-source" value="data.sql"/> -->
 
 
