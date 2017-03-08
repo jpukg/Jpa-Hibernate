@@ -59,12 +59,10 @@ public class App
 			   System.out.println("id=" + myArray[0] + "name=" + myArray[1]);
 		  }
 	      */
-	      Employee persistedEmployee = em.find(Employee.class,1,LockModeType.PESSIMISTIC_FORCE_INCREMENT);
-	      /*
-		  // using lock method
-		  	
-	      */
-		  System.out.print("Employee name = " + persistedEmployee.getFirstName());
+	      Employee emp1 = em.find(Employee.class,1);
+	      Employee emp2 = em.find(Employee.class,1);
+	      assert (emp1 == emp2);
+	     
 
 	      em.getTransaction( ).commit( );
 

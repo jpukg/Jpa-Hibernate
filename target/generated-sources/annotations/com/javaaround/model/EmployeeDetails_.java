@@ -12,7 +12,6 @@ public abstract class EmployeeDetails_ {
 	public static volatile SingularAttribute<EmployeeDetails, String> city;
 	public static volatile SingularAttribute<EmployeeDetails, String> street;
 	public static volatile SingularAttribute<EmployeeDetails, String> postcode;
-	public static volatile SingularAttribute<EmployeeDetails, Employee> emp;
 	public static volatile SingularAttribute<EmployeeDetails, Integer> id;
 
 }

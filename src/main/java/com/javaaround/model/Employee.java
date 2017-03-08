@@ -38,6 +38,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.Cacheable;
 import javax.persistence.Version;
 import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.*;  
@@ -49,7 +50,8 @@ import org.hibernate.annotations.Type;
 	@NamedQuery(name="findAllEmployees",query="SELECT e FROM Employee e")
 })
 @Entity 
-@Data 
+@Data
+//@Cacheable(true)
 public class Employee { 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)  
@@ -57,12 +59,10 @@ public class Employee {
 	@Basic(optional=false)  
 	private String firstName;
 
-    @OneToOne(cascade=CascadeType.ALL)
+   /* @OneToOne(cascade=CascadeType.ALL)
     //@JoinColumn(name="empdetails_id")
-    private EmployeeDetails empDetails;
+    private EmployeeDetails empDetails;*/
 
-    @Version
-    @Column(columnDefinition = "integer DEFAULT 0", nullable = false)
-    protected int version;
+    
 	
 }	

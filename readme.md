@@ -3283,8 +3283,30 @@ There are two types of Locking
      	Employee.class, 1, LockModeType.PESSIMISTIC_WRITE, properties);
 		```	
 
+### Cache ###
+Caching is a facility provided by JPA which help users to get fast running web application
+
+There are two types of Cache
+
+1. First Level cache : 
+First Level cache exist only one entity manager(persistence context).This is called first level cache.Fist level cache in jpa is enabled by default and you can not disable it even forcefully.
+
+Update App.java
+
+```java
+Employee emp1 = em.find(Employee.class,1);
+Employee emp2 = em.find(Employee.class,1);
+assert (emp1 == emp2);
+```
+
+Result : there is no assert exception means emp1 and emp2 are same object
+also see show query at log there is only one `select statement`
+
+1. Second Level cache : 
+Second Level cache exist accross multiple entity manager(persistence context)
+
 ### Bean validation ###
-### Second level cache ###
+
 
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.
@@ -3907,7 +3929,7 @@ http://localhost:8181/JpaJavaWeb/employee
 	---------- | --------------
 	Oracle (any version) | org.hibernate.dialect.OracleDialect
 	Oracle9i | 	org.hibernate.dialect.Oracle9iDialect
-	Oracle10g | org.hibernate.dialect.Oracle10gDialect
+	Oracle10g,11g | org.hibernate.dialect.Oracle10gDialect
 	MySQL | org.hibernate.dialect.MySQLDialect
 	MySQL with InnoDB | org.hibernate.dialect.MySQLInnoDBDialect
 	MySQL with MyISAM | org.hibernate.dialect.MySQLMyISAMDialect
