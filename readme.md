@@ -2638,7 +2638,7 @@ There are following types of JPQL
 	int pageNum = 1; //first page
 	int pageSize = 10; //10 recore each page
 	List<Employee> empList = query
-				.setFirstResult(pageIx * pageSize)
+				.setFirstResult(pageNum-1 * pageSize)
            		.setMaxResults(pageSize)
            		.getResultList();
 
