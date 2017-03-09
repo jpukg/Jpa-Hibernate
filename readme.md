@@ -3495,6 +3495,7 @@ There are two types of Cache
 		```
 
 ### Bean validation ###
+Bean validation isn’t directly related to JPA.
 
 [See demo](https://github.com/shamim0754/BeanValidation)
 
