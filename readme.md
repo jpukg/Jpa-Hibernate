@@ -3496,6 +3496,12 @@ There are two types of Cache
 
 ### Bean validation ###
 
+[See demo](https://github.com/shamim0754/BeanValidation)
+
+By default, the Persistence provider will automatically perform validation on entities with persistent fields or properties annotated with Bean Validation constraints immediately after the PrePersist, PreUpdate, and PreRemove lifecycle events
+
+if the persistent class uses field access type, apply the Bean Validation constraint annotations on the class’s fields. If the class uses property access, apply the constraints on the getter methods.
+
 
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.
@@ -3713,7 +3719,7 @@ public List<Employee> showAllEmployee(){
 }
 ```
 
-Create GuestServlet.java servlets/servlet/src/main/com/javaaround/servlet
+Create GuestServlet.java at servlets/servlet/src/main/com/javaaround/servlet
 
 ```java
 package com.javaaround.servlet;
@@ -3932,7 +3938,7 @@ public void main(){
 }
 ```
 
-### Steps To integrate Jpa to Java Web(Servlet) App ###
+### Steps To integrate Jpa to Only Java Web(Servlet) App ###
 
 1. create java web project using maven by following command
 

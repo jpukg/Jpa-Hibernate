@@ -47,7 +47,7 @@ public class App
 	      em.getTransaction( ).commit( );
 	      em.close( );
 	      emf.close( );
-	       EntityManagerFactory emf1 = Persistence.createEntityManagerFactory( "hibernatePU" );
+	      EntityManagerFactory emf1 = Persistence.createEntityManagerFactory( "hibernatePU" );
 	      EntityManager em1 = emf1.createEntityManager();
 	      em1.getTransaction( ).begin( );
 	      

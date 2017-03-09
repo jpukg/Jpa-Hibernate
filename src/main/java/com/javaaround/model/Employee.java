@@ -45,6 +45,7 @@ import java.util.*;
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import javax.validation.constraints.NotNull;
 
 /*@NamedQueries({
 	@NamedQuery(name="findAllEmployees",query="SELECT e FROM Employee e")
@@ -58,6 +59,7 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.AUTO)  
 	private Integer id;
 	@Basic(optional=false)  
+	@NotNull
 	private String firstName;
 
    /* @OneToOne(cascade=CascadeType.ALL)
