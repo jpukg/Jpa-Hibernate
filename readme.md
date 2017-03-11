@@ -273,7 +273,7 @@ Hibernate allow to work orm solution without above JPA guideline
 
 	public class Employee { 
 		private int id;  
-		private String firstName
+		private String firstName;
 		private Double salary;  
 		  
 		public int getId() {  
@@ -3500,8 +3500,6 @@ Bean validation isn’t directly related to JPA.
 [See demo](https://github.com/shamim0754/BeanValidation)
 
 By default, the Persistence provider will automatically perform validation on entities with persistent fields or properties annotated with Bean Validation constraints immediately after the PrePersist, PreUpdate, and PreRemove lifecycle events
-
-if the persistent class uses field access type, apply the Bean Validation constraint annotations on the class’s fields. If the class uses property access, apply the constraints on the getter methods.
 
 
 ### EntityManager ###
