@@ -1,10 +1,11 @@
 -------------------------------------------------------------------------------
 Test set: com.javaaround.AppTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.807 sec <<< FAILURE!
-AppTest(com.javaaround.AppTest)  Time elapsed: 2.761 sec  <<< FAILURE!
-java.lang.AssertionError
-	at com.javaaround.App.main(App.java:55)
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 3.031 sec <<< FAILURE!
+AppTest(com.javaaround.AppTest)  Time elapsed: 2.981 sec  <<< ERROR!
+javax.persistence.RollbackException: Error while committing the transaction
+	at org.hibernate.jpa.internal.TransactionImpl.commit(TransactionImpl.java:94)
+	at com.javaaround.App.main(App.java:49)
 	at com.javaaround.AppTest.AppTest(AppTest.java:11)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
@@ -34,4 +35,22 @@ java.lang.AssertionError
 	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+Caused by: javax.validation.ConstraintViolationException: Validation failed for classes [com.javaaround.model.Employee] during persist time for groups [javax.validation.groups.Default, ]
+List of constraint violations:[
+	ConstraintViolationImpl{interpolatedMessage='must match "[a-zA-Z]+"', propertyPath=firstName, rootBeanClass=class com.javaaround.model.Employee, messageTemplate='{javax.validation.constraints.Pattern.message}'}
+]
+	at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.validate(BeanValidationEventListener.java:160)
+	at org.hibernate.cfg.beanvalidation.BeanValidationEventListener.onPreInsert(BeanValidationEventListener.java:95)
+	at org.hibernate.action.internal.EntityInsertAction.preInsert(EntityInsertAction.java:218)
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:97)
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:465)
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:351)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:350)
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:56)
+	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1258)
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:425)
+	at org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction.beforeTransactionCommit(JdbcTransaction.java:101)
+	at org.hibernate.engine.transaction.spi.AbstractTransactionImpl.commit(AbstractTransactionImpl.java:177)
+	at org.hibernate.jpa.internal.TransactionImpl.commit(TransactionImpl.java:77)
+	... 30 more
 

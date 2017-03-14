@@ -46,6 +46,7 @@ import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /*@NamedQueries({
 	@NamedQuery(name="findAllEmployees",query="SELECT e FROM Employee e")
@@ -53,13 +54,13 @@ import javax.validation.constraints.NotNull;
 @Cacheable
 @Entity 
 @Data
-
 public class Employee { 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)  
 	private Integer id;
 	@Basic(optional=false)  
 	@NotNull
+	@Pattern(regexp = "[a-zA-Z]+") // + occurs once or more times
 	private String firstName;
 
    /* @OneToOne(cascade=CascadeType.ALL)

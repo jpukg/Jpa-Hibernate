@@ -40,25 +40,17 @@ public class App
 	      EntityManagerFactory emf = Persistence.createEntityManagerFactory( "hibernatePU" );
 	  
 	      EntityManager em = emf.createEntityManager();
-	      em.getTransaction( ).begin( );
+	      em.getTransaction().begin( );
 	      
-	      Employee emp1 = em.find(Employee.class,1);
+	      Employee employee = new Employee( ); 
+		  employee.setFirstName("Mdshmim7");
+	      em.persist(employee);
 	     
-	      em.getTransaction( ).commit( );
-	      em.close( );
-	      emf.close( );
-	      EntityManagerFactory emf1 = Persistence.createEntityManagerFactory( "hibernatePU" );
-	      EntityManager em1 = emf1.createEntityManager();
-	      em1.getTransaction( ).begin( );
-	      
-	      Employee emp2 = em1.find(Employee.class,1);
-	      
-	     
-	      em1.getTransaction( ).commit( );
+	      em.getTransaction().commit( );
 
 	      //close resource
-	      em1.close( );
-	      emf1.close( );
+	      em.close( );
+	      emf.close( );
 	      
     }
 }

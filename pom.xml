@@ -50,6 +50,20 @@
         <artifactId>hibernate-jpamodelgen</artifactId>
         <version>4.3.4.Final</version>
     </dependency>
+     <!-- this will provide also Bean Validator API: -->
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>5.3.4.Final</version>
+    </dependency>
+    
+    <!-- Needed by HV to substitute prams in messages: -->
+    <dependency>
+        <groupId>org.glassfish.web</groupId>
+        <artifactId>javax.el</artifactId>
+        <version>2.2.4</version>
+        <scope>runtime</scope>
+    </dependency>
   </dependencies>
   <build>
      <plugins>

@@ -651,11 +651,6 @@ Default Listener -> top super class-> then super class-> actual enity listener
 
 
 
-@NotNull: Checks whether the value is not null, disregarding the content
-@NotEmpty: Checks whether the value is not null nor empty. If it has just empty spaces, it will allow it as not empty
-@NotBlank: Checks whether the value is not null nor empty, trimming the value first. It means that, it won’t allow just empty spaces
-
-
 ### Parameters ###
 
 JPA Parameter | Description | Hibernate Equivalent | Spring Data Equivalent
@@ -3499,8 +3494,72 @@ Bean validation isn’t directly related to JPA.
 
 [See demo](https://github.com/shamim0754/BeanValidation)
 
-By default, the Persistence provider will automatically perform validation on entities with persistent fields or properties annotated with Bean Validation constraints immediately after the PrePersist, PreUpdate, and PreRemove lifecycle events
 
+### ValidationMode ###
+
+`javax.persistence.ValidationMode` Enum have there value
+
+1. AUTO
+	the Persistence provider will automatically perform validation on entities with persistent fields or properties annotated with Bean Validation constraints immediately after the `PrePersist, PreUpdate, and PreRemove` lifecycle events if Bean Validation provider is present in the classpath.It is default value
+2. CALLBACK
+	A bean validation provider must be available for use by the JPA provider. If not, the JPA provider will throw an exception upon instantiation of a new JPA entity manager factory.	
+3. NONE
+	 Disables bean validation for a particular persistence unit	
+
+How to set ValidationMode
+
+	1. Using persitence.xml
+
+	```xml
+	<persistence-unit>
+	 <validation-mode>AUTO</validation-mode>
+	</persistence-unit> 
+	```
+
+	2. Using programmatically
+
+	```java
+	Map<String, String> props = new HashMap<String,String>();
+    props.put("javax.persistence.validation.mode", "callback");
+    EntityManagerFactory emf = 
+        Persistence.createEntityManagerFactory("validation", props);
+	```
+
+1. Add bean validation provider(hibernat-validator) dependency at pom.xml
+
+	```xml
+	 <!-- this will provide also Bean Validator API: -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-validator</artifactId>
+	    <version>5.3.4.Final</version>
+	</dependency>
+	<!-- Needed by HV to substitute prams in messages: -->
+	<dependency>
+	    <groupId>org.glassfish.web</groupId>
+	    <artifactId>javax.el</artifactId>
+	    <version>2.2.4</version>
+	    <scope>runtime</scope>
+	</dependency>
+	```
+2. Update Employee.java
+	```java
+	import javax.validation.constraints.NotNull;
+	import javax.validation.constraints.Pattern;
+	@NotNull
+	@Pattern(regexp = "[a-zA-Z]+") // + occurs once or more times
+	private String firstName;
+	```
+3. Update App.java
+
+	```java
+	Employee employee = new Employee( ); 
+	employee.setFirstName("Mdshmim7");
+    em.persist(employee);
+	```	
+4. Result
+
+	![Image of Nested](images/validation.png) 
 
 ### EntityManager ###
 EntityManager API creates and removes persistent entity instances, finds entities by the entity’s primary key, and allows queries to be run on entities.
