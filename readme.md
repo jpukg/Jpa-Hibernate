@@ -2,9 +2,9 @@
 Following solution offer by java to persistence object into RDBMS
 
 1. Jdbc
-2. Entity Beans(J2EE)
+2. Entity Beans(EJB) 
 3. JDO
-4. JPA	
+4. JPA	(replace from entity beans)
 
 ### JPA ###
 The Java Persistence API (JPA) is a vendor independent specification(classes and interface) for mapping Java objects(POJO) to the tablesof relational databases(ORM = Object relational mapping)
@@ -3464,6 +3464,7 @@ There are two types of Cache
 		Employee employee = em1.find(Employee.class,1,props);
 		```
 	### Cache Interface ###
+	
 		The shared cache is represented by the `javax.persistence.Cache` interface. A Cache instance can be obtained by using the EntityManagerFactory's getCache method:
 
 		```java
@@ -3497,7 +3498,7 @@ Bean validation isn’t directly related to JPA.
 
 ### ValidationMode ###
 
-`javax.persistence.ValidationMode` Enum have there value
+`javax.persistence.ValidationMode` Enum have three value
 
 1. AUTO
 	the Persistence provider will automatically perform validation on entities with persistent fields or properties annotated with Bean Validation constraints immediately after the `PrePersist, PreUpdate, and PreRemove` lifecycle events if Bean Validation provider is present in the classpath.It is default value
@@ -3510,20 +3511,20 @@ How to set ValidationMode
 
 	1. Using persitence.xml
 
-	```xml
-	<persistence-unit>
-	 <validation-mode>AUTO</validation-mode>
-	</persistence-unit> 
-	```
+		```xml
+		<persistence-unit>
+		 <validation-mode>AUTO</validation-mode>
+		</persistence-unit> 
+		```
 
 	2. Using programmatically
 
-	```java
-	Map<String, String> props = new HashMap<String,String>();
-    props.put("javax.persistence.validation.mode", "callback");
-    EntityManagerFactory emf = 
-        Persistence.createEntityManagerFactory("validation", props);
-	```
+		```java
+		Map<String, String> props = new HashMap<String,String>();
+	    props.put("javax.persistence.validation.mode", "callback");
+	    EntityManagerFactory emf = 
+	        Persistence.createEntityManagerFactory("validation", props);
+		```
 
 1. Add bean validation provider(hibernat-validator) dependency at pom.xml
 
