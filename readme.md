@@ -3465,30 +3465,30 @@ There are two types of Cache
 		```
 	### Cache Interface ###
 	
-		The shared cache is represented by the `javax.persistence.Cache` interface. A Cache instance can be obtained by using the EntityManagerFactory's getCache method:
+		1. The shared cache is represented by the `javax.persistence.Cache` interface. A Cache instance can be obtained by using the EntityManagerFactory's getCache method:
 
-		```java
-		Cache cache = emf.getCache();
-		```	
+			```java
+			Cache cache = emf.getCache();
+			```	
 
-		The Cache object enables checking if a specified entity object is cached:
+		2. The Cache object enables checking if a specified entity object is cached:
 
-		```java
-		boolean isCached = cache.contains(MyEntity.class, Long.valueOf(id));
-		```
+			```java
+			boolean isCached = cache.contains(MyEntity.class, Long.valueOf(id));
+			```
 
-		Cached entity objects can be removed from the cache by one of the evict methods:
+		3. Cached entity objects can be removed from the cache by one of the evict methods:
 
-		```java
-		// Remove a specific entity object from the shared cache:
-		cache.evict(MyEntity.class, Long.valueOf(id));
-		 
-		// Remove all the instances of a specific class from the cache:
-		cache.evict(MyEntity.class);
-		 
-		// Clear the shared cache by removing all the cached entity objects:
-		cache.evictAll();
-		```
+			```java
+			// Remove a specific entity object from the shared cache:
+			cache.evict(MyEntity.class, Long.valueOf(id));
+			 
+			// Remove all the instances of a specific class from the cache:
+			cache.evict(MyEntity.class);
+			 
+			// Clear the shared cache by removing all the cached entity objects:
+			cache.evictAll();
+			```
 
 ### Bean validation ###
 Bean validation isn’t directly related to JPA.
