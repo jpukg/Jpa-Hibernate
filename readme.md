@@ -3507,7 +3507,7 @@ Bean validation isn’t directly related to JPA.
 3. NONE
 	 Disables bean validation for a particular persistence unit	
 
-How to set ValidationMode
+	How to set ValidationMode
 
 	1. Using persitence.xml
 
